@@ -188,6 +188,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TestGitController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -4546,6 +4547,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\uploads\product\" />
+    <Folder Include="Views\TestGit\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
