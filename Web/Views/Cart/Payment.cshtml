@@ -1,0 +1,148 @@
+﻿@model Models.Models.DataModels.Customer
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    double totalPrice = 0;
+}
+
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container" style="background-color:#fff;border:1px solid #8888;box-shadow:4px 4px 4px #8888">
+            <!--START MAIN RIGHT -->
+            <div class="page-control-right">
+                <div class="page-woo-css page-checkout-woo">
+                    <p class="text-success" style="font-size:27px;padding-left:21px;">Thanh toán đơn hàng</p>
+                    <div class="img-responsive">
+                        <div class="woocommerce">
+                            @*<div class="woocommerce-info">Bạn đã có tài khoản? <a href="#" class="showlogin">Ấn vào đây để đăng nhập</a></div>*@
+                            <form name="checkout" method="post" class="checkout woocommerce-checkout" action="/Cart/Payment" enctype="multipart/form-data">
+                                <input type="hidden" name="CustomerId" value="@Model.CustomerId" />
+                                <div class="col2-set" id="customer_details">
+                                    <div class="col-1">
+                                        <div class="woocommerce-billing-fields">
+                                            <h3>Thông tin thanh toán</h3>
+                                            <div class="clear"></div>
+                                            <p class="form-row form-row form-row-wide" id="billing_company_field">
+                                                <label for="billing_company" class="">
+                                                    Họ & tên<abbr class="required" title="bắt buộc">*</abbr>
+                                                </label>
+                                                <input type="text" class="input-text " name="FullName" id="FullName" placeholder="" autocomplete="organization" value="@Model.FullName">
+                                            </p>
+                                            <p class="form-row form-row form-row-first validate-required validate-email" id="billing_email_field">
+                                                <label for="Email" class="">
+                                                    Địa chỉ email <abbr class="required" title="bắt buộc">*</abbr>
+                                                </label>
+                                                <input type="email" class="input-text " name="Email" id="Email" placeholder="" autocomplete="email" value="@Model.Email">
+                                            </p>
+                                            <p class="form-row form-row form-row-last validate-required validate-phone" id="billing_phone_field">
+                                                <label for="billing_phone" class="">
+                                                    Số điện thoại <abbr class="required" title="bắt buộc">*</abbr>
+                                                </label>
+                                                <input type="tel" class="input-text " name="Phone" id="Phone" placeholder="" autocomplete="tel" value="@Model.Phone">
+                                            </p>
+                                            <div class="clear"></div>
+                                            <p class="form-row form-row form-row-wide address-field validate-required" id="billing_address_1_field">
+                                                <label for="City" class="">
+                                                    Tỉnh/Thành phố <abbr class="required" title="bắt buộc">*</abbr>
+                                                </label>
+                                                <input type="text" class="input-text " name="City" id="City" placeholder="" autocomplete="address-line1" value="">
+                                            </p>
+                                            <p class="form-row form-row address-field validate-postcode form-row-first" id="billing_postcode_field" data-o_class="form-row form-row form-row-last address-field validate-postcode">
+                                                <label for="District" class="">
+                                                    Quận/Huyện<abbr class="required" title="bắt buộc">*</abbr>
+                                                </label>
+                                                <input type="text" class="input-text " name="District" id="District" placeholder="" autocomplete="District" value="">
+                                            </p>
+                                            <p class="form-row form-row address-field validate-required form-row-last" id="billing_city_field" data-o_class="form-row form-row form-row-wide address-field validate-required">
+                                                <label for="Commune" class="">
+                                                    Phường/ Xã
+                                                    <abbr class="required" title="bắt buộc">*</abbr>
+                                                </label>
+                                                <input type="text" class="input-text " name="Commune" id="Commune" placeholder="" autocomplete="Commune" value="">
+                                            </p>
+                                            <p class="form-row form-row form-row-wide address-field validate-required" id="billing_city_field" data-o_class="form-row form-row form-row-wide address-field validate-required">
+                                                <label for="HouseNumber" class="">
+                                                    Số nhà/ Số đường
+                                                    <abbr class="required" title="bắt buộc">*</abbr>
+                                                </label>
+                                                <input type="text" class="input-text " name="HouseNumber" id="HouseNumber" placeholder="" autocomplete="HouseNumber" value="">
+                                            </p>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="woocommerce-shipping-fields">
+                                            <h3>Thông tin thêm</h3>
+                                            <p class="form-row form-row notes" id="Description">
+                                                <label for="Description" class="">Ghi chú đơn hàng</label>
+                                                <textarea name="Description" class="input-text " id="Description" placeholder="Ghi chú về đơn hàng, ví dụ: lưu ý khi giao hàng." rows="2" cols="5"></textarea>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="order_review" class="woocommerce-checkout-review-order">
+                                    <div id="payment" class="woocommerce-checkout-payment">
+                                        <ul class="wc_payment_methods payment_methods methods">
+                                            <li class="wc_payment_method payment_method_cheque">
+                                                <table class="shop_table woocommerce-checkout-review-order-table">
+                                                    <tbody>
+                                                        @foreach (var item in ViewBag.listCart)
+                                                        {
+                                                            totalPrice += item.Price * item.Quantity;
+                                                            <tr class="cart_item">
+                                                                <td class="product-name">
+                                                                    @item.product.ProductName
+                                                                    <strong class="product-quantity">× @item.Quantity</strong>
+                                                                    <dl class="variation">
+                                                                        @{
+                                                                            foreach (var a in item.product.ProductAttrs)
+                                                                            {
+                                                                                var attrId = item.AttrId.Split(';');
+                                                                                foreach (var id in attrId)
+                                                                                {
+                                                                                    if (int.Parse(id) == a.AttrId)
+                                                                                    {
+                                                                                        <dt class="variation-Chtliu">@a.Attributes.AttrName</dt>
+                                                                                        <dd class="variation-Chtliu">
+                                                                                            <p></p>
+                                                                                        </dd>
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    </dl>
+                                                                </td>
+
+                                                                <td class="product-total">
+                                                                    <span class="woocommerce-Price-amount amount">@String.Format("{0:#,##}", item.Price) ₫</span>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr></tr>
+                                                        <tr class="order-total">
+                                                            <th>Tổng cộng</th>
+                                                            <td><strong><span class="woocommerce-Price-amount amount">@String.Format("{0:#,##}", totalPrice) ₫</span></strong> </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </li>
+                                        </ul>
+                                        <div class="form-row place-order">
+                                            <input type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="Đặt hàng" data-value="Đặt hàng">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>

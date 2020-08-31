@@ -1,0 +1,294 @@
+﻿@model IEnumerable<Models.Models.DataModels.Provider>
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <!-- Begin slider -->
+        <div class="clear"></div>
+        <div class="slide-fluid">
+            <div class="col-xs-12 col-sm-12 col-md-12" style="padding: 0px;">
+                <div class="slide">
+                    <!-- meta slider -->
+                    <div style="width: 100%;" class="metaslider metaslider-nivo metaslider-59 ml-slider">
+                        <div id="metaslider_container_59">
+                            <div class='slider-wrapper theme-default'>
+                                <div class='ribbon'></div>
+                                <div id='metaslider_59' class='nivoSlider'>
+                                    @if (ViewBag.banner != null)
+                                    {
+                                        foreach (var item in ViewBag.banner)
+                                        {
+                                            <img src="@item.BannerImage" style="max-height:350px" height="350" width="1140" alt="" class="slider-59 slide-717" />
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            var metaslider_59 = function ($) {
+                                $('#metaslider_59').nivoSlider({
+                                    boxCols: 7,
+                                    boxRows: 5,
+                                    pauseTime: 3000,
+                                    effect: "random",
+                                    controlNav: true,
+                                    directionNav: false,
+                                    pauseOnHover: true,
+                                    animSpeed: 600,
+                                    prevText: "&lt;",
+                                    nextText: "&gt;",
+                                    slices: 15,
+                                    manualAdvance: false
+                                });
+                            };
+                            var timer_metaslider_59 = function () {
+                                var slider = !window.jQuery ? window.setTimeout(timer_metaslider_59, 100) : !jQuery.isReady ? window.setTimeout(timer_metaslider_59, 1) : metaslider_59(window.jQuery);
+                            };
+                            timer_metaslider_59();
+                        </script>
+                    </div>
+                    <!--// meta slider-->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- End slider -->
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr">
+                <div class="index-control-right">
+                    <aside class="shop-homepage">
+                        <div id="css-archive-product">
+                            <div class="filter-title-product">
+                                <ul>
+                                    <li class="title">
+                                        <a href="danh-muc/tat-ca-san-pham/index.html">SẢN PHẨM MỚI </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="archive-product-fluid ">
+                                <ul>
+                                    <div id="owl-slide" class="owl-carousel">
+                                        @foreach (var saleQty in ViewBag.ProductsNew)
+                                        {
+                                            <div class="item">
+                                                <div class="one-product">
+                                                    <div class="item-product">
+                                                        <div class="content-product-fluid">
+                                                            <li>
+                                                                <!-- GET IMAGE -->
+                                                                <a style="border:none; box-shadow:none" href="@Url.Action("Productsdetail","Home", new {id = saleQty.ProductId })" title="@saleQty.ProductName">
+                                                                    <img src="@saleQty.FeatureImage" alt="@saleQty.ProductName" width="300" height="300" class="img-rounded" />
+                                                                </a>
+                                                                <!-- END GET IMAGE -->
+                                                                <div class="content-product-title">
+                                                                    <a class="woo-title" href="@Url.Action("Productsdetail","Home", new {id = saleQty.ProductId })" title="@saleQty.ProductName">
+                                                                        @saleQty.ProductName
+                                                                    </a>
+                                                                </div>
+                                                                <div class="content-product-sku">
+                                                                    <lable>
+                                                                        <span class="sku_wrapper">Mã: <span class="sku" itemprop="sku">N/A</span></span>
+                                                                    </lable>
+                                                                </div>
+
+                                                                <div class="post-price">
+                                                                    <div class="salepercent"> </div>
+                                                                    <div class="price">
+                                                                        @{
+                                                                            var vie = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                                                            var price = saleQty.Discount > 0 ? saleQty.PriceOut - saleQty.PriceOut * saleQty.Discount / 100 : saleQty.PriceOut;
+                                                                        }
+                                                                        @String.Format(vie, "{0:c00}", price)
+                                                                    </div>
+                                                                </div>
+                                                                <div class="box add-to-cart-btn">
+                                                                    <a href="@Url.Action("Productsdetail","Home", new {id = saleQty.ProductId })" title="@saleQty.ProductName">
+                                                                        <div class="overbox">
+                                                                            <div class="title overtext"> XEM CHI TIẾT</div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- END one-product -->
+                                            </div>
+                                        }
+                                    </div>
+                                </ul>
+                                <!-- CLASS CSS ARCHIEVE--->
+                                <!-- end full_home_sanpham -->
+                                <div class="clear"></div>
+                                <!-- <div class="mar-clear">&nbsp;</div>-->
+                            </div> <!-- END CSS ARCHIEVE PRODUCT-->
+                    </aside>
+                    @*<aside class="shop-homepage">
+                        <a href='#' alt='Ad'>
+                            <img class='img-ads-widget' style='width: 100%;' src='~/Content/wp-content/plugins/ad-widget/images/wp6/banner-1.jpg' alt='Ad' />
+                        </a>
+                    </aside>*@
+                    @foreach (var provider in Model)
+                    {
+                        <aside class="shop-homepage">
+                            <div id="css-archive-product">
+                                <div class="filter-title-product">
+                                    <ul>
+                                        <li class="title">
+                                            <a href="@Url.Action("Providers","Home", new {id = provider.ProviderId })">@provider.ProviderName</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="archive-product-fluid">
+                                    @foreach (var product in provider.Products.Take(4))
+                                    {
+                                    <ul>
+                                        <div class="item">
+                                            <div class="responsive-1">
+                                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 one-product">
+                                                    <div class="item-product">
+                                                        <div class="content-product-fluid">
+                                                            <li>
+                                                                <!-- GET IMAGE -->
+                                                                <a style="border:none; box-shadow:none" href="@Url.Action("Productsdetail","Home", new { id = product.ProductId})" title="@product.ProductName">
+                                                                    <img src="@product.FeatureImage" alt="@product.ProductName" width="300" height="300" class="img-rounded" />
+                                                                </a>
+                                                                <!-- END GET IMAGE -->
+                                                                <div class="content-product-title">
+                                                                    <a class="woo-title" href="san-pham/may-hut-mui-canzy-cz-3388-7090/index.html" title="@product.ProductName">@product.ProductName</a>
+                                                                </div>
+                                                                <div class="content-product-sku">
+                                                                    <lable></lable>
+                                                                </div>
+                                                                <div class="post-price">
+                                                                    <div class="salepercent">
+
+                                                                    </div>
+                                                                    <div class="price">
+                                                                        <span class="woocommerce-Price-amount amount">
+                                                                            @{
+                                                                                var vie = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                                                                var price = product.Discount > 0 ? product.PriceOut - product.PriceOut * product.Discount / 100 : product.PriceOut;
+                                                                            }
+                                                                            @String.Format(vie, "{0:c00}", price)
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="box add-to-cart-btn">
+                                                                    <a href="san-pham/may-hut-mui-canzy-cz-3388-7090/index.html"
+                                                                       title="MÁY HÚT MÙI CANZY CZ-3388-70/90">
+                                                                        <div class="overbox">
+                                                                            <div class="title overtext"> XEM CHI TIẾT</div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--CSS DISPLAY RESPONSIVE -->
+                                            </div> <!-- END one-product -->
+                                        </div>
+                                    </ul>
+                                    }
+                                    <div class="clear"></div>
+
+                                    <!-- <div class="mar-clear">&nbsp;</div>-->
+                                </div>
+
+
+                            </div>
+                        </aside>
+
+                    }
+                    @*<aside class="shop-homepage">
+                        <a href='#' alt='Ad'>
+                            <img class='img-ads-widget' style='width: 100%;' src='~/Content/wp-content/plugins/ad-widget/images/wp6/banner-2.jpg' alt='Ad' />
+                        </a>
+                    </aside>*@
+                    <aside class="shop-homepage">
+                        <div id="css-archive-product">
+                            <div class="filter-title-product">
+                                <ul>
+                                    <li class="title">
+                                        <a href="danh-muc/noi-that-phong-ngu/index.html">SẢN PHẩm giá rẻ </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="archive-product-fluid">
+                                <div id="" class="owl-carousel">
+
+                                </div>
+                                <ul>
+                                    <div class="item">
+                                        @foreach (var saleprice in ViewBag.SalePrice)
+                                        {
+                                            <div class="responsive-1">
+                                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 one-product">
+                                                    <div class="item-product">
+                                                        <div class="content-product-fluid">
+                                                            <li>
+                                                                <!-- GET IMAGE -->
+                                                                <a style="border:none; box-shadow:none" href="@Url.Action("Productsdetail","Home", new { id = saleprice.ProductId})" title="@saleprice.ProductName">
+                                                                    <img src="@saleprice.FeatureImage" alt="@saleprice.ProductName" width="300" height="300" class="img-rounded" />
+                                                                </a>
+                                                                <!-- END GET IMAGE -->
+                                                                <div class="content-product-title">
+                                                                    <a class="woo-title" href="@Url.Action("Productsdetail","Home", new { id = saleprice.ProductId})" title="@saleprice.ProductName">
+                                                                        @saleprice.ProductName
+                                                                    </a>
+                                                                </div>
+                                                                <div class="content-product-sku">
+                                                                    <lable> <span class="sku_wrapper">Mã: <span class="sku" itemprop="sku">N/A</span></span> </lable>
+                                                                </div>
+                                                                <div class="post-price">
+                                                                    <div class="salepercent"> </div>
+                                                                    <div class="price">
+                                                                        @{
+                                                                            var vie = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                                                            var price = saleprice.Discount > 0 ? saleprice.PriceOut - saleprice.PriceOut * saleprice.Discount / 100 : saleprice.PriceOut;
+                                                                        }
+                                                                        @String.Format(vie, "{0:c00}", price)
+                                                                    </div>
+                                                                </div>
+                                                                <div class="box add-to-cart-btn">
+                                                                    <a href="@Url.Action("Productsdetail","Home", new { id = saleprice.ProductId})" title="@saleprice.ProductName">
+                                                                        <div class="overbox">
+                                                                            <div class="title overtext"> XEM CHI TIẾT</div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--CSS DISPLAY RESPONSIVE -->
+                                            </div> <!-- END one-product -->
+
+                                        }
+
+
+                                    </div>
+                                </ul> <!-- CLASS CSS ARCHIEVE--->
+                                <!-- end full_home_sanpham -->
+                                <div class="clear"></div>
+
+                                <!-- <div class="mar-clear">&nbsp;</div>-->
+                            </div> <!-- END CSS ARCHIEVE PRODUCT-->
+                    </aside>
+                    @*<aside class="shop-homepage">
+                        <a href='#' alt='Ad'>
+                            <img class='img-ads-widget' style='width: 100%;'
+                                 src='~/Content/wp-content/plugins/ad-widget/images/wp6/banner-3.jpg' alt='Ad' />
+                        </a>
+                    </aside>*@
+                </div>
+            </div>
+
+            @{ Html.RenderAction("Mainleft", "Home");}
+
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>

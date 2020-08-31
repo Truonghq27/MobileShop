@@ -1,0 +1,152 @@
+﻿.content-address {
+    background-color: #fff;
+    padding: 10px
+}
+
+.title-address {
+    padding-bottom: 20px;
+    color: #333;
+}
+
+.dark-color- {
+    margin-top: 14px;
+    font-size: 20px;
+    color: unset;
+}
+
+.-color-pending {
+    color: #4c5667
+}
+
+.-color-approved {
+    color: #41b3f9
+}
+
+.-color-delivered {
+    color: #7ace4c
+}
+
+.-color-canceled {
+    color: #f33155
+}
+
+.address-address, .phone-user, .createdate {
+    color: rgb(74, 74, 74);
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+.phone-user {
+    padding-top: 10px;
+}
+
+.name-users {
+    font-weight: bold;
+    color: rgb(74, 74, 74);
+    font-size: 15px
+}
+
+.orders-table {
+    background-color: #fff
+}
+
+.css-table-orders tfoot tr td {
+    text-align: right;
+    display: table-cell;
+    max-width: 550px;
+    min-width: 125px;
+    color: rgb(36, 36, 36);
+    padding: 20px 20px 20px 0;
+}
+
+.css-table-orders tbody tr td {
+    position: relative;
+    display: table-cell;
+    color: rgb(36, 36, 36);
+    vertical-align: top;
+    min-width: 100px;
+    border-width: initial;
+    border-style: none;
+    border-color: initial;
+    border-image: initial;
+    padding: 20px 15px;
+}
+
+.css-table-orders thead tr th {
+    display: table-cell;
+    min-width: 100px;
+    position: relative;
+    color: rgb(120, 120, 120);
+    font-size: 15px;
+    font-weight: 400;
+    text-align: left;
+    padding: 20px 15px;
+    border-top: none;
+    background: 0px 0px;
+    border-bottom: 1px solid rgb(244, 244, 244);
+}
+
+    .css-table-orders thead tr th:last-child, .css-table-orders tbody tr td:last-child {
+        text-align: right;
+    }
+
+.css-table-orders tbody tr td .product-item {
+    display: flex;
+}
+
+    .css-table-orders tbody tr td .product-item img {
+        width: 70px;
+        height: 70px;
+        margin-right: 5px;
+    }
+
+.css-table-orders tbody tr td .product-item .product-info .product-name {
+    font-size: 14px;
+    color: rgb(36, 36, 36);
+}
+.css-table-orders > tbody > tr > td {
+    line-height: 2.12857143;
+}
+.css-table-orders tfoot tr td .sum {
+    color: rgb(255, 59, 39);
+    font-size: 18px;
+}
+.css-table-orders tfoot {
+    display: table-row-group;
+}
+.css-table-orders tfoot tr {
+    border-top:unset;
+}
+.css-table-orders tr {
+    display: table-row;
+    padding: 10px;
+}
+.css-table-orders {
+    width: 100%;
+    color: rgb(66, 66, 66);
+    display: table;
+    font-size: 13px;
+    border-collapse: collapse;
+    line-height: 1.5;
+    word-break: break-word;
+    background: rgb(255, 255, 255);
+    border-radius: 4px;
+    border-spacing: 0px;
+}
+.style-button-discard {
+    width: 100%;
+    height: 40px;
+    max-width: 200px;
+    border: 1px solid rgba(0,0,0,.09);
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: .875rem;
+    font-weight: 300;
+    background-color: rgba(241, 241, 241, 0.40)
+}
+    .style-button-discard:hover {
+        color: #ee4d2d;
+        border-color: #ee4d2d;
+        background-color: transparent;
+    }

@@ -1,0 +1,72 @@
+.widget_jsjr_personal_contact_info ul {
+	list-style-type:none;
+}
+
+.widget_jsjr_personal_contact_info span {
+	display:block;
+}
+
+.jsjr-pci-photo {
+}
+
+.jsjr-pci-photo-thumbnail {
+	/* border: 1px solid #DDD; */
+	padding: 7px;
+	margin-top: 7px !important;
+}
+
+.jsjr-pci-photo-circle {
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50%; 
+	border-radius: 50%;
+}
+
+.jsjr-pci-photo-rcorners {
+	-moz-border-radius: 20px; 
+	-webkit-border-radius: 20px; 
+	border-radius: 20px;
+}
+
+.jsjr-pci-contact-section {margin-bottom: 10px;/* border-bottom: 1px solid #F0ECEC; */padding-bottom: 20px;}
+
+.jsjr-pci-name {
+    color: rgba(119, 110, 110, 0.92);
+    /* font-size: 13px !important; */
+    padding: 0 20px;
+}
+
+.jsjr-pci-slogan {
+
+}
+
+.jsjr-pci-social-icons a{
+	font-size:35px;
+	letter-spacing:5px;
+	text-decoration:none;
+}
+
+.jsjr-pci-email {
+	
+display: none;
+}
+
+.jsjr-pci-email:before{
+	font-family: "FontAwesome";
+	content: "\f0e0  ";
+}
+
+.jsjr-pci-phone {
+
+}
+
+.jsjr-pci-phone:before{
+	font-family: "FontAwesome";
+	content: "\f095  ";
+}
+
+.jsjr-pci-question {
+	border:1px solid #DDD;
+	padding:3px;
+}
+.box-policy{border-bottom: 1px solid #F5F5F5;height: 107px;padding: 10px 5px;}
+.box-policy img{width:27px !important;}

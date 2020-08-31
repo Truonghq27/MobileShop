@@ -1,0 +1,182 @@
+﻿@model Models.Models.DataModels.Product
+@{
+    ViewBag.Title = "Productsdetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section ProductStyle{
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/productdetail/jquery.exzoom.css" rel="stylesheet" />
+}
+<div class="main-css-fluid">
+    <section class="main-css padding-config" style="background-color:#fff">
+        <div id="container">
+            <div id="content" role="main">
+                <!--START MAIN LEFT -->
+                <div class="main-container single-product-control">
+                    <div id="css-single-product">
+                        <div class="single-product-fluid">
+                            <div itemscope="" id="product-670" class="post-670 product type-product status-publish has-post-thumbnail product_cat-noi-that-phong-ngu product_cat-tat-ca-san-pham first instock shipping-taxable purchasable product-type-variable has-default-attributes has-children">
+                                <div class="images">
+                                    <style>
+                                        #exzoom {
+                                            width: 400px;
+                                            /*height: 400px;*/
+                                        }
+
+                                        .hidden {
+                                            display: none;
+                                        }
+                                    </style>
+                                    <div class="exzoom hidden" id="exzoom">
+                                        <div class="exzoom_img_box">
+                                            <ul class='exzoom_img_ul'>
+                                                <li><img src="@Model.FeatureImage" /></li>
+                                                @{
+                                                    var images = !String.IsNullOrEmpty(Model.Images) ? Model.Images : "";
+                                                    var imgs = images.Split(';');
+                                                    foreach (var item in imgs)
+                                                    {
+                                                        <li><img src="@item" /></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                        <div class="exzoom_nav"></div>
+                                        <p class="exzoom_btn">
+                                            <a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
+                                            <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="summary entry-summary">
+                                    <h1 itemprop="name" class="product_title entry-title">@Model.ProductName</h1><div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+                                        @{
+                                            var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                            var price = Model.PriceOut - (Model.PriceOut * Model.Discount / 100);
+                                            var discount = Model.Discount > 0 ? price : Model.PriceOut;
+                                            if (Model.Discount > 0)
+                                            {
+                                                <span style="font-weight:normal;color:#333;text-decoration: line-through;margin-right:6px">@String.Format("{0:c00}", Model.PriceOut)₫</span>
+                                            }
+                                            <span class="woocommerce-Price-amount amount price">@String.Format(info, "{0:c00}", @discount)</span>
+                                        }
+                                    </div>
+                                    <div itemprop="description">
+                                        <p>@Model.Description</p>
+                                    </div>
+                                    @using (Html.BeginForm("Productsdetail", "Home", FormMethod.Post, new { @class = "variations_form cart", @enctype = "multipart/form-data" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@Model.ProductId" />
+                                        <div class="row">
+                                            <div class="col-md-12 col-xs-12">
+                                                <table class="variations" cellspacing="0">
+                                                    <tbody>
+                                                        @foreach (var item in ViewBag.TypeAttr)
+                                                        {
+                                                            <tr>
+                                                                <td class="label"><label for="@item.TypeId">@item.TypeName</label></td>
+                                                                <td class="value">
+                                                                    <select required id="chat-lieu" class="" name="attribute_@item.TypeId" data-show_option_none="yes">
+                                                                        <option value="">Chọn một tùy chọn</option>
+                                                                        @foreach (var attr in Model.ProductAttrs)
+                                                                        {
+                                                                            if (attr.Attributes.TypeId == item.TypeId)
+                                                                            {
+                                                                                <option value="@attr.AttrId" class="attached enabled">@attr.Attributes.AttrName</option>
+                                                                            }
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                        <tr>
+                                                            <td class="label"><label>Số lượng</label></td>
+                                                            <td class="">
+                                                                <input style="max-width: 70px;" type="number" step="1" min="1" max="" id="quantity" name="quantity" value="1" class="input-text qty text" size="4">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-12 col-xs-12">
+                                                <button style="margin-top:125px;border-radius:unset;" type="submit" class="unactive btn btn-primary btn-lg">Thêm vào giỏ hàng</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div><!-- .summary -->
+                                <div class="custome-single-shoping">
+                                    <aside class="footer-top">
+                                        <div class="jsjr-pci-contact-section" style="text-align:center">
+                                            <div class="box-policy">
+                                                <img src="~/Content/wp-content/plugins/chinh-sach-ban-hang/images/policy-icon-1.png" class="jsjr-pci-photo jsjr-pci-photo-square" style="width:auto ; margin-top:0px; margin-bottom:10px;" alt="Profile Photo"><h2 class="jsjr-pci-name" style="font-size:15px; margin-bottom:0px">Miễn phí vận chuyển với đơn hàng lớn hơn 1.000.000 đ</h2>
+                                            </div>
+                                            <div class="box-policy">
+                                                <img src="~/Content/wp-content/plugins/chinh-sach-ban-hang/images/policy-icon-2.png" class="jsjr-pci-photo jsjr-pci-photo-square" style="width:auto ; margin-top:0px; margin-bottom:10px;" alt="Profile Photo"><h2 class="jsjr-pci-name" style="font-size:15px; margin-bottom:0px">Đổi trả trong 3 ngày, thủ tục đơn giản</h2>
+                                            </div>
+                                            <div class="box-policy">
+                                                <img src="~/Content/wp-content/plugins/chinh-sach-ban-hang/images/policy-icon-3.png" class="jsjr-pci-photo jsjr-pci-photo-square" style="width:auto ; margin-top:0px; margin-bottom:10px;" alt="Profile Photo"><h2 class="jsjr-pci-name" style="font-size:15px; margin-bottom:0px">Sản phẩm đảm bảo chất lượng</h2>
+                                            </div>
+                                            <div class="box-policy">
+                                                <img src="~/Content/wp-content/plugins/chinh-sach-ban-hang/images/policy-icon-4.png" class="jsjr-pci-photo jsjr-pci-photo-square" style="width:auto ; margin-top:0px; margin-bottom:10px;" alt="Profile Photo"><h2 class="jsjr-pci-name" style="font-size:15px; margin-bottom:0px">Tư vấn Miễn Phí 24/7 Hotline : 1900.1900</h2>
+                                            </div>
+                                        </div>
+                                    </aside>
+                                </div>
+                                <style>
+                                    .detail-product {
+                                        margin-top: 17px;
+                                        background: rgba(0,0,0,.02);
+                                        color: rgba(0,0,0,.87);
+                                        font-size: 1.125rem;
+                                        padding: .875rem;
+                                        text-transform: capitalize;
+                                    }
+                                </style>
+                                <div class="woocommerce-tabs wc-tabs-wrapper">
+                                    <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab" id="tab-description" style="display: block;">
+                                        <div class="detail-product">Mô tả sản phẩm</div>
+                                        <p>Mang một sức hấp dẫn đối với bất cứ ai lần đầu chiêm ngưỡng. Màu đen huyền bí, lịch lãm, bề mặt da mềm mượt, êm ái, thiết kế chân thép sang trọng, cho không gian phòng khách thực sự nổi bật, ấn tượng.</p>
+                                    </div>
+                                </div>
+                            </div><!-- #product-670 -->
+                        </div>
+                    </div><!-- End single-product-fluid -->
+                </div>
+            </div>
+        </div>	<!--END MAIN CONTAINER -->
+    </section>
+</div>
+@section ProductDetail{
+    <script src="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/woocommerce/jquery-2.1.4.min.js"></script>
+    <script src="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/woocommerce/jquery.validate.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+    <script src="~/Content/productdetail/jquery.exzoom.js"></script>
+    <script type='text/javascript' src='~/Content/wp-content/wp-content/plugins/woocommerce/assets/js/prettyPhoto/jquery.prettyPhoto.min005e.js?ver=3.1.6'></script>
+    <script type='text/javascript' src='~/Content/wp-content/wp-content/plugins/woocommerce/assets/js/prettyPhoto/jquery.prettyPhoto.init.mina19e.js?ver=2.6.9'></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/woocommerce/assets/js/frontend/single-product.mina19e.js?ver=2.6.9'></script>
+    <script type="text/javascript">
+
+        $('.container').imagesLoaded(function () {
+            $("#exzoom").exzoom({
+                autoPlay: false,
+            });
+            $("#exzoom").removeClass('hidden')
+        });
+
+    </script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+}

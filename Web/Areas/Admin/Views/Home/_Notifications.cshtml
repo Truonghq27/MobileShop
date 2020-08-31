@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Models.Models.DataModels.Feedback>
+@if (Model != null)
+{
+    <li class="dropdown">
+        <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
+            <i class="mdi mdi-gmail"></i>
+            @if (@ViewBag.coutPenddingFeedback > 0)
+            {
+                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+            }
+            else
+            {
+                <div class="notify"></div>
+            }
+        </a>
+        <ul class="dropdown-menu mailbox animated bounceInDown">
+            <li>
+                <div class="drop-title">Bạn có @ViewBag.coutPenddingFeedback phản hồi chưa xử lý</div>
+            </li>
+            <li>
+                <div class="message-center">
+                    @foreach (var item in Model.OrderByDescending(x => x.Created))
+                    {
+                        <a href="@Url.Action("FeedbackDetail","Home",new { id = item.FeedBackId })">
+                            @if (!String.IsNullOrEmpty(item.Avatar))
+                            {
+                                <div class="user-img"> <img src="/Images/@item.Avatar" alt="user" class="img-circle"></div>
+                            }
+                            else
+                            {
+                                <div class="user-img"> <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt="user" class="img-circle"></div>
+                            }
+                            <div class="mail-contnet">
+                                <h5>@item.FullName</h5> <span class="mail-desc">@item.Subject</span> <span class="time">@item.Created</span>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </li>
+            <li>
+                <a class="text-center" href="@Url.Action("Feedback","Home")"> <strong>Xem tất cả</strong> <i class="fa fa-angle-right"></i> </a>
+            </li>
+        </ul>
+        <!-- /.dropdown-messages -->
+    </li>
+}
+@if (ViewBag.Orders != null)
+{
+    <li class="dropdown">
+        <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
+            <i class="mdi mdi-check-circle"></i>
+            @if (ViewBag.CountOrders > 0)
+            {
+                <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+            }
+            else
+            {<div class="notify"></div>}
+        </a>
+        <ul class="dropdown-menu mailbox animated bounceInDown">
+            <li>
+                <div class="drop-title">Bạn có @ViewBag.CountOrders đơn hàng chưa duyệt</div>
+            </li>
+            <li>
+                <div class="message-center">
+                    @foreach (var item in ViewBag.Orders)
+                    {
+                        <a href="@Url.Action("Detail","Cart",new { id = item.OrderId })">
+                            <div class="mail-contnet">
+                                <h5>@item.FullName</h5> <span class="mail-desc">@item.Address</span> <span class="time">@item.Created</span>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </li>
+            <li>
+                <a class="text-center" href="@Url.Action("Index","Cart")"> <strong>Xem tất cả</strong> <i class="fa fa-angle-right"></i> </a>
+            </li>
+        </ul>
+    </li>
+}

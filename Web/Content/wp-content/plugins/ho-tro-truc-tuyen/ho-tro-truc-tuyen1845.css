@@ -1,0 +1,54 @@
+.ho-tro-truc-tuyen{
+    margin: 16px 0px;
+    margin-left: 12px !important;
+}
+.ho-tro-truc-tuyen li{
+    margin: 9px 0px;
+}
+.ho-tro-truc-tuyen .ho-tro-truc-tuyen-title{
+    font-weight: bold;
+}
+.ho-tro-truc-tuyen .ho-tro-truc-tuyen-holine{
+    font-weight: bold;
+    overflow: hidden;
+    width: 100%;
+}
+.ho-tro-truc-tuyen .ho-tro-truc-tuyen-holine span{
+    /* font-weight: bold; */
+    display: block;
+    width: 100%;
+    margin-left: 27px;
+    overflow: hidden;
+}
+.ho-tro-truc-tuyen a{/* float:left; */}
+.ho-tro-truc-tuyen span a:before {
+    content: "\f0da";
+    ont-family: dashicons;
+    margin: 1px 0 0 4px;
+    vertical-align: top;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -ms-transform: rotate(0);
+    -o-transform: rotate(0);
+    transform: rotate(0);
+    color: inherit;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+    /* min-width: 18px; */
+    color: #846E6E;
+    font-size: 14px;
+    /* height: 45px; */
+    /* line-height: 45px; */
+    padding-right: 6px;
+    /* margin-right: 12px; */
+    font-size: 10px;
+}
+.ho-tro-truc-tuyen img{padding: 7px 10px 0px 0px;float: left;}
+

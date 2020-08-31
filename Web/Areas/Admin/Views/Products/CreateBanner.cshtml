@@ -1,0 +1,111 @@
+﻿@model Models.Models.DataModels.Banner
+@{
+    ViewBag.Title = "Thêm mới Banner";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="white-box">
+        <div class="panel-wrapper collapse in">
+            <div class="panel-body">
+                @using (Html.BeginForm("CreateBanner","Products",FormMethod.Post,new { @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Mô tả Banner</label>
+                                    @Html.EditorFor(model => model.DescriptionBanner, new { htmlAttributes = new { @class = "form-control text-box  single-line" } })
+                                    @Html.ValidationMessageFor(model => model.DescriptionBanner, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--Ảnh sản phẩm-->
+                            <div class="form-group">
+                                <label class="col-md-12">Ảnh banner <span class="text-danger">(*)</span></label>
+                                <div class="col-md-12">
+                                    <div class="fileinput input-group" data-provides="fileinput">
+                                        <div class="form-control featureImage-new" data-trigger="fileinput">
+                                            <span class="icon-feature-url-input"></span>
+                                            <span class="fileinput-freature-filename"></span>
+                                        </div>
+                                        <span class="input-group-addon btn btn-default btn-file featureImage-new">
+                                            <span class="fileinput-feature-new">Chọn ảnh</span>
+                                            <input id="BannerImage" type="hidden" name="BannerImage">
+                                        </span>
+                                        <a href="#" class="input-group-addon remove-url-feature btn btn-default" style="display:none">Remove</a>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.BannerImage, "", new { @class = "text-danger" })
+                                    <div class="show-ckfilder-FeatureImage"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <div class="radio-list">
+                                        <div class="radio-inline p-0">
+                                            <div class="radio radio-success">
+                                                <input type="radio" name="Status" checked="" id="radio1" value="1">
+                                                <label for="radio1">Hiển thị</label>
+                                            </div>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <div class="radio radio-danger">
+                                                <input type="radio" name="Status" id="radio2" value="0">
+                                                <label for="radio2">Tạm ẩn</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button style="border-radius:unset" type="submit" class="btn btn-info"> <i class="fa fa-check"></i> Thêm mới</button>
+                        <a href="#" style="border-radius:unset" type="button" class="btn btn-default" onClick="history.go(-1); return false;">Cancel</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/plugins/ckfinder/ckfinder.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".featureImage-new").click(function (e) {
+                e.preventDefault();
+                var filder = new CKFinder();
+                filder.selectActionFunction = function (url, file, files) {
+                    $(".icon-feature-url-input").html('<i class="glyphicon glyphicon-file"></i>');
+                    $("#BannerImage").val(url);
+                    var reUrl = url.slice(0, 100) + "...";
+                    if (url.length >= 100) {
+                        $(".fileinput-freature-filename").text(reUrl);
+                    } else {
+                        $(".fileinput-freature-filename").text(url);
+                    } 
+                    $(".fileinput-feature-new").html("Thay đổi");
+                    $(".remove-url-feature").css({ "display": "" });
+                    $(".show-ckfilder-FeatureImage").html("<img src='" + url + " ' style='max-with:200px;max-height:150px' />")
+                }
+                filder.popup();
+            });
+            $(".remove-url-feature").on("click", function (e) {
+                e.preventDefault();
+                $(".icon-feature-url-input").html('');
+                $("#BannerImage").val("");
+                $(".fileinput-freature-filename").text("");
+                $(".fileinput-feature-new").html("Chọn ảnh");
+                $(".remove-url-feature").css({ "display": "none" });
+                $(".show-ckfilder-FeatureImage").html("");
+            });
+        })
+    </script>
+}

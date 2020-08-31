@@ -1,0 +1,126 @@
+﻿@model Models.Models.DataModels.Business
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Link = "Business";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+}
+<div class="col-sm-12">
+    <div class="white-box">
+        @Html.ActionLink("Cập nhập", "Update", "Business", null, new { @class = "btn btn-info btn-rounded", @style = "border-radius:unset" })
+        <h3 class="box-title m-b-0">
+        </h3>
+        <p class="text-muted m-b-30"></p>
+        <div class="table-responsive" id="reload">
+            <table id="myTable" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Tên gốc</th>
+                        <th>Tên chỉnh sửa</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <input type="hidden" value="hiddenProductId" />
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Sửa Business</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                @using (Html.BeginForm("Edit", "Business", FormMethod.Post, new { @id = "submitform" }))
+                {
+                    @Html.HiddenFor(model => model.BusinessId, new { @id = "BusinessId" })
+                    <div class="form-group-sm">
+                        <label for="BusinessName" class="control-label">Tên Business</label>
+                        @Html.EditorFor(model => model.BusinessName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                }
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="EditBusiness" type="button" class="btn btn-info btn-sm" style="border-radius:0">Chỉnh sửa</button>
+                <button type="button" class="btn btn-pinterest btn-sm" style="border-radius:0" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function () {
+            var datatable = $('#myTable').DataTable({
+                "ajax": {
+                    "type": "GET",
+                    "url": "@Url.Action("Getdata", "Business")",
+                    "dataType": "JSON",
+                },
+                "columns": [
+                    { "data": "BusinessId"},
+                    { "data": "BusinessName"},
+                    {
+                        "data": "BusinessId", "render": function (data) {
+                            return '<a data-busId="' + data + '" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn btn-edit-bus" ><i data-toggle="tooltip" data-original-title="Chỉnh sửa tên" style="font-size:15px" class="ti-pencil-alt text-info tooltip-info" aria-hidden="true"></i></a>'
+                        }
+                    },
+                ]
+            });
+
+            //allow tooltip active
+            datatable.on('draw', function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+            //Edit Business
+            $("#myTable").on("click", "a.btn-edit-bus", function () {
+                var busId = $(this).data("busid");
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Edit","Business")/" + busId,
+                    success: function (res) {
+                        $("#BusinessId").val(res.BusinessId);
+                        $("#BusinessName").val(res.BusinessName);
+                        $("#myModal").modal('show');
+                    }
+                })
+            })
+            ////Edit Business 2
+            $("#EditBusiness").on("click", function () {
+                var data = $("#submitform").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EditSuccess", "Business")",
+                    data: data,
+                    success: function (res) {
+                        $("#myModal").modal('hide');
+                        $.notify(res.success, {
+                            globalPosition: "top center",
+                            className: "success",
+                        })
+                        datatable.ajax.reload();
+                    }
+                })
+            })
+        });
+    </script>
+
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+}
+
+

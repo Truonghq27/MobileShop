@@ -1,0 +1,34 @@
+﻿@model Models.Models.DataModels.Customer
+<div class="header-top-right">
+    <nav class="menu-menu-top-right-container">
+        <ul id="menu-menu-top-right-1" class="menu">
+            @if (Model != null)
+            {
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-621">
+                    @if (Model.Avatar != "")
+                    {
+                        <img src="/Images/@Model.Avatar" width="23" height="23" style=" border-radius: 50%; position: absolute; top: 4px; right: 308px;">
+                    }
+                    else
+                    {
+                        <img width="23" style=" border-radius: 100%; position: absolute; top: 3px; right: 375px;background-image: url(https://4.bp.blogspot.com/-H232JumEqSc/WFKY-6H-zdI/AAAAAAAAAEw/DcQaHyrxHi863t8YK4UWjYTBZ72lI0cNACLcB/s1600/profile%2Bpicture.png)">
+                    }
+                    <a href="@Url.Action("Index","Users")">@Model.FullName</a>
+                </li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-620">
+                    <a name="xhr" href="@Url.Action("Logout","Users", new {next = HttpContext.Current.Request.RawUrl })">Đăng xuất</a>
+                </li>
+            }
+            else
+            {
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-620">
+                    <a name="xhr"  id="LoginLink" href="@Url.Action("Login","Users", new {next = HttpContext.Current.Request.RawUrl })">Đăng nhập</a>
+                </li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-621">
+                    @Html.ActionLink("Đăng Ký", "Register", "Users")
+                </li>
+            }
+
+        </ul>
+    </nav>
+</div>

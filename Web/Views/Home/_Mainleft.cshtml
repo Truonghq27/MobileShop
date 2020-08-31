@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Models.Models.DataModels.Product>
+<div class="main-left woo-control-left fl">
+    @if (ViewBag.Provider != null)
+    {
+        <aside class="menu-class-sidebar shop-sidebar">
+            <h2 class="widget-title">Danh mục thương hiệu</h2><div id="menu-sidebar-fluid" class="menu-menu-sidebar-widget-container">
+                <ul id="menu-menu-sidebar-widget" class="menu">
+                    @foreach (var provider in ViewBag.Provider)
+                    {
+                        <li id="menu-item-603" class="menu-item menu-item-type-taxonomy menu-item-object-product_cat current-menu-item menu-item-603 active "><a href="@Url.Action("Providers","Home", new {id = provider.ProviderId })">@provider.ProviderName</a></li>
+                    }
+                </ul>
+            </div>
+        </aside>
+    }
+    <aside class="shop-sidebar">
+        <div id="w1-sidebar-slide-css">
+            @if (Model != null)
+            {
+                <div class="filter-title-product">
+                    <ul>
+                        <li class="title">
+                            <a href="">SẢN PHẨM NỔI BẬT</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="w1-sidebar-slide-fluid ">
+                    <ul>
+                        <div id="owl-slide-sidebar" class="owl-carousel">
+                            <div class="item-wrapper">
+                                @foreach (var saleQty in Model)
+                                {
+                                    <div class="item">
+                                        <div class="one-product">
+                                            <div class="item-product">
+                                                <div class="w1-content-product-fluid">
+                                                    <li>
+                                                        <!-- GET IMAGE -->
+                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 item-img">
+                                                            <a style="border:none; box-shadow:none" href="san-pham/sofa-ghe-bang/index.html"
+                                                               title="SOFA GHẾ BĂNG">
+                                                                <img src="~/Content/wp-content/uploads/bfi_thumb/wp6.khogiaodien.net_trang-n423662557rqh7gc8q38bkl4xgzx90esy698tk843c.jpg"
+                                                                     alt="SOFA GHẾ BĂNG" width="300" height="300" class="img-rounded" />
+                                                            </a>
+                                                        </div>
+                                                        <!-- END GET IMAGE -->
+                                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                                            <div class="content-product-title">
+                                                                <a class="woo-title"
+                                                                   href="san-pham/sofa-ghe-bang/index.html" title="SOFA GHẾ BĂNG">
+                                                                    @saleQty.ProductName
+                                                                </a>
+                                                            </div>
+                                                            <div class="post-price">
+                                                                <div class="salepercent">
+
+                                                                </div>
+                                                                <div class="price">
+                                                                    <span class="woocommerce-Price-amount amount">
+                                                                        15.000.000<span class="woocommerce-Price-currencySymbol">&#8363;</span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </div> <!-- END one-product -->
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </ul>
+                    <!-- CLASS CSS ARCHIEVE--->
+                    <!-- end full_home_sanpham -->
+                    <div class="clear"></div>
+                    <!-- <div class="mar-clear">&nbsp;</div>-->
+                </div>
+            }
+            <!-- END CSS ARCHIEVE PRODUCT-->
+        </div>
+    </aside>
+    
+    <aside class="shop-sidebar">
+        @if (@ViewBag.News != null)
+        {
+            <h2 class="widget-title">TIN TỨC</h2>
+            <div id="wp1-news-slide">
+                <div class="featured-posts textwidget">
+                    <div id="" class="" style="opacity: 1; display: block;">
+                        <div class="owl-wrapper-outer">
+                            <div class="owl-wrapper">
+                                <div class="owl-item" style="width: 256px;">
+                                    <div class="item-wrapper">
+                                        @foreach (var item in ViewBag.News)
+                                        {
+                                            <div class="item">
+                                                <a style="" href="@Url.Action("NewsDetail","Home",new {id = item.NewsId })" title="@item.NewsTitle"><img src="@item.FeatureImage" alt="@item.NewsTitle" width="240" height="140"></a>
+                                                <h4>
+                                                    <a href="@Url.Action("NewsDetail","Home",new {id = item.NewsId })" rel="bookmark" title="@item.NewsTitle">
+                                                        @item.NewsTitle
+                                                    </a>
+                                                </h4>
+                                                <div class="excerpt">
+                                                    @if (@item.ShortDescription.Length >= 100)
+                                                    {
+                                                        @item.ShortDescription.Substring(0, 100) <span>... <a href="@Url.Action("NewsDetail","Home",new {id = item.NewsId })" class="read-more">Xem thêm»</a></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @item.ShortDescription<span>... <a href="@Url.Action("NewsDetail","Home",new {id = item.NewsId })" class="read-more">Xem thêm»</a></span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-controls clickable"><div class="owl-pagination"><div class="owl-page active"><span class=""></span></div><div class="owl-page"><span class=""></span></div></div><div class="owl-buttons"><div class="owl-prev"><a class="flex-prev"></a></div><div class="owl-next"><a class="flex-next"></a></div></div></div>
+                    </div>
+                </div>
+            </div>
+        }
+    </aside>
+</div>
+
+

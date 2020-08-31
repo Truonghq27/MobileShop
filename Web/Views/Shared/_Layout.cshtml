@@ -1,0 +1,424 @@
+﻿<!DOCTYPE html>
+<html lang="vi" class="no-js">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <title>MobileShop</title>
+    <link rel="alternate" type="application/rss+xml" title="Dòng thông tin wp6 &raquo;" href="feed/index.html" />
+    <link rel="alternate" type="application/rss+xml" title="Dòng phản hồi wp6 &raquo;" href="comments/feed/index.html" />
+    <link rel='stylesheet' id='contact-form-7-css' href='~/Content/wp-content/plugins/contact-form-7/includes/css/styles167b.css?ver=4.6' type='text/css' media='all' />
+    <link rel='stylesheet' id='ho-tro-truc-tuyen-css' href='~/Content/wp-content/plugins/ho-tro-truc-tuyen/ho-tro-truc-tuyen1845.css?ver=4.9.6' type='text/css' media='all' />
+    <link rel='stylesheet' id='woocommerce-layout-css' href='~/Content/wp-content/plugins/woocommerce/assets/css/woocommerce-layouta19e.css?ver=2.6.9' type='text/css' media='all' />
+    <link rel='stylesheet' id='woocommerce-smallscreen-css' href='~/Content/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreena19e.css?ver=2.6.9' type='text/css' media='only screen and (max-width: 768px)' />
+    <link rel='stylesheet' id='woocommerce-general-css' href='~/Content/wp-content/plugins/woocommerce/assets/css/woocommercea19e.css?ver=2.6.9' type='text/css' media='all' />
+    <link rel='stylesheet' id='wp1-news-slide-style-css' href='~/Content/wp-content/plugins/wp1-news-slide/wp1-news-slide1845.css?ver=4.9.6' type='text/css' media='all' />
+    <link rel='stylesheet' id='wp-pagenavi-css' href='~/Content/wp-content/plugins/wp-pagenavi/pagenavi-css44fd.css?ver=2.70' type='text/css' media='all' />
+    <link rel='stylesheet' id='jsjr-pci-wp-css-css' href='~/Content/wp-content/plugins/chinh-sach-ban-hang/css/wp-styles4e44.css?ver=1.3' type='text/css' media='' />
+    @RenderSection("styleCss_1", required: false)
+    <link rel='stylesheet' id='WP1-Woo-Sidebar-Slides-widget-css' href='~/Content/wp-content/plugins/wp1-woo-sidebar-slide/WP1-Woo-Sidebar-Slides-widget4bf4.css?ver=1.0.3' type='text/css' media='screen' />
+    <link rel='stylesheet' id='WP1-Woo-Slides-widget-css' href='~/Content/wp-content/plugins/wp1-woo-slide/WP1-Woo-Slides-widget4bf4.css?ver=1.0.3' type='text/css' media='screen' />
+    <link rel='stylesheet' id='wp1-woo-css-css' href='~/Content/wp-content/plugins/wp1-woo/wp1-woo-css4bf4.css?ver=1.0.3' type='text/css' media='screen' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/svgicons.css" />
+    <script type='text/javascript' src='~/Content/wp-includes/js/jquery/jqueryb8ff.js?ver=1.12.4'></script>
+    <script type='text/javascript' src='~/Content/wp-includes/js/jquery/jquery-migrate.min330a.js?ver=1.4.1'></script>
+    @RenderSection("Scripts_2", required: false)
+    <link rel='https://api.w.org/' href='wp-json/index.html' />
+    <meta name="generator" content="WordPress 4.9.6" />
+    <meta name="generator" content="WooCommerce 2.6.9" />
+    <style type="text/css">
+        #totop {
+            position: fixed;
+            right: 50px;
+            bottom: 50px;
+            display: none;
+            outline: none;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="#" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <link rel="stylesheet" href="~/Content/wp-content/themes/wp-six-to-theme/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+
+    <script src="~/Content/wp-content/themes/wp-six-to-theme/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/reset-css/reset.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/style.css" type="text/css" rel="stylesheet" />
+    <!--FIXED -->
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/layout.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/css/menu.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/css/sidebar.css" type="text/css" rel="stylesheet" />
+
+    <!--WOOCOMERCE -->
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/woocommerce/archive-product.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/woocommerce/single-product.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/woocommerce/style-woocommerce.css" type="text/css" rel="stylesheet" />
+    <!-- Include js plugin -->
+    <link rel="stylesheet" href="~/Content/wp-content/themes/wp-six-to-theme/owl-carousel/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="~/Content/wp-content/themes/wp-six-to-theme/owl-carousel/owl-carousel/owl.theme.css">
+    @RenderSection("ProductStyle", required: false)
+    <script src="~/Content/wp-content/themes/wp-six-to-theme/owl-carousel/owl-carousel/owl.carousel.js"></script>
+    <link href="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/css/control.css" type="text/css" rel="stylesheet" />
+    <style type='text/css'>
+        body {
+            background: #F5F5F5;
+        }
+
+        .shop-sidebar,
+        .shop-homepage {
+            border-bottom: 20px solid #F5F5F5;
+        }
+
+        .header-menu-fluid,
+        .header-menu,
+        .page-search input[type=submit],
+        .menu-class-sidebar .widget-title,
+        .widget-title,
+        #w1-sidebar-slide-css .filter-title-product,
+        .page-woo-css tr:nth-child(1) th,
+        .nav-side-menu .brand {
+            background: #263238;
+        }
+
+        .page-search .search-submit {
+            background-color: #263238;
+        }
+
+        .page-search input[type=submit] {
+            background-color: #263238 !important;
+        }
+
+        .main-menu .active {
+            background: #263238;
+            color: #fff;
+        }
+
+        .main-menu ul li a,
+        .widget-title,
+        .page-woo-css tr:nth-child(1) th,
+        #w1-sidebar-slide-css .filter-title-product a,
+        .main-menu .menu-item-home:before,
+        .page-search input[type=submit],
+        .left-main-menu-drop .menu-item-has-children > a:after,
+        #w1-sidebar-slide-css .owl-buttons a {
+            color: #fff !important;
+        }
+    </style>
+    <style>
+        .owl-buttons {
+            opacity: 1 !important
+        }
+
+            .owl-buttons .owl-prev {
+                position: absolute;
+                right: 48px;
+                top: -27px
+            }
+
+            .owl-buttons .owl-next {
+                position: absolute;
+                right: 30px;
+                top: -27px
+            }
+
+            .owl-buttons .owl-prev a {
+                background-position: 0 100%;
+                left: 0;
+                top: 50%
+            }
+
+            .owl-buttons .owl-next a {
+                background-position: 100% 100%;
+                left: 0;
+                top: 50%
+            }
+
+                .owl-buttons .owl-next a:before {
+                    font-family: 'FontAwesome';
+                    font-style: normal;
+                    font-weight: 400;
+                    speak: none;
+                    -webkit-font-smoothing: antialiased;
+                    content: "\f105";
+                    text-transform: none;
+                    font-size: 18px;
+                    padding: 6px;
+                    line-height: 26px
+                }
+
+            .owl-buttons .owl-prev a:before {
+                font-family: 'FontAwesome';
+                font-style: normal;
+                font-weight: 400;
+                speak: none;
+                -webkit-font-smoothing: antialiased;
+                content: "\f104";
+                text-transform: none;
+                font-size: 18px;
+                padding: 6px 4px;
+                line-height: 26px
+            }
+
+            .owl-buttons a {
+                background: #f3f3f3;
+                display: block;
+                height: 30px;
+                margin: -16px 0 0;
+                position: absolute;
+                top: 50%;
+                width: 30px;
+                z-index: 5;
+                border: 1px solid #f3f3f3;
+                color: #666
+            }
+
+        .product-flexslider {
+            margin: 10px 0 0
+        }
+
+        .owl-buttons a:hover {
+            text-decoration: none;
+            color: #DF3131
+        }
+
+        .owl-pagination {
+            display: none !important;
+        }
+
+        .owl-theme .owl-controls {
+            margin-top: 0px !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="wraper">
+        <div id="header">
+            <div class="header-top-fluid">
+                <div class="header-top">
+                    <div class="header-top-left">
+                        <nav class="menu-menu-top-left-container">
+                            <ul id="menu-menu-top-left" class="menu">
+                                <li id="menu-item-541" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-541">
+                                    <a href="tel:0963712001">Hotline: 096.371.20xx</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="header-top-center">
+                        <div class="pull-left">
+                            <form>
+                                <div class="btn-group">
+                                    <span class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <a href="#">
+                                            <span>Hỗ trợ</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <nav class="menu-menu-top-left-container">
+                                            <ul id="menu-menu-top-left-1" class="menu">
+                                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-541">
+                                                    <a href="tel:1900.19xx">Hotline: 1900.19xx</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    @{Html.RenderAction("RightHeader", "Users");}
+                </div>
+            </div>
+            <!-- end header-top-fluid-->
+
+            @{Html.RenderAction("Header", "Home");}
+
+            <!-- header-bottom-fluid-->
+            <div class="clear"></div>
+            <div class="header-menu-fluid">
+                <div class="header-menu">
+                    <div class="main-menu left-main-menu-drop">
+                        <div class="menu-main-menu-container">
+                            <ul id="menu-main-menu" class="menu_nav_class">
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-597 active ">@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                                @*read partialview*@
+                                @{Html.RenderAction("MainMenu", "Home");}
+                                <li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-718">@Html.ActionLink("Tin tức", "News", "Home")</li>
+                                <li class="menu-item menu-item-type-post_type menu-item-has-children menu-item-object-page menu-item-623">
+                                    <a href="">Thông tin</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-624">@Html.ActionLink("Giới thiệu", "Introduce")</li>
+                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-632">@Html.ActionLink("Liên hệ", "Feedback", "Home")</li>
+                                        <li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-719">
+                                            <a href="">Hướng dẫn mua hàng</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- header-menu-->
+        </div>
+        <!--//header -->
+        <div class="clear"></div>
+
+        @RenderBody()
+
+        <div class="clear"></div>
+        <link href="~/Content/wp-content/themes/wp-six-to-theme/views/wp6/footer/footer-1.css" type="text/css" rel="stylesheet" />
+        <footer>
+            <div class="page-footer-fluid">
+                <div class="page-footer">
+                    <div class="col-xs-12 col-sm-6 col-md-3 f1">
+                        <aside class="footer-top">
+                            <h2 class="footer-title">CÔNG TY TNHH ACB</h2>
+                            <ul class="fa-ul">
+                                <li style="color: #333">
+                                    <i class="fa-li fa fa-map-marker" style="color: #EA4242"></i>Trụ sở chính: 123 Nguyễn Huệ, Quận 1, TPHCM<br>
+                                </li>
+                                <li style="color: #333"><i class="fa-li fa fa-phone" style="color: #EA4242"></i>0868.123.xxx</li>
+                                <li style="color: #333">
+                                    <i class="fa-li fa fa-at" style="color: #EA4242"></i>khogiaodien.net@gmail.com
+                                </li>
+                                <li style="color: #333"><i class="fa-li fa fa-fax" style="color: #EA4242"></i>0909.123.xxx</li>
+                                <li style="color: #333">
+                                    <i class="fa-li fa fa-globe" style="color: #EA4242"></i><a href=http://khogiaodien.net/ style="text-decoration:none; color: #333; ">khogiaodien.net</a>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 f2">
+                        <aside class="menu-class-footer footer-top">
+                            <div id="menu-fluid" class="menu-menu-f2-widget-container">
+                                <ul id="menu-menu-f2-widget" class="menu">
+                                    <li id="menu-item-593"
+                                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-593">
+                                        <a>HỖ TRỢ KHÁCH HÀNG</a>
+                                        <ul class="sub-menu">
+                                            <li id="menu-item-625"
+                                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-625">
+                                                <a href="chinh-sach-doi-tra-hang/index.html">Chính Sách Đổi Trả Hàng</a>
+                                            </li>
+                                            <li id="menu-item-626"
+                                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-626">
+                                                <a href="dieu-khoan-dich-vu/index.html">Điều khoản dịch vụ</a>
+                                            </li>
+                                            <li id="menu-item-627"
+                                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-627">
+                                                <a href="huong-dan-mua-hang/index.html">Hướng dẫn mua hàng</a>
+                                            </li>
+                                            <li id="menu-item-629"
+                                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-629">
+                                                <a href="thanh-toan-chuyen-khoan/index.html">Thanh toán chuyển khoản</a>
+                                            </li>
+                                            <li id="menu-item-628"
+                                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-628">
+                                                <a href="lien-he/index.html">Liên hệ</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 f3">
+                        <aside class="menu-class-footer footer-top">
+                            <div id="menu-fluid" class="menu-menu-f3-widget-container">
+                                <ul id="menu-menu-f3-widget" class="menu">
+                                    <li id="menu-item-594"
+                                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-594">
+                                        <a href="#">DANH MỤC SẢN PHẨM</a>
+                                        <ul class="sub-menu">
+                                            <li id="menu-item-724"
+                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-724">
+                                                <a href="danh-muc/noi-that-phong-khach/index.html">Nội Thất Phòng Khách</a>
+                                            </li>
+                                            <li id="menu-item-725"
+                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-725">
+                                                <a href="danh-muc/noi-that-phong-ngu/index.html">Nội Thất Phòng Ngủ</a>
+                                            </li>
+                                            <li id="menu-item-726"
+                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-726">
+                                                <a href="danh-muc/noi-that-phong-bep/index.html">Nội Thất Phòng Bếp</a>
+                                            </li>
+                                            <li id="menu-item-734"
+                                                class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-734">
+                                                <a href="danh-muc/tat-ca-san-pham/index.html">Tất cả sản phẩm</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 f4">
+                        <aside class="footer-top">
+                            <iframe src="" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:262px; height: 250px;" allowTransparency="true"></iframe>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+            <!--/end footer-fluid -->
+            <div class="clear"></div>
+            <div class="page-footer-copyright-fluid">
+                <div class="page-footer-copyright">
+                    Copyright © 201¿. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- END WRAPER -->
+    <a id="totop" href="#"></a>
+
+    @RenderSection("scritps", required: false)
+    <link rel='stylesheet' id='metaslider-nivo-slider-css' href='~/Content/wp-content/plugins/ml-slider/assets/sliders/nivoslider/nivo-slider5589.css?ver=3.4.1' type='text/css' media='all' property='stylesheet' />
+    <link rel='stylesheet' id='metaslider-public-css' href='~/Content/wp-content/plugins/ml-slider/assets/metaslider/public5589.css?ver=3.4.1' type='text/css' media='all' property='stylesheet' />
+    <link rel='stylesheet' id='metaslider-nivo-slider-default-css' href='~/Content/wp-content/plugins/ml-slider/assets/sliders/nivoslider/themes/default/default5589.css?ver=3.4.1' type='text/css' media='all' property='stylesheet' />
+    <script type='text/javascript' src="~/Content/wp-content/plugins/contact-form-7/includes/js/jquery.form.mind03d.js"></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/contact-form-7/includes/js/scripts167b.js?ver=4.6'></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.mina19e.js?ver=2.6.9'></script>
+    @RenderSection("ProductDetail", required: false)
+
+    <script type='text/javascript' src='~/Content/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min44fd.js?ver=2.70'></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.mina19e.js?ver=2.6.9'></script>
+    @RenderSection("payment", required: false)
+    <script type='text/javascript' src='~/Content/wp-content/plugins/woocommerce/assets/js/jquery-cookie/jquery.cookie.min330a.js?ver=1.4.1'></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.mina19e.js?ver=2.6.9'></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/wp1-news-slide/wp1-news-slide-script4963.js?ver=1.1'></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/wp1-woo-sidebar-slide/w1-sidebar-slide-script4963.js?ver=1.1'></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/wp1-woo-slide/script4963.js?ver=1.1'></script>
+    <script type='text/javascript' src='~/Content/wp-includes/js/wp-embed.min1845.js?ver=4.9.6'></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/ml-slider/assets/sliders/nivoslider/jquery.nivo.slider.pack5589.js?ver=3.4.1'></script>
+    @RenderSection("datatable", required: false)
+
+    @if (@TempData["alertMessenger"] != null)
+    {
+        <script>
+        $(document).ready(function () {
+            "use strict";
+            // toat popup js
+            $.toast({
+                heading: '@TempData["notication"]',
+                text: '@TempData["alertMessenger"]',
+                loaderBg: '#fff',
+                allowToastClose: false,
+                position: '@TempData["position"]',
+                icon: '@TempData["TypeAlert"]',
+                hideAfter: @TempData["hideAfter"],
+                stack: 6
+            })
+
+        })
+        </script>
+    }
+    <style>
+        .jq-toast-wrap.bottom-left {
+            left: 1077.5px;
+            top: 212px;
+        }
+    </style>
+</body>
+</html>

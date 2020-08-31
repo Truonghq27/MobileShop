@@ -1,0 +1,213 @@
+﻿@model Models.Models.DataModels.User
+@using Models.Models.DataModels;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    User session = (User)Session["User"];
+}
+@section StyleToast{
+    <!-- toast CSS -->
+    <link href="~/Areas/Admin/Assets/css/StyleImgUser.css" rel="stylesheet" />
+}
+@section ColorValue{
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+}
+<div class="col-md-4 col-xs-12">
+    <div class="white-box">
+        <div class="user-bg">
+            <img width="100%" alt="user" src="~/Areas/Admin/Assets/plugins/images/large/img1.jpg">
+            <div class="overlay-box" id="load-avatar">
+                <div class="user-content" style="padding:0;margin-top:0" id="user-avatar">
+                    <div class="avatar-upload">
+                        <div class="avatar-edit">
+                            <input type="file" name="imageUpload" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                            <label for="imageUpload"></label>
+                        </div>
+                        <div class="avatar-preview container2">
+                            @if (!String.IsNullOrEmpty(Model.Avatar))
+                            {
+                                <div id="imagePreview" style="background-image: url(/Images/@Model.Avatar);"></div>
+                            }
+                            else
+                            {
+                                <div id="imagePreview" style="background-image: url(https://4.bp.blogspot.com/-H232JumEqSc/WFKY-6H-zdI/AAAAAAAAAEw/DcQaHyrxHi863t8YK4UWjYTBZ72lI0cNACLcB/s1600/profile%2Bpicture.png);"></div>
+                            }
+                        </div>
+                    </div>
+                    <p style="font-size:16px" class="text-white font-weight-bold">@Model.FullName @if(Model.IsAdmin == true){<label style="position:absolute;padding: 2px 8px 2px 9px;font-size: 9px;" class="label label-danger">Owner</label>}</p>
+                    <h5 class="text-white">@Model.Email</h5>
+                </div>
+            </div>
+        </div>
+        <div class="user-btm-box">
+            <div class="col-md-4 col-sm-4 text-center">
+                <p class="text-purple"><i class="ti-facebook"></i></p>
+                <h1>258</h1>
+            </div>
+            <div class="col-md-4 col-sm-4 text-center">
+                <p class="text-blue"><i class="ti-twitter"></i></p>
+                <h1>125</h1>
+            </div>
+            <div class="col-md-4 col-sm-4 text-center">
+                <p class="text-danger"><i class="ti-dribbble"></i></p>
+                <h1>556</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-8 col-xs-12">
+    <div class="white-box">
+        <ul class="nav nav-tabs tabs customtab">
+            <li class="tab active">
+                <a href="#settings" data-toggle="tab" aria-expanded="true"> <span class="visible-xs"><i class="fa fa-cog"></i></span> <span class="hidden-xs">Thông tin</span> </a>
+            </li>
+            <li class="tab">
+                <a href="#profile" data-toggle="tab" aria-expanded="false"> <span class="visible-xs"><i class="fa fa-user"></i></span> <span class="hidden-xs">Đổi mật khẩu</span> </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="settings">
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal form-material" id="form-users">
+                    <div class="form-group">
+                        <label class="col-md-12">Nick name</label>
+                        <div class="col-md-12">
+                            @{ var userName = !String.IsNullOrEmpty(Model.UserName) ? Model.UserName : "Nhập nick name của bạn..."; }
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control form-control-line", @placeholder = @userName } })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Họ và Tên</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control form-control-line", @placeholder = @Model.FullName } })
+                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-email" class="col-md-12">Email</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control form-control-line", @placeholder = @Model.Email } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Số điện thoại</label>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control form-control-line", @placeholder = @Model.Phone } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input id="foo-changeUser" type="submit" class="btn btn-success btn-click" value="Update Profile">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="profile">
+                @*<div class="form-horizontal form-material">
+                        <div class="form-group">
+                            <label class="col-md-12">Nick name</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control form-control-line", @placeholder = @Model.FullName } })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Họ và Tên</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control form-control-line", @placeholder = @Model.FullName } })
+                                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input id="foo" type="submit" class="btn btn-success btn-click" value="Update Profile">
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(document).on('click','#foo-changeUser', function (e) {
+                e.preventDefault();
+                //var file = $('#imageUpload')[0].files[0];
+                //if (file) {
+                //    console.log(file.name);
+                //}
+                //get value
+                
+                var formData = new FormData();
+                var userName = document.getElementById("UserName").value
+                var fullName = document.getElementById("FullName").value
+                var email = document.getElementById("Email").value
+                var phone = document.getElementById("Phone").value
+                var file = document.getElementById("imageUpload").files[0];
+                //set data
+                formData.append("UserName", userName);
+                formData.append("FullName", fullName);
+                formData.append("Email", email);
+                formData.append("Phone", phone);
+                formData.append("FileUpload", file);
+                 if (formData != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ChangeInfoUser", "Users")",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.success) {
+                                $("#settings").load('@Url.Action("Index","Users") #form-users');
+                                $("#load-avatar").load('@Url.Action("Index","Users") #user-avatar');
+                                $(".reload-info-users_mr").load('@Url.Action("Index","Users") .reload-info-users_mr');
+                                $(".l_re_current_ml_info").load('@Url.Action("Index","Users") .l_re_current_ml_info');
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                });
+                            } else {
+                                $("#settings").load('@Url.Action("Index","Users") #form-users');
+                                $("#load-avatar").load('@Url.Action("Index","Users") #user-avatar');
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                });
+                            }
+                        }
+                    })
+                }
+
+            })
+            //preview avatar
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+                        $('#imagePreview').hide();
+                        $('#imagePreview').fadeIn(650);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#imageUpload").change(function () {
+                readURL(this);
+            });
+
+        })
+    </script>
+
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+}

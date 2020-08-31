@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Address";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr">
+                <div class="page-control-right">
+                    <div class="page-fluid">
+                        <h1>Địa chỉ</h1>
+                        <div class="img-responsive">
+                            <div class="woocommerce">
+                                <nav class="woocommerce-MyAccount-navigation">
+                                    <ul>
+                                        <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--dashboard">
+                                            <a href="http://wp6.khogiaodien.net/tai-khoan/">Bảng điều khiển</a>
+                                        </li>
+                                        <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--orders">
+                                            <a href="http://wp6.khogiaodien.net/tai-khoan/orders/">Đơn hàng</a>
+                                        </li>
+                                        <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--downloads">
+                                            <a href="http://wp6.khogiaodien.net/tai-khoan/downloads/">Tải về</a>
+                                        </li>
+                                        <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--edit-address is-active">
+                                            <a href="http://wp6.khogiaodien.net/tai-khoan/edit-address/">Địa chỉ</a>
+                                        </li>
+                                        <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--edit-account">
+                                            <a href="http://wp6.khogiaodien.net/tai-khoan/edit-account/">Chi tiết tài khoản</a>
+                                        </li>
+                                        <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--customer-logout">
+                                            <a href="http://wp6.khogiaodien.net/tai-khoan/customer-logout/">Đăng xuất</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <div class="woocommerce-MyAccount-content">
+                                    <p>
+                                        Các địa chỉ bên dưới mặc định sẽ được sử dụng ở trang thanh toán sản phẩm.
+                                    </p>
+                                    <div class="u-columns woocommerce-Addresses col2-set addresses">
+                                        <div class="u-column1 col-1 woocommerce-Address">
+                                            <header class="woocommerce-Address-title title">
+                                                <h3>Địa chỉ thanh toán</h3>
+                                                <p>
+                                                    <a href="http://wp6.khogiaodien.net/tai-khoan/edit-address/thanh-toan" class="edit">Sửa</a><br>
+                                                </p>
+                                            </header>
+                                            <address>
+                                                Bạn vẫn chưa thêm địa chỉ nào.
+                                            </address>
+                                            <p></p>
+                                        </div>
+                                        <div class="u-column2 col-2 woocommerce-Address">
+                                            <header class="woocommerce-Address-title title">
+                                                <h3>Địa chỉ nhận hàng</h3>
+                                                <p>
+                                                    <a href="http://wp6.khogiaodien.net/tai-khoan/edit-address/giao-nhan" class="edit">Sửa</a><br>
+                                                </p>
+                                            </header>
+                                            <address>
+                                                Bạn vẫn chưa thêm địa chỉ nào.
+                                            </address>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            @RenderPage("../Home/_Mainleft.cshtml")
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+

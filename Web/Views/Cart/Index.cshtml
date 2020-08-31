@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr">
+                <div class="page-control-right">
+                    <div class="page-woo-css">
+                        <div class="rdfa_breadcrumb-fluid">
+                            <div class="rdfa_breadcrumb">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <h1>Giỏ hàng</h1>
+                        <div class="img-responsive">
+                            <div class="woocommerce rel_table_cart">
+                                <form action="" method="post">
+                                    <table id="reload_table_cart" class="shop_table shop_table_responsive cart l_current_tb_cart" cellspacing="0">
+                                        @if (String.IsNullOrEmpty(ViewBag.cartnull))
+                                        {
+                                            <thead class="l_current_thead_cart">
+                                                <tr>
+                                                    <th class="product-remove">&nbsp;</th>
+                                                    <th class="product-thumbnail">&nbsp;</th>
+                                                    <th class="product-name">Sản phẩm</th>
+                                                    <th class="product-price">Giá</th>
+                                                    <th class="product-quantity">Số lượng</th>
+                                                    <th class="product-subtotal">Tổng cộng</th>
+                                                </tr>
+                                            </thead>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @ViewBag.cartnull
+                                                </td>
+                                                <td class="actions">
+                                                    <a href="@Url.Action("Index","Home")">Trang chủ</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tbody id="cartView"></tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            @{Html.RenderAction("Mainleft", "Home");}
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+
+<div class="modal fade" id="modelDelete">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thông báo</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body text-success">
+                Bạn chắc chắn muốn bỏ sản phẩm này?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer col-auto">
+                <button id="confirmdelete" type="button" class="btn btn-info">Có</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section datatable{
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Areas/Admin/Assets/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function () {
+            function GetAll() {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetallCart", "Cart")",
+                    success: function (res) {
+                        $("#cartView").html(res);
+                    }
+                })
+            }
+            GetAll();
+            function validateForm() {
+
+                var z = document.getElementById("qty").value
+
+                if (!/^[0-9]+$/.test(z)) {
+                    alert("Please only enter numeric characters only for your Age! (Allowed input:0-9)")
+                }
+
+            }
+            //test update
+            $(document).on('click', ".btn-submit", function () {
+                validateForm();
+            })
+            //Showmodel delete
+            var id;
+            $(document).on('click', 'a.remove-cart-product', function (e) {
+                e.preventDefault();
+                id = $(this).data("product_id");
+                $("#modelDelete").modal('show');
+            });
+            //Confirm delete
+            $(document).on('click', '#confirmdelete', function () {
+                if (id != undefined) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Delete","Cart")",
+                        data: { id: id },
+                        success: function (res) {
+                            if (res.success) {
+                                $(".rel_table_cart").load("@Url.Action("Index","Cart") .l_current_tb_cart");
+                                $(".card_content_load").load("@Url.Action("Index","Cart") .card_content_load_pvagain");
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                })
+                                GetAll();
+                                $("#modelDelete").modal('hide');
+                            } else {
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    $.notify("Không tìm thấy sản phẩm", {
+                        globalPosition: "top center",
+                        className: "error",
+                    })
+                }
+            })
+        })
+    </script>
+}

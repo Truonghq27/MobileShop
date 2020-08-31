@@ -1,0 +1,190 @@
+﻿@model Models.Models.DataModels.Group
+@{
+    ViewBag.Title = "Quản lý nhóm quyền";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <!-- Color picker plugins css -->
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
+}
+<div class="col-sm-12">
+    <div class="white-box">
+        @Html.ActionLink("Thêm mới", "Createrole", "Groups", null, new { @class = "btn btn-info btn-rounded", @style = "border-radius:unset" })
+        <h3 class="box-title m-b-0">
+        </h3>
+        <p class="text-muted m-b-30"></p>
+        <div class="table-responsive" id="reload">
+            <table id="myTable" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Tên nhóm quyền</th>
+                        <th>Trạng thái</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Edit Role-->
+<div class="modal fade" id="EditRole">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <p style="font-size:18px" class="modal-title text-danger bold">Chỉnh sửa thuộc tính</p>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                @using (Html.BeginForm("EditRole", "Groups", FormMethod.Post, new { @id = "edit-role-formSubmit" }))
+                {
+                    @Html.HiddenFor(model => model.GroupId)
+                    <div class="form-group-sm">
+                        <label for="ParentName" class="control-label">Tên vai trò</label>
+                        @Html.EditorFor(model => model.GroupName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group-sm">
+                        <div class="input-group">
+                            <label for="EditBackground" class="control-label">Màu nền</label><br />
+                            <input style="width: 234px;" type="text" name="Background" id="EditBackground" class="gradient-colorpicker form-control" />
+                            <style>
+                                .asColorPicker-trigger {
+                                    max-height: 30px
+                                }
+                            </style>
+                        </div>
+                    </div>
+                    <div class="form-group-sm">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <div class=""><label class="control-label">Trạng thái</label></div>
+                                <div id="moreHtml" class="col-xs-12 col-md-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="btn-edit-role" type="button" class="btn btn-info btn-sm" style="border-radius:0">Chỉnh sửa</button>
+                <button type="button" class="btn btn-pinterest btn-sm" style="border-radius:0" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <!-- Color Picker Plugin JavaScript -->
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+    <script>
+        // Colorpicker
+        $(".colorpicker").asColorPicker();
+        $(".complex-colorpicker").asColorPicker({
+            mode: 'complex'
+        });
+        $(".gradient-colorpicker").asColorPicker({
+            mode: 'gradient'
+        });
+    </script>
+    <script>
+        var datatable = $("#myTable").DataTable({
+            ajax: {
+                type: "get",
+                url: "@Url.Action("Getdatarole", "Groups")",
+                dataType: "JSON",
+            },
+            columns: [
+                { data: "GroupId" },
+                {
+                    data: null, render: function (full) {
+                        return '<label style="background:' + full["Background"] + '" class="label">' + full["GroupName"] + '</label>'
+                    }
+                },
+                {
+                    data: "Status", render: function (st) {
+                        if (st == 1) {
+                            return '<label class="label label-success">Kích hoạt</label>'
+                        } else if (st == 0) {
+                            return '<label class="label label-warning">Tạm ẩn</label>'
+                        }
+                    }
+                },
+                {
+                    data: "GroupId", render: function (id) {
+                        return '<a data-id="'+id+'" data-toggle="modal" data-target="#EditRole" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn btn-edit-role"><i data-toggle="tooltip" data-original-title="Chỉnh sửa" style="font-size:15px" class="fa fa-pencil text-primary tooltip-primary" aria-hidden="true"></i></a>'
+                    }
+                },
+            ]
+        })
+        //allow tooltip active
+        datatable.on('draw', function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        //getid and value
+        $("#myTable").on('click', '.btn-edit-role', function (e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetId", "Groups")/" + id,
+                success: function (res) {
+                    $("#GroupId").val(res.GroupId);
+                    $("#GroupName").val(res.GroupName);
+                    $("#EditBackground").val(res.Background);
+                    $(".asColorPicker-trigger span").attr('style', res.Background);
+                    var _html = "";
+                    if (res.Status == 0) {
+                        _html += '<input id="forStatusActive" type="radio" name="Status"  value="1" /> ' +
+                            '<label class="p-r-10" for="forStatusActive" id ="forStatusActive">Kích hoạt</label >';
+                        _html += '<input id="forStatusDeActive" type="radio" checked name="Status" value="0" /> ' +
+                            '<label class="p-r-10" for="forStatusDeActive" id ="forStatusDeActive"> Tạm ẩn</label >';
+                        $("#moreHtml").html(_html)
+                    } else if (res.Status == 1) {
+                        _html += '<input id="forStatusActive" type="radio" checked name="Status" value="1" /> ' +
+                            '<label class="p-r-10" for="forStatusActive"  id ="forStatusActive">Kích hoạt</label >';
+                        _html += '<input id="forStatusDeActive" type="radio" name="Status" value="0" /> ' +
+                            '<label class="p-r-10" for="forStatusDeActive" id ="forStatusDeActive">Tạm ẩn</label >';
+                        $("#moreHtml").html(_html)
+                    }
+                    $("#EditRole").modal("show");
+                }
+            })
+        })
+        
+        //Edit Role
+        $("#btn-edit-role").on('click', function () {
+            var data = $("#edit-role-formSubmit").serialize();
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("EditRole", "Groups")",
+                data: data,
+                success: function (res) {
+                    if (res.success) {
+                        $('.notifyjs-wrapper').remove();
+                        $.notify(res.success, {
+                            globalPosition: "top center",
+                            className: "success",
+                        })
+                        $("#EditRole").modal("hide");
+                        datatable.ajax.reload();
+                    } else {
+                        $('.notifyjs-wrapper').remove();
+                        $.notify(res.error, {
+                            globalPosition: "top center",
+                            className: "error",
+                        })
+                    }
+                }
+            })
+        })
+    </script>
+}

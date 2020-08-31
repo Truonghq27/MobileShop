@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Models.Models.DataModels.AddToCart>
+@{
+    double totalPrice = 0;
+    var countCart = 0;
+    var vie = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    if (ViewBag.checkCusomter!= null)
+    {
+        foreach (var item in ViewBag.CountPrice)
+        {
+            countCart++;
+            totalPrice += item.Price * item.Quantity;
+        }
+    }
+
+}
+<div class="header-bottom-fluid">
+    <div class="header-bottom">
+        <div class="logo-desktop">
+            <a href='@Url.Action("Index","Home")'><img src="~/Content/wp-content/themes/wp-six-to-theme/images/layout/logo.png" alt="wp6" /></a>
+        </div>
+        <div class="page-search">
+            <div id="search">
+                <form role="search" autocomplete="off" id="searchform" action="">
+                    <input class="form-control" type="text" value="" name="s" id="s" placeholder="Nhập từ khóa cần tìm" />
+                    <input type="submit" class="search-submit" value='Tìm kiếm' />
+                    <input type="hidden" name="post_type" value="product" />
+                </form>
+            </div>
+        </div>
+        <div class="cart-contents card_content_load">
+            <div class="card_content_load_pvagain">
+                <span class="title-cart"> Giỏ Hàng</span>
+                <div class="clear"></div>
+                <a class="header-cart header-cart-reload" href="@Url.Action("Index","Cart")" title="Thanh Toán">
+                    @countCart Sản Phẩm - <span class="woocommerce-Price-amount amount">
+                        @String.Format(vie, "{0:c00}", totalPrice)
+                    </span>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>

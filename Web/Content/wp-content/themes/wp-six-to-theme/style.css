@@ -1,0 +1,84 @@
+/*
+Theme Name: WP SIX TO THEME By KhoGiaoDien.net
+Theme URI: WP1.khogiaodien.net
+Author: Khogiaodien.net
+Author URI: Khogiaodien.net
+Description: WP SIX TO THEME
+Version: 1.0
+*/
+@charset "utf-8";
+/* CSS Document */
+
+strong{
+font-weight: bold;
+}
+#totop{background: url(images/layout/back_top.png) no-repeat;width: 52px;height: 52px;}
+
+.clear {
+clear: both;
+display: block;
+overflow: hidden;
+visibility: hidden;
+width: 0;
+height: 0;
+content: "."
+}
+.aligncenter{
+display: block;
+margin: auto;
+max-width: 100%;
+height: auto;}
+
+a:hover{
+text-decoration:none;
+}
+
+
+ul li:last-child{
+/* border: 0; */
+}
+
+ 
+ .logo {
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    position: absolute;
+    top: 20%;
+    color: white;
+    font-size: 50px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+select:focus, textarea:focus, input:focus {
+        font-size: 16px;
+    }
+}
+
+#wpadminbar{
+display:none;
+}
+
+input[type=submit]
+{
+	
+}
+input[type=submit]:hover
+{
+	
+}
+input[type=text],input[type=url],input[type=tel],input[type=email]
+{
+	
+}
+input[type=text]:active,input[type=url]:active,input[type=tel]:active,input[type=email]:active,input[type=text]:focus,input[type=url]:focus,input[type=tel]:focus,input[type=email]:focus
+{
+	
+}
+input[type=password]
+{
+	
+}

@@ -1,0 +1,216 @@
+﻿@model Models.Models.DataModels.Order
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Status = "";
+    ViewBag.color = "";
+    double totalPrice = 0;
+    switch (Model.Status)
+    {
+        case -2:
+            ViewBag.Status = "Đã huỷ";
+            ViewBag.color = "-color-canceled";
+            break;
+        case -1:
+            ViewBag.Status = "Đơn hàng đã bị huỷ";
+            ViewBag.color = "-color-canceled";
+            break;
+        case 1:
+            ViewBag.Status = "Đơn hàng đã duyệt";
+            ViewBag.color = "-color-approved";
+            break;
+        case 2:
+            ViewBag.Status = "Đã giao hàng";
+            ViewBag.color = "-color-delivered";
+            break;
+        default:
+            ViewBag.Status = "Đang chờ xử lý";
+            ViewBag.color = "-color-pending";
+            break;
+    }
+}
+@section ProductStyle{
+    <!-- toast CSS -->
+    <link href="~/Content/users/left-users.css" rel="stylesheet" />
+    <link href="~/Content/users/detailUser.css" rel="stylesheet" />
+}
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr" style="width: 910px;padding-bottom:10px;margin-bottom:50px;background:inherit">
+                <div class="page-control-right">
+                    <div class="page-fluid">
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 l_status_order">
+                                <h1 class="dark-color-" style="color:rgb(36, 36, 36);">Chi tiết đơn hàng #@Model.CodeOrder - <span class="@ViewBag.color">@ViewBag.Status</span></h1>
+                            </div>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="pull-right createdate"><p>Ngày đặt hàng: @Model.Created.ToString("dd/MM/yyyy hh:MM")</p></div>
+                            </div>
+                        </div>
+                        <div class="address-user">
+                            <div class="title-address p-b-20">Địa chỉ người nhận</div>
+                            <div class="content-address">
+                                <p class="name-users">@Model.FullName</p>
+                                <p class="address-address p-b-20">
+                                    <span>Địa chỉ: </span>@Model.Address
+                                </p>
+                                <p class="phone-user p-t-10">
+                                    <span>Điện thoại: </span>@Model.Phone
+                                </p>
+                            </div>
+                        </div>
+                        <div class="img-responsive padding-orders">
+                            <div class="woocommerce">
+                                <nav class="woocommerce-MyAccount-navigation">
+                                    <div class="orders-table">
+                                        <table class="table tab-content table-hover css-table-orders">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sản phẩm</th>
+                                                    <th>Giá</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Giảm giá</th>
+                                                    <th>Tạm tính</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.OrderDetails)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div class="product-item">
+                                                                <img src="@item.FeatureImage" width="70" alt="@item.ProductName">
+                                                                <div class="product-info">
+                                                                    <a class="product-name" href="@Url.Action("Productsdetail","Home", new {id = item.ProductId })">
+                                                                        @item.ProductName
+                                                                    </a>
+                                                                    <p style="margin: 0 0 -5px !important;" class="product-sku">@item.AttrName</p>
+                                                                    <p class="product-seller">
+                                                                        Cung cấp bởi:
+                                                                        @item.ProviderName
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>@String.Format("{0:#,##}", item.PriceOut) ₫</td>
+                                                        <td>@item.Quantity</td>
+                                                        @if (item.Discount > 0)
+                                                        {
+                                                            <td>@String.Format("{0:#,##}", item.PriceOut * item.Discount / 100) ₫</td>
+                                                        }
+                                                        else if (item.Discount == 0)
+                                                        {
+                                                            <td>0 ₫</td>
+                                                        }
+                                                        <td>
+                                                            @{
+                                                                var price = item.Price * item.Quantity;
+                                                                totalPrice = totalPrice + price;
+                                                            }
+                                                            @String.Format("{0:#,##}", price) ₫
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="4"> <span>Tổng cộng</span></td>
+                                                    <td><span class="sum">@String.Format("{0:#,##}", totalPrice) ₫</span></td>
+                                                </tr>
+                                                <tr class="l_button_status">
+                                                    @if (Model.TimeExpires >= DateTime.Now && Model.Status != -2 && Model.Status != 2 && Model.Status != -1)
+                                                    {
+                                                        <td colspan="5" class="test-a" style="border-top:none"><button data-id="@Model.OrderId" type="submit" class="style-button-discard">Huỷ đơn hàng</button></td>
+                                                    }
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            @{Html.RenderAction("MainleftUser", "Users");}
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+<div class="modal fade" id="caneledOrder">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thông báo</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body text-success">
+                Bạn chắc chắn muốn bỏ sản phẩm này?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="confirmdelete" type="button" class="btn btn-info">Có</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section datatable{
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Areas/Admin/Assets/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function () {
+            var id;
+            $(".style-button-discard").on('click', function () {
+                id = $(this).data("id");
+                $("#caneledOrder").modal('show');
+            })
+            $("#confirmdelete").on('click', function () {
+                if (id != undefined) {
+                    $.ajax({
+                        type: "POSt",
+                        url: "@Url.Action("CaneledOrder","Users")",
+                        data: { id: id },
+                        success: function (res) {
+                            if (res.success) {
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                })
+                                $("#caneledOrder").modal('hide');
+                                $(".l_button_status").load('@Url.Action("OrderDetail","Users") .l_button_status');
+                                $(".l_status_order").load('@Url.Action("OrderDetail","Users") .l_status_order');
+
+                            } else {
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                })
+                                $("#caneledOrder").modal('hide');
+                                $(".l_button_status").load('@Url.Action("OrderDetail","Users") .l_button_status');
+                                $(".l_status_order").load('@Url.Action("OrderDetail","Users") .l_status_order');
+                            }
+                        }
+                    })
+                } else {
+                    $.notify("Khônt tìm thấy", {
+                        globalPosition: "top center",
+                        className: "error",
+                    })
+                }
+            })
+        });
+    </script>
+}
+

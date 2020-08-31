@@ -1,0 +1,357 @@
+﻿@model Models.Models.DataModels.Attribute
+@{
+    ViewBag.Title = "Thuộc tính sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+}
+@section StyleToast{
+    <!-- Color picker plugins css -->
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
+}
+<div class="col-sm-12">
+    <div class="white-box">
+        <div class="row">
+            <div class=" col-md-6 col-xs-6 right">
+                <button data-toggle="modal" data-target="#CreateAttr" style="border-radius:unset" type="button" class="btn btn-info btn-rounded btd_addCate">Thêm mới</button>
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <a data-toggle="tooltip" data-original-title="Đến trang Kiểu thuộc tính" style="border-radius:unset;float: right" href="@Url.Action("Index","TypeAttr")" class="btn btn-pinterest btn-rounded">Kiểu thuộc tính</a>
+            </div>
+        </div>
+        <h3 class="box-title m-b-0">
+        </h3>
+        <p class="text-muted m-b-30"></p>
+        <div class="table-responsive" id="reload">
+            <table id="myTable" class="display table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Tên thuộc tính</th>
+                        <th>Kiểu thuộc tính</th>
+                        <th>Màu đại diện</th>
+                        <th>Trạng thái</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<!--Create New TypeAttr-->
+<div class="modal fade" id="CreateAttr">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <p style="font-size:18px" class="modal-title text-danger bold">Thêm mới thuộc tính</p>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                @using (Html.BeginForm("EditAttr", "TypeAttr", FormMethod.Post, new { @id = "create-attr-formSubmit" }))
+                {
+                    <div class="form-group-sm">
+                        <label for="ParentName" class="control-label">Kiểu thuộc tính</label>
+                        @Html.EditorFor(model => model.AttrName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group-sm">
+                        <label for="ParentName" class="control-label">Kiểu thuộc tính</label>
+                        @Html.DropDownList("TypeId", null, htmlAttributes: new { @class = "form-control " })
+                    </div>
+                    <div class="form-group-sm">
+                        <div class="input-group">
+                            <label for="ParentName" class="control-label">Màu đại diện</label><br />
+                            <input style="width: 234px;" type="text" name="Value" class="gradient-colorpicker form-control" value="#bee0ab" />
+                            @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+                            <style>
+                                .asColorPicker-trigger {
+                                    max-height: 30px
+                                }
+                            </style>
+                        </div>
+                    </div>
+                    <div class="form-group-sm">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <div>  <label class="control-label">Trạng thái</label></div>
+                                <input id="Status" name="Status" type="radio" value="1" checked />
+                                <label for="Status">Kích hoạt</label>
+                                <input id="StatusdeActive" name="Status" type="radio" value="0" />
+                                <label for="StatusdeActive">Tạm ẩn</label>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="btn-create-attr" type="button" class="btn btn-info btn-sm" style="border-radius:0">Thêm mới</button>
+                <button type="button" class="btn btn-pinterest btn-sm" style="border-radius:0" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Edit TypeAttr-->
+<div class="modal fade" id="EditAttr">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <p style="font-size:18px" class="modal-title text-danger bold">Chỉnh sửa thuộc tính</p>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                @using (Html.BeginForm("EditAttr", "TypeAttr", FormMethod.Post, new { @id = "edit-attr-formSubmit" }))
+                {
+                    @Html.HiddenFor(model => model.AttrId)
+                    <div class="form-group-sm">
+                        <label for="ParentName" class="control-label">Kiểu thuộc tính</label>
+                        @Html.EditorFor(model => model.AttrName, new { htmlAttributes = new { @class = "form-control", @id = "EditAttrName" } })
+                    </div>
+                    <div class="form-group-sm">
+                        <label for="ParentName" class="control-label">Kiểu thuộc tính</label>
+                        @Html.DropDownList("TypeId", null, htmlAttributes: new { @class = "form-control", @id = "EditTypeAttrId" })
+                    </div>
+                    <div class="form-group-sm">
+                        <div class="input-group">
+                            <label for="ParentName" class="control-label">Màu đại diện</label><br />
+                            <input style="width: 234px;" type="text" name="Value" id="EditValueAttr" class="gradient-colorpicker form-control" value="#bee0ab" />
+                            @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+                            <style>
+                                .asColorPicker-trigger {
+                                    max-height: 30px
+                                }
+                            </style>
+                        </div>
+                    </div>
+                    <div class="form-group-sm">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <div class=""><label class="control-label">Trạng thái</label></div>
+                                <div id="moreHtml" class="col-xs-12 col-md-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="btn-edit-attr" type="button" class="btn btn-info btn-sm" style="border-radius:0">Chỉnh sửa</button>
+                <button type="button" class="btn btn-pinterest btn-sm" style="border-radius:0" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Model delete-->
+<div class="modal fade" id="DeleteAttr">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thông báo</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Bạn có chắc muốn xoá ?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="confirmdelete" type="button" class="btn btn-danger">Xoá</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <!-- Color Picker Plugin JavaScript -->
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+    <script>
+        // Colorpicker
+        $(".colorpicker").asColorPicker();
+        $(".complex-colorpicker").asColorPicker({
+            mode: 'complex'
+        });
+        $(".gradient-colorpicker").asColorPicker({
+            mode: 'gradient'
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var datatable = $("#myTable").DataTable({
+                ajax: ({
+                    type: "get",
+                    url: "@Url.Action("GetdataAttr","TypeAttr")",
+                    dataType:"JSON"
+                }),
+                columns: [
+                    { data:"AttrName" },
+                    { data: "TypeName" },
+                    {
+                        data: "Value", render: function (color) {
+                            return '<label style="background:' + color+'" class="label">' + color+'</label>'
+                        }
+                    },
+                    {
+                        data: "Status", render: function (st) {
+                            if (st == 1) {
+                                return '<label class="label label-success">Kích hoạt</label>'
+                            } else if (st == 0) {
+                                return '<label class="label label-inverse">Tạm ẩn</label>'
+                            }
+                        }
+                    },
+                    {
+                        data: "AttrId", render: function (id) {
+                            return '<a data-attrid="' + id + '" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn btn-edit-attr" ><i data-toggle="tooltip" data-original-title="Chỉnh sửa" style="font-size:15px" class=" ti-unlock text-primary font-weight-bold tooltip-primary" aria-hidden="true"></i></a>' +
+                                '<button  data-deleteid="' + id + '" class="mr-0 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn btn-delete-attr" ><i data-toggle="tooltip" data-original-title="Xoá" style="font-size:15px" class="  ti-trash text-danger font-weight-bold tooltip-danger" aria-hidden="true"></i></button>'
+                        }
+                    }
+                ]
+
+            })
+            //allow tooltip active
+            datatable.on('draw', function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+            //Create new Attrbute
+            $("#btn-create-attr").on('click', function () {
+                var data = $("#create-attr-formSubmit").serialize();
+                $.ajax({
+                    type: "post",
+                    url: "@Url.Action("CreateAttr", "TypeAttr")",
+                    data: data,
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.success) {
+                            $('.notifyjs-wrapper').remove();
+                            $.notify(res.success, {
+                                globalPosition: "top center",
+                                className: "success",
+                            })
+                            $("#CreateAttr").modal("hide");
+                            datatable.ajax.reload();
+                        } else {
+                            $('.notifyjs-wrapper').remove();
+                            $.notify(res.error, {
+                                globalPosition: "top center",
+                                className: "error",
+                            })
+                        }
+                    }
+                })
+            })
+
+            //get id and value
+            $("#myTable").on('click', 'a.btn-edit-attr', function () {
+                var id = $(this).data("attrid");
+                $.ajax({
+                    type: "post",
+                    url: "@Url.Action("GetidAttr", "TypeAttr")/" + id,
+                    dataType: "JSON",
+                    success: function (res) {
+                        $("#AttrId").val(res.AttrId);
+                        $("#EditAttrName").val(res.AttrName);
+                        $("#EditTypeAttrId").val(res.TypeId);
+                        $("#EditValueAttr").val(res.Value);
+                        var _html = "";
+                        if (res.Status == 0) {
+                            _html += '<input id="forStatusActive" type="radio" name="Status"  value="1" /> ' +
+                                '<label class="p-r-10" for="forStatusActive" id ="forStatusActive">Kích hoạt</label >';
+                            _html += '<input id="forStatusDeActive" type="radio" checked name="Status" value="0" /> ' +
+                                '<label class="p-r-10" for="forStatusDeActive" id ="forStatusDeActive"> Tạm khoá</label >';
+                            $("#moreHtml").html(_html)
+                        } else if (res.Status == 1) {
+                            _html += '<input id="forStatusActive" type="radio" checked name="Status" value="1" /> ' +
+                                '<label class="p-r-10" for="forStatusActive"  id ="forStatusActive">Kích hoạt</label >';
+                            _html += '<input id="forStatusDeActive" type="radio" name="Status" value="0" /> ' +
+                                '<label class="p-r-10" for="forStatusDeActive" id ="forStatusDeActive">Tạm khoá</label >';
+                            $("#moreHtml").html(_html)
+                        }
+                        $("#EditAttr").modal("show");
+                    }
+                })
+            })
+            //Update Attr
+            $("#btn-edit-attr").on('click', function () {
+                var data = $("#edit-attr-formSubmit").serialize();
+                $.ajax({
+                    type: "post",
+                    url: "@Url.Action("EditAttr","TypeAttr")",
+                    data: data,
+                    success: function (res) {
+                        if (res.success) {
+                            $('.notifyjs-wrapper').remove();
+                            $.notify(res.success, {
+                                globalPosition: "top center",
+                                className: "success",
+                            })
+                            $("#EditAttr").modal("hide");
+                            datatable.ajax.reload();
+                        } else {
+                            $('.notifyjs-wrapper').remove();
+                            $.notify(res.error, {
+                                globalPosition: "top center",
+                                className: "error",
+                            })
+                            $("#EditAttr").modal("hide");
+                        }
+                    }
+                })
+            })
+
+            //add class for typeAttr to the get Id
+            var id;
+            $("#myTable").on('click', 'button.btn-delete-attr', function () {
+                 id = $(this).data("deleteid");
+                $("#DeleteAttr").modal('show');
+            })
+            //Delete Attr
+            $("#confirmdelete").on("click", function () {
+                if (id != undefined) {
+                    $.ajax({
+                        type: "post",
+                        url: "@Url.Action("DeleteAttr","TypeAttr")",
+                        data: { id: id },
+                        success: function (res) {
+                            if (res.success) {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                })
+                                $("#DeleteAttr").modal("hide");
+                                datatable.ajax.reload();
+                            } else {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    $('.notifyjs-wrapper').remove();
+                    $.notify("Khôn tìm thấy", {
+                        globalPosition: "top center",
+                        className: "error",
+                    })
+                }
+            })
+
+        })
+    </script>
+}
+

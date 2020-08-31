@@ -1,0 +1,172 @@
+﻿@model IEnumerable<Models.Models.DataModels.Product>
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    ViewBag.Link = "Products";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        vertical-align: unset;
+    }
+</style>
+@section Style{
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+}
+@section StyleToast{
+    <!-- toast CSS -->
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+}
+<div class="col-sm-12">
+    <div class="white-box">
+        @Html.ActionLink("Thêm mới", "Create", "Products", null, new { @class = "btn btn-info btn-rounded", @style = "border-radius:unset" })
+        <h3 class="box-title m-b-0">
+        </h3>
+        <p class="text-muted m-b-30"></p>
+        <div class="table-responsive" id="reload">
+            <table id="myTable" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.ProductName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Categories.CategoryName)</th>
+                        <th>@Html.DisplayNameFor(model => model.PriceIn)</th>
+                        <th>@Html.DisplayNameFor(model => model.PriceOut)</th>
+                        <th>@Html.DisplayNameFor(model => model.Discount)</th>
+                        <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        <th>@Html.DisplayNameFor(model => model.Status)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                        <tr id="row_@item.ProductId">
+                            <td>
+                                <img src="@item.FeatureImage" width="50" />
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Categories.CategoryName)</td>
+                            <td>@String.Format(info, "{0:c0}", item.PriceIn)</td>
+                            <td>@String.Format(info, "{0:c0}", item.PriceOut)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Discount)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                            <td>
+                                @if (item.Condition == 1)
+                                {
+                                    <span style="font-weight: 700;padding: 5px 14px 4px;" class="label label-success">Còn hàng</span>
+                                }
+                                else if (item.Condition == 0)
+                                {
+                                    <span style="font-weight: 700;padding: 5px 14px 4px;" class="label label-danger">Hết hàng</span>
+                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-icon btn-pure btn-outline edit-row-btn" href="@Url.Action("Edit","Products", new { id=item.ProductId })" data-toggle="tooltip" data-original-title="Chỉnh sửa">
+                                    <i style="font-size:15px" class="fa fa-pencil text-inverse m-r-10" aria-hidden="true"></i>
+                                </a>
+                                <a data-toggle="modal" data-target="#myModal"  id="_delete" data-id="@item.ProductId" class="_btn_delete btn btn-sm btn-icon btn-pure btn-outline edit-row-btn">
+                                    <i data-toggle="tooltip" data-original-title="Xoá" style="font-size:15px" class="fa fa-close text-danger tooltip-danger" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <input type="hidden" value="hiddenProductId" />
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thông báo</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Bạn có chắc muốn xoá ?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="confirmdelete" type="button" class="btn btn-danger">Xoá</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+            var id;
+            $("#myTable").on('click', '._btn_delete', function () {
+                id = $(this).data("id");
+            })
+            //delete
+            $("#confirmdelete").on('click', function () {
+                if (id != undefined) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/Products/Delete",
+                        data: { id: id },
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.success) {
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: 'success',
+                                });
+                                $("#myModal").modal('hide');
+                                $("#row_" + productId).remove();
+                            } else {
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: 'error',
+                                });
+                            }
+                        }
+                    })
+                } else {
+                    $.notify("Không tìm thấy", {
+                        globalPosition: "top center",
+                        className: 'error',
+                    });
+                }
+            })
+        });
+    </script>
+    @if (@TempData["alertMessenger"] != null)
+    {
+        <script>
+        $(document).ready(function () {
+            "use strict";
+            // toat popup js
+            $.toast({
+                heading: '@TempData["notication"]',
+                text: '@TempData["alertMessenger"]',
+                loaderBg: '#fff',
+                allowToastClose: false,
+                position: '@TempData["position"]',
+                icon: '@TempData["TypeAlert"]',
+                hideAfter: @TempData["hideAfter"],
+                stack: 6
+            })
+
+        })
+        </script>
+    }
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+}
+

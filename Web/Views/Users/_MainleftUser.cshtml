@@ -1,0 +1,85 @@
+﻿@model Models.Models.DataModels.Customer
+
+<div class="main-left woo-control-left fl col-xl" style="max-width: 222px;    margin-left: -12px;">
+    <div class="user-page-brief">
+        <a class="user-page-brief__avatar" href="/user/account/profile/">
+            <div class="shopee-avatar">
+                <div class="shopee-avatar__placeholder">
+                    <svg class="shopee-svg-icon icon-headshot" enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"><g><circle cx="7.5" cy="4.5" fill="none" r="3.8" stroke-miterlimit="10"></circle><path d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke-linecap="round" stroke-miterlimit="10"></path></g></svg>
+                </div>
+                @if (!String.IsNullOrEmpty(Model.Avatar))
+                {
+                    <img class="shopee-avatar__img" src="/Images/@Model.Avatar">
+                }
+                else
+                {
+                    <img class="shopee-avatar__img" src="https://4.bp.blogspot.com/-H232JumEqSc/WFKY-6H-zdI/AAAAAAAAAEw/DcQaHyrxHi863t8YK4UWjYTBZ72lI0cNACLcB/s1600/profile%2Bpicture.png">
+                }
+            </div>
+        </a>
+        <div class="user-page-brief__right">
+            <div class="user-page-brief__username">@Model.FullName</div>
+            <div>
+                <a class="user-page-brief__edit" href="@Url.Action("Index","Users")">
+                    <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px;"><path d="M8.54 0L6.987 1.56l3.46 3.48L12 3.48M0 8.52l.073 3.428L3.46 12l6.21-6.18-3.46-3.48" fill="#9B9B9B" fill-rule="evenodd"></path></svg>
+                    Sửa hồ sơ
+                </a>
+            </div>
+        </div>
+    </div>
+    @*lalalalal*@
+    <div class="">
+        <div class="">
+            <div class="" id="collapseListGroupHeading1">
+                <div class="userpage-sidebar-menu-entry__icon" style="background-color: rgb(255, 193, 7); display:inline-block">
+                    <svg class="" enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"><g><circle cx="7.5" cy="4.5" fill="none" r="3.8" stroke-miterlimit="10"></circle><path d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke-linecap="round" stroke-miterlimit="10"></path></g></svg>
+                </div>
+                <div style="padding-bottom:12px;display: inline-block;">
+                    <a class="collapsed _hover" data-toggle="collapse" href="#collapseListGroup1" aria-expanded="false" aria-controls="collapseListGroup1">
+                        Tài khoản của tôi
+                    </a>
+                </div>
+            </div>
+            <div id="collapseListGroup1" class="panel-collapse collapse">
+                <ul class="list-group _list-group" style="margin-bottom: 6px;">
+                    <li class="list-group-item">
+
+                        <a href="@Url.Action("Index","Users")" class="_menuAccount">
+                            <span>Hồ sơ</span>
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#" class="_menuAccount">
+                            <span>Địa chỉ</span>
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="@Url.Action("changepassword","Users")" class="_menuAccount">
+                            <span>Đổi mật khẩu</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="" id="collapseListGroupHeading1">
+            <div class="userpage-sidebar-menu-entry__icon" style="background-color: rgb(68, 181, 255); display: inline-block">
+                <svg class="shopee-svg-icon user-page-sidebar-icon " enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" style="fill: rgb(255, 255, 255);"><g><rect fill="none" height="10" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" width="8" x="4.5" y="1.5"></rect><polyline fill="none" points="2.5 1.5 2.5 13.5 12.5 13.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polyline><line fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="6.5" x2="10.5" y1="4" y2="4"></line><line fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="6.5" x2="10.5" y1="6.5" y2="6.5"></line><line fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="6.5" x2="10.5" y1="9" y2="9"></line></g></svg>
+            </div>
+            <div style="padding-bottom:12px;display: inline-block;">
+                <a class="collapsed _hover" href="@Url.Action("Orders","Users")" aria-expanded="false" aria-controls="collapseListGroup1">
+                    Đơn mua
+                </a>
+            </div>
+        </div>
+        <div class="" id="collapseListGroupHeading1">
+            <div class="userpage-sidebar-menu-entry__icon" style="background-color: rgb(238, 77, 45); display: inline-block">
+                <svg class="shopee-svg-icon user-page-sidebar-icon " enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"><g><path d="m12 10.2 1.5 2h-12l1.5-2v-7.4c0-.5.5-1 1-1h7c .6 0 1 .5 1 1z" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></path><path d="m6 2c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5" fill="none" stroke-miterlimit="10"></path><path d="m5.8 13.5c.4.6 1 1 1.8 1s1.4-.4 1.8-1z"></path></g></svg>
+            </div>
+            <div style="padding-bottom:12px;display: inline-block;">
+                <a class="collapsed _hover" data-toggle="collapse" href="#collapseListGroup1" aria-expanded="false" aria-controls="collapseListGroup1">
+                    Thông báo
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

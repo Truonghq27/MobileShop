@@ -1,0 +1,89 @@
+﻿@model Models.Models.DataModels.Group
+
+@{
+    ViewBag.Title = "Thêm mới role";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section StyleToast{
+    <!-- Color picker plugins css -->
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
+}
+<div class="col-md-12">
+    <div class="white-box">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationMessage("", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-3 col-xs-3 m-r-15">
+                        <div class="form-group">
+                            <label for="exampleInputuname">RoleId</label>
+                            <div class="input-group">
+                                @Html.EditorFor(model => model.GroupId, new { htmlAttributes = new { @class = "form-control", @style = "width:276px", @placeholder = "Nhập RoleId..." } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-3">
+                        <div class="form-group">
+                            <label for="exampleInputuname">Tên Role</label>
+                            <div class="input-group">
+                                @Html.EditorFor(model => model.GroupName, new { htmlAttributes = new { @class = "form-control", @style = "width:276px", @placeholder = "Nhập tên Role..." } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class=" row">
+                    <div class="col-md-3 col-xs-3 m-r-15">
+                        <div class="form-group">
+                            <label for="exampleInputuname">Màu nền</label>
+                            <div class="input-group">
+                                <input style="width: 242px;" type="text" name="Background" class="gradient-colorpicker form-control" value="#bee0ab" />
+                                @Html.ValidationMessageFor(model => model.Background, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-3 m-l-10">
+                        <div class="form-group">
+                            <label for="exampleInputuname">Trạng thái</label>
+                            <div class="form-inline">
+                                <div class="radio radio-success">
+                                    <input type="radio" name="Status" id="radio4" checked value="1">
+                                    <label for="radio4"> Kích hoạt </label>
+                                </div>
+                                <div class="radio radio-warning">
+                                    <input type="radio" name="Status" id="radio5" value="0">
+                                    <label for="radio5"> Tạm ẩn </label>
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Background, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button style="border-radius:unset" type="submit" class="btn btn-info waves-effect waves-light m-r-10 boder-hiden">Thêm mới</button>
+                    <a onClick="history.go(-1); return false;" style="border-radius:unset" href="#" class="btn btn-inverse waves-effect waves-light">Cancel</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts{
+    <!-- Color Picker Plugin JavaScript -->
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+    <script>
+        // Colorpicker
+        $(".colorpicker").asColorPicker();
+        $(".complex-colorpicker").asColorPicker({
+            mode: 'complex'
+        });
+        $(".gradient-colorpicker").asColorPicker({
+            mode: 'gradient'
+        });
+    </script>
+}

@@ -1,0 +1,79 @@
+﻿@model Models.Models.DataModels.Feedback
+@{
+    ViewBag.Title = "Feedback";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    HttpCookie cookie = HttpContext.Current.Request.Cookies["InfoCustomer"];
+    var currentEmail = Request.Cookies["InfoCustomer"] != null ? @cookie["Email"] : "";
+}
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr">
+                <div class="page-control-right">
+                    <div class="page-fluid">
+                        <h1>Liên hệ</h1>
+                        <div class="img-responsive">
+                            <div role="form" class="wpcf7" id="wpcf7-f4-p19-o1" lang="vi" dir="ltr">
+                                <div class="screen-reader-response"></div>
+                                @using (Html.BeginForm("Feedback", "Home"))
+                                {
+                                    <div style="">
+                                        @if (ViewBag.error != null)
+                                        {
+                                            <span class="text-danger">@ViewBag.error</span>
+                                        }
+                                    </div>
+                                    if (ViewBag.message == null)
+                                    {
+                                        <p>
+                                            <label>
+                                                Tên của bạn <span class="text-danger">(required)</span><br>
+                                                <span class="wpcf7-form-control-wrap your-name"><input type="text" name="FullName" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false"></span>
+                                                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label>
+                                                Email <span class="text-danger">(required)</span><br>
+                                                <span class="wpcf7-form-control-wrap your-email"><input type="email" name="Email" value="@currentEmail" size="40" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email" aria-required="true" aria-invalid="false"></span>
+                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label>
+                                                Subject <span class="text-danger">(required)</span><br>
+                                                <span class="wpcf7-form-control-wrap your-subject"><input type="text" name="Subject" value="" size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false"></span>
+                                                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label>
+                                                Thôn tin phản hồi <span class="text-danger">(required)</span><br>
+                                                <span class="wpcf7-form-control-wrap your-message"><textarea name="Description" cols="43" rows="7" class="wpcf7-form-control wpcf7-textarea" aria-invalid="false"></textarea></span>
+                                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                            </label>
+                                        </p>
+                                        <button type="submit" class="btn btn-primary btn-group-sm">Phản hồi</button>
+                                    }
+                                    else
+                                    {
+                                        <div style="">
+                                            <span class="text-success">@ViewBag.message</span>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            @{ Html.RenderAction("Mainleft", "Home");}
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+

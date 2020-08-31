@@ -1,0 +1,89 @@
+﻿@using Models.Models.DataModels;
+@{
+    var getInfoUser = (User)HttpContext.Current.Session["User"];
+}
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav slimscrollsidebar">
+        <div class="sidebar-head">
+            <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navigation</span></h3>
+        </div>
+        @*background-image: url(/Areas/Admin/Assets/plugins/images/large/img1.jpg);background-size: 100% 100%;padding: 84px 0 35px;*@
+        <div class="user-profile">
+            <div class="dropdown user-pro-body l_re_current_ml_info">
+                <div><img src="/Images/@getInfoUser.Avatar" alt="user-img" class="img-circle"></div>
+                <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@getInfoUser.FullName<span class="caret"></span></a>
+                <ul class="dropdown-menu animated flipInY">
+                    <li><a href="@Url.Action("Index","Users")"><i class="ti-user"></i> My Profile</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="@Url.Action("Logout","Users")"><i class="fa fa-power-off"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="nav" id="side-menu">
+            <li>
+                <a href="@Url.Action("Index","Home")" class="waves-effect"><i class="mdi mdi-av-timer fa-fw" data-icon="v"></i> <span class="hide-menu"> Trang chủ </span></a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Categories")" class="waves-effect"><i class="mdi mdi-clipboard-text fa-fw"></i> <span class="hide-menu">Danh mục & NPH<span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="@Url.Action("Index","Categories")"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Danh sách danh mục</span></a></li>
+                    <li><a href="@Url.Action("Create","Categories")"><i class="mdi mdi-library-plus fa-fw"></i> <span class="hide-menu">Thêm mới danh mục</span></a></li>
+                    <li class="devider"></li>
+                    <li><a href="@Url.Action("ParentCate","Categories")" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Danh mục con</span></a></li>
+                    <li class="devider"></li>
+                    <li><a href="@Url.Action("Providers","Categories")" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Nhà phát hành</span></a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="waves-effect active"><i class=" ti-harddrives fa-fw"></i> <span class="hide-menu">Sản phẩm & Thuộc tính<span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="@Url.Action("Index","Products")"><i class="mdi mdi-library-books fa-fw"></i> <span class="hide-menu">Danh sách sản phẩm</span></a></li>
+                    <li><a href="@Url.Action("Create","Products")"><i class="mdi mdi-library-plus fa-fw"></i> <span class="hide-menu">Thêm mới sản phẩm</span></a></li>
+                    <li class="devider"></li>
+                    <li><a href="@Url.Action("Index","TypeAttr")"><i class=" ti-paint-bucket fa-fw"></i> <span class="hide-menu">Kiểu thuộc tính</span></a></li>
+                    <li class="devider"></li>
+                    <li><a href="@Url.Action("Attribute","TypeAttr")"><i class=" ti-palette fa-fw"></i> <span class="hide-menu">Thuộc tính sản phẩm</span></a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="" class="waves-effect"><i class="mdi mdi-clipboard-text fa-fw"></i> <span class="hide-menu">Quản lý đơn hàng<span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="@Url.Action("Index","Cart")"><i class="fa-fw">T</i><span class="hide-menu">Danh sách đơn hàng</span></a></li>
+                </ul>
+            </li>
+            <li class="devider"></li>
+            @if (ViewBag.isAdmin == true)
+            {
+                <li>
+                    <a href="" class="waves-effect"><i class="mdi mdi-apps fa-fw"></i> <span class="hide-menu">Quyền hạn<span class="fa arrow"></span></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="@Url.Action("Index","Business")"><i class="mdi mdi-database fa-fw"></i><span class="hide-menu">Quản lý nghiệp vụ</span></a></li>
+                        <li><a href="@Url.Action("Index","Groups")"><i class=" ti-blackboard fa-fw"></i><span class="hide-menu">Quản lý nhóm quyền</span></a></li>
+                        <li><a href="@Url.Action("ListRole","Groups")"><i class="mdi mdi-key-change fa-fw"></i><span class="hide-menu">Quản lý quyền</span></a></li>
+                    </ul>
+                </li>
+            }
+            <li>
+                <a href="" class="waves-effect"><i class="mdi mdi-account-card-details fa-fw"></i> <span class="hide-menu">Nhân viên<span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="@Url.Action("UserManager","Users")"><i class="mdi mdi-account-multiple fa-fw"></i><span class="hide-menu">Danh sách nhân viên</span></a></li>
+                    <li><a href="@Url.Action("Create","Users")"><i class="mdi mdi-account-plus fa-fw"></i><span class="hide-menu">Thêm mới nhân viên</span></a></li>
+                </ul>
+            </li>
+            <li class="devider"></li>
+            <li>
+                <a href="#" class="waves-effect"><i class="mdi mdi-calendar-check fa-fw"></i> <span class="hide-menu">Tin tức<span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="@Url.Action("Index","News")"><i class="fa-fw">N</i><span class="hide-menu">Dánh sách tin tức</span></a></li>
+                </ul>
+            </li> 
+            <li>
+                <a href="#" class="waves-effect"><i class="ti-email fa-fw"></i> <span class="hide-menu">Phản hồi<span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="@Url.Action("Feedback","Home")"><i class="fa-fw">F</i><span class="hide-menu">Dánh sách phản hồi</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+

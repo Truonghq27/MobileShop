@@ -1,0 +1,117 @@
+﻿@model Models.Models.DataModels.News
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section StyleToast{
+    <!-- toast CSS -->
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+}
+<div class="col-md-12">
+    <div class="white-box">
+        @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="NewsId" value="@Model.NewsId" />
+            <!--News Title-->
+            <div class="form-group">
+                <label class="col-md-12">News Title</label>
+                <div class="col-md-12">
+                    <input name="NewsTitle" type="text" class="form-control" value="@Model.NewsTitle">
+                    @Html.ValidationMessageFor(model => model.NewsTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!--Ảnh tin tức-->
+            <div class="form-group">
+                <label class="col-md-12">Ảnh dại diện tin tức</label>
+                <div class="col-md-12">
+                    <div class="fileinput input-group" data-provides="fileinput">
+                        <div class="form-control featureImage-news" data-trigger="fileinput">
+                            <span class="icon-feature-url-input"></span>
+                            <span class="fileinput-freature-filename">
+                                @if (Model.FeatureImage.Length >= 100)
+                                {
+                                    @Model.FeatureImage.Substring(0, 100)<span>...</span>
+                                }
+                                else
+                                {
+                                    @Model.FeatureImage
+                                }
+                            </span>
+                        </div>
+                        <span class="input-group-addon btn btn-default btn-file featureImage-news">
+                            <span class="fileinput-feature-new">Chọn ảnh</span>
+                            <input id="FeatureImage" type="hidden" name="FeatureImage" value="@Model.FeatureImage">
+                        </span>
+                        <a href="#" class="input-group-addon remove-url-feature btn btn-default" style="display:none">Remove</a>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.FeatureImage, "", new { @class = "text-danger" })
+                    <div class="show-ckfilder-FeatureImage"><img src="@Model.FeatureImage" width="200" /></div>
+                </div>
+            </div>
+            <!--Mô tả ngắn-->
+            <div class="form-group">
+                <label class="col-md-12">Tóm tắt ngắn</label>
+                <div class="col-md-12">
+                    @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control", rows = "5" })
+                    @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!--Mô tả chi tiết-->
+            <div class="form-group">
+                <label class="col-md-12">Bài viết tin tức</label>
+                <div class="col-md-12">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "5" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!--Trạng thái-->
+            <div class="form-group">
+                <label class="col-sm-12">Trạng thái</label>
+                <div class="col-sm-12">
+                    @{ var a1 = Model.Status == 1 ? "selected" : ""; var a2 = Model.Status == 0 ? "selected" : "";}
+                    <select class="form-control" name="Status">
+                        <option @a1 value="1">Hiển thị</option>
+                        <option @a2 value="0">Tạm ẩn</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button style="border-radius:unset" type="submit" class="btn btn-primary"> Thêm mới</button>
+                <a href="@Url.Action("index")" style="border-radius:unset" type="button" class="btn btn-default">Cancel</a>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/plugins/ckfinder/ckfinder.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/ckeditor/ckeditor.js"></script>
+    <script src="~/Areas/Admin/Assets/js/news/news.js"></script>
+    <script>CKFinder.setupCKEditor(CKEDITOR.replace('Description'), '../../Areas/Admin/Assets/plugins/ckfinder/')</script>
+
+    @if (@TempData["alertMessenger"] != null)
+    {
+        <script>
+        $(document).ready(function () {
+            "use strict";
+            // toat popup js
+            $.toast({
+                heading: '@TempData["notication"]',
+                text: '@TempData["alertMessenger"]',
+                loaderBg: '#fff',
+                allowToastClose: false,
+                position: '@TempData["position"]',
+                icon: '@TempData["TypeAlert"]',
+                hideAfter: @TempData["hideAfter"],
+                stack: 6
+            })
+        })
+        </script>
+    }
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+}
+

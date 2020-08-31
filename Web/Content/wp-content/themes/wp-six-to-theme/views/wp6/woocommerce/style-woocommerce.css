@@ -1,0 +1,256 @@
+/*https://miketricking.github.io/dist/*/
+.box {
+  cursor: pointer;
+  height: 284px;
+  position: relative;
+  overflow: hidden;
+  width: 206px;
+  top: -243px;
+  left: -10px;
+}
+
+.box img {
+  position: absolute;
+  left: 0;
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  -o-transition: all 300ms ease-out;
+  -ms-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+}
+
+.box .overbox {
+  background-color: rgba(48, 69, 98, 0.15);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #fff;
+  z-index: 100;
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  -o-transition: all 300ms ease-out;
+  -ms-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  padding: 132px 20px;
+  z-index: 1;
+}
+
+.box:hover .overbox { opacity: 1; }
+
+.box .overtext {
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  -o-transition: all 300ms ease-out;
+  -ms-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+  transform: translateY(40px);
+  -webkit-transform: translateY(40px);
+}
+
+.box .title {
+  font-size: 2.5em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition-delay: 0.1s;
+  transition-duration: 0.2s;
+  background: red;
+  text-align: center;
+  background: #ec5d5d;
+  border: #ec5d5d 1px solid;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  border-radius: 3px;
+  font-size: 14px !Important;
+  height: 30px;
+  display: block;
+  line-height: 30px;
+}
+.box .title a{color:white !important;font-size: 14px !important;}
+
+.box:hover .title,
+.box:focus .title {
+  opacity: 1;
+  transform: translateY(0px);
+  -webkit-transform: translateY(0px);
+}
+
+.box .tagline {
+  font-size: 0.8em;
+  opacity: 0;
+  transition-delay: 0.2s;
+  transition-duration: 0.2s;
+}
+
+.box:hover .tagline,
+.box:focus .tagline {
+  opacity: 1;
+  transform: translateX(0px);
+  -webkit-transform: translateX(0px);
+}
+
+/*page-woo-css
+CART
+*/
+
+.page-woo-css{
+    color: #201E1E;
+}
+.page-woo-css h1{display:none;}
+.page-woo-css table.shop_table.cart{
+    border: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.cart_totals table.shop_table{
+    border: none;
+}
+
+.page-woo-css thead:nth-child(1){}
+.page-woo-css tr{
+    border-bottom: 1px solid #e1e1e1;
+    /* height: 21px; */
+}
+.page-woo-css table.shop_table th{}
+.page-woo-css tr:nth-child(1) th{
+    background: #EC5D5D;
+    /* text-align: center; */
+    color: #FFFFFF !important;
+    font-weight: 600;
+}
+.page-woo-css .cart-subtotal th{background:none !important; color:black !important;}
+
+.page-woo-css .cart_item{}
+.page-woo-css .coupon input{}
+.page-woo-css .coupon #coupon_code{
+    width: 120px;
+    border: 1px solid #e1e1e1;
+    border-radius: 3px;
+    height: 33px;
+    float: left;
+    line-height: 33px;
+    font-size: 12px;
+    /* color: #FCFEFF; */
+}
+.page-woo-css .cart input.button{}
+.page-woo-css .woocommerce .actions .button{
+    /* float: right; */
+    background: #7FC142 !important;
+    font-size: 12px;
+    padding: 10px !important;
+    color: white !important;
+}
+.page-woo-css .checkout-button{color: white !Important;background-color: #7FC142 !important;/* box-shadow: none; *//* text-shadow: none; *//* display: block; */text-align: center;/* line-height: 1; *//* margin-left: 10px !important; */padding: 0px 18px 15px 18px !Important;}
+.page-woo-css a.button, ..page-woo-css button.button, .page-woo-css input.button{}
+.page-woo-css .cart_totals h2{display: none;}
+
+.page-woo-css .woocommerce .quantity .qty {
+    width: 3.631em;
+    text-align: center;
+    border: 1px solid #F1EAEA;
+    border-radius: 3px;
+    padding: 4px !important;
+    text-align: center;
+    display: block;}
+.page-woo-css  .cart_item .product-name{
+    /* margin-left: 7px; */
+}
+.page-woo-css  .cart_item .product-name  a{
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    /* float: left; */
+    color: #EC5D5D;
+    /* position: absolute; */
+}
+.page-woo-css .variation{
+    float: left;
+}
+.page-woo-css .woocommerce-checkout-review-order-table .variation{
+    float: none;
+    color:black;
+}
+
+.page-woo-css .woocommerce-checkout-review-order-table .product-name{color:#EC5D5D; font-weight:bold}
+
+.page-woo-css .variation-Size{
+    margin-bottom: 0 !important;
+    /* color: red; */
+}
+.page-woo-css .variation-Mu{
+    /* color: red; */
+    font-weight: 700 !important;
+}
+.page-woo-css .variation-Size p {
+   font-weight:bold;
+   /* color: red; */
+   margin: 0 !important;
+}
+.page-woo-css .variation-Mu p{
+    /* color: red; */
+    /* font-weight: bold; */
+}
+
+/*page-woo-css
+CHECKOUT
+*/
+
+.page-woo-css input.input-text, .page-woo-css select, .page-woo-css textarea{
+    font-size: 12px;
+    line-height: 21px;
+    color: #444444;
+    border: 1px solid #e6e6e6;
+    width: 100%;
+    max-width: 100%;
+    height: 32px !important;
+    padding: 3px 9px 3px 9px;
+}
+
+
+.page-woo-css textarea{
+    height: 80px !important;
+    padding: 10px!important;
+}
+
+.page-woo-css .woocommerce-checkout{
+    padding: 20px;
+}
+.page-woo-css .woocommerce-billing-fields h3{
+    font-weight: bold;
+}
+.page-woo-css .woocommerce-shipping-fields h3{
+    font-weight: bold;
+}
+.page-woo-css #order_review_heading{display:none;}
+.page-woo-css .woocommerce form .form-row textarea{height: 6em;}
+
+.woocommerce-checkout-payment .button{background:#7FC142 !important}
+.page-woo-css .cart-subtotal  {
+	display: none;
+}
+.page-checkout-woo {padding: 20px;}
+.page-checkout-woo tr:nth-child(1) th{
+    background: none !Important;
+    color: black !Important;
+    }
+	
+.page-checkout-woo .product-name a{
+	    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    /* float: left; */
+    color: #EC5D5D;
+    /* position: absolute; */
+	}
+.page-checkout-woo .order_details{
+margin-top: 20px;
+}
+.page-checkout-woo h2 {font-weight:bold;position: relative;padding: 20px 0px;/* margin-top: -29px; *//* background: white; */}
+.woocommerce form .form-row input.input-text, .woocommerce form .form-row textarea{
+    line-height: inherit !important;
+}	

@@ -1,0 +1,233 @@
+﻿@model Models.Models.DataModels.Order
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    double totalPrice = 0;
+    var vie = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    var statusOrders = "";
+    if (Model.Status ==-2)
+    {
+        statusOrders = "<span class='text-danger'>Khách hàng huỷ</span>";
+    }
+    else if (Model.Status == -1)
+    {
+        statusOrders = "<span class='text-danger'>Đã huỷ</span>";
+    }
+    else if (Model.Status == 0)
+    {
+        statusOrders = "<span class='text-dark'>Chờ xét duyệt</span>";
+    }
+    else if (Model.Status == 1)
+    {
+        statusOrders = "<span class='text-info'>Đã duyệt</span>";
+    }
+    else
+    {
+        statusOrders = "<span class='text-success'>Đã giao hàng</span>";
+    }
+
+}
+
+<div class="col-md-12">
+    <div class="white-box printableArea">
+        <h3><b style="font-family:Arial;font-weight:bold">MÃ ĐƠN HÀNG</b> <span class="pull-right" style="font-family:Arial">@Html.Raw(statusOrders)   #@Model.CodeOrder</span></h3>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-left">
+                    <address>
+                        <b> &nbsp;<b style="font-size:20px;font-weight:bold" class="text-danger">Thông tin người nhận</b></b>
+                        <br />
+                        <br />
+                        <p class="text-muted m-l-5">
+                            <label class="font-bold">Họ tên</label>: @Model.FullName<br />
+                            <label class="font-bold">Email</label>: @Model.Email
+                            <br /> <label class="font-bold">Số điện thoại</label>: @Model.Phone
+                            <br /> <span class="font-bold">Địa chỉ nhận hàng:</span><br />
+                            <span style="max-width:350px;word-break:keep-all">@Model.Address</span>
+
+                        </p>
+                    </address>
+                </div>
+                <div class="pull-right text-right">
+                    <address>
+                        <b> &nbsp;<b style="font-size:20px;font-weight:bold" class="text-danger">Ngày đặt hàng</b></b>
+                        <p class="m-t-30"><i class="fa fa-calendar"></i> @Model.Created</p>
+                    </address>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive m-t-40" style="clear: both;">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Ảnh sản phẩm</th>
+                                <th class="text-right">Số lượng</th>
+                                <th class="text-right">Giá</th>
+                                <th class="text-right">Tổng giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <img src="@item.FeatureImage" width="70" />
+                                    </td>
+                                    <td>@item.ProductName </td>
+                                    <td class="text-right">@item.Quantity</td>
+                                    <td class="text-right">@String.Format(vie, "{0:c00}", item.Price) </td>
+                                    <td class="text-right">
+                                        @{
+                                            @String.Format(vie, "{0:c00}", item.Price * item.Quantity);
+                                            totalPrice += item.Price * item.Quantity;
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="pull-right m-t-30 text-right">
+                    <p>Tạm tính: @String.Format(vie, "{0:c00}", totalPrice)</p>
+                    <hr>
+                    <p style="font-size:20px;" class=""><b style="font-weight: bold">Tổng tiền :</b> @String.Format(vie, "{0:c00}", totalPrice)</p>
+                </div>
+                <div class="clearfix"></div>
+                <hr>
+                <div class="text-right load-btn-handle">
+                    @switch (Model.Status)
+                    {
+                        case -2:
+                            <label data-toggle="tooltip" data-original-title="Khách hàng đã huỷ đơn hàng" class="btn btn-danger tooltip-danger">Khách hàng huỷ đơn hàng</label>
+                            break;
+                        case -1:
+                            <label data-toggle="tooltip" data-original-title="Đơn hàng đã huỷ" class="btn btn-danger tooltip-danger">Đã huỷ đơn hàng</label>
+                            break;
+                        case 1:
+                            <button id="load_btn" data-toggle="tooltip" data-original-title="Chỉnh sửa trạng thái đơn hàng" data-id="@Model.OrderId" class="btn btn-info change-status-order tooltip-info">Đã duyện đơn hàng</button>
+                            break;
+                        case 2:
+                            <label data-toggle="tooltip" data-original-title="Đã giao hàng" class="btn btn-success tooltip-success">Đã giao hàng</label>
+                            break;
+                        default:
+                            <button id="load_btn" data-toggle="tooltip" data-original-title="Chỉnh sửa trạng thái đơn hàng" data-id="@Model.OrderId" class="btn btn-inverse change-status-order tooltip-inverse">Đang chờ duyệt</button>
+                            break;
+                    }
+                    <button id="print" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thay đổi trạng thái đơn hàng</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                @using (Html.BeginForm("ChangeStatusOrder", "Cart", FormMethod.Post, new { id = "formsubmit" }))
+                {
+                    @Html.HiddenFor(model => model.OrderId, new { id = "getOrderId" })
+                    <div class="more-html"></div>
+                }
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="confirm-order" type="button" class="btn btn-danger">Xác nhận</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section invoice{
+    <script src="~/Areas/Admin/Assets/js/jquery.PrintArea.js" type="text/JavaScript"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script>
+            $(document).ready(function () {
+                $("#print").click(function () {
+                        var mode = 'iframe'; //popup
+                        var close = mode == "popup";
+                        var options = {
+                        mode: mode,
+                        popClose: close
+                    };
+                    $("div.printableArea").printArea(options);
+                });
+                //get id and value
+                $('button.change-status-order').on('click', function (e) {
+                    e.preventDefault();
+                    var id = $(this).data("id");
+                    $.ajax({
+                        type: "POSt",
+                        url: "@Url.Action("GetId", "Cart")/" + id,
+                        success: function (res) {
+                            $("#getOrderId").val(res.OrderId);
+                            var _html = "";
+                            if (res.Status == 0) {
+                                _html += '<div><input id="pending" type="radio" name="Status" checked value="0" /> ' +
+                                    '<label class="p-r-10" for="pending" id ="pending">Chưa duyệt</label ></div>';
+
+                                _html += '<div><input id="order-approval" type="radio" name="Status" value="1" /> ' +
+                                    '<label class="p-r-10" for="order-approval" id ="order-approval"> Duyệt đơn hàng</label></div>';
+
+                                _html += '<div><input id="order-cancel" type="radio" name="Status" value="-1" /> ' +
+                                    '<label class="p-r-10" for="order-cancel" id ="order-cancel"> Huỷ đơn hàng</label></div>';
+                                $(".more-html").html(_html)
+                            } else if (res.Status == 1) {
+                                _html += '<div><input id="order-approval" type="radio" checked name="Status" value="1" /> ' +
+                                    '<label class="p-r-10" for="order-approval" id ="order-approval">Đã duyệt</label ></div>';
+
+                                _html += '<div><input id="delivered" type="radio" name="Status" value="2" /> ' +
+                                    '<label class="p-r-10" for="delivered" id ="delivered">Đã giao hàng</label ></div>';
+
+                                _html += '<div><input id="order-cancel" type="radio" name="Status" value="-1" /> ' +
+                                    '<label class="p-r-10" for="order-cancel" id ="order-cancel">Huỷ đơn hàng</label ></div>';
+                                $(".more-html").html(_html)
+                            }
+                            $("#myModal").modal("show");
+                        }
+                    })
+                })
+
+                //change status order
+                $("#confirm-order").on('click', function () {
+                    var data = $("#formsubmit").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ChangeStatusOrder","Cart")",
+                        data: data,
+                        success: function (res) {
+                            if (res.success) {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                })
+                                $(".re-load-noti-od-fb").load('@Url.Action("Detail", "Cart") .re-load-noti-od-fb');
+                                $(".load-btn-handle").load('@Url.Action("Detail", "Cart") .load-btn-handle');
+                                $("#myModal").modal("hide");
+                            } else {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                })
+                            }
+                        }
+                    })
+                })
+            });
+    </script>
+}

@@ -1,0 +1,241 @@
+﻿@model Models.Models.DataModels.User
+@{
+    ViewBag.Title = "Quản lý nhân viên";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="col-sm-12">
+    <div class="white-box">
+        <a style="border-radius:unset" href="@Url.Action("Create","Users")" class="btn btn-info btn-rounded btd_addCate">Thêm mới</a>
+        <h3 class="box-title m-b-0">
+        </h3>
+        <p class="text-muted m-b-30"></p>
+        <div class="table-responsive" id="reload">
+            <table id="myTable" class="display  table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Tên nhân viên</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Trạng thái</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6"><p style="font-size:17px;border-right:1px solid rgba(187, 186, 186, 0.73)" class=" modal-title text-danger bold">Thay đổi trạng thái nhân viên</p><div style="border-right: 1px solid rgba(187, 186, 186, 0.73)" class="p-b-20"></div></div>
+                    <div class="col-md-6 col-xs-6"><p style="font-size:17px" class=" modal-title text-danger bold">Thay đổi Role</p><div class="p-b-20"></div></div>
+                </div>
+                @using (Html.BeginForm("ChangeStatus", "Users", FormMethod.Post, new { @id = "submitform" }))
+                {
+                    @Html.HiddenFor(model => model.UserId)
+                    <div class="form-group-sm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="moreHtml" style="border-right: 1px solid rgba(187, 186, 186, 0.73)"></p>
+                            </div>
+                            <div class="col-md-6">
+                                @Html.DropDownList("GroupId", null, htmlAttributes: new { @class = "form-control selectpicker m-b-20 m-r-10 bs-select-hidden", @data_style = "btn-primary btn-outline" })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="EditStatus" type="button" class="btn btn-info btn-sm" style="border-radius:0">Chỉnh sửa</button>
+                <button type="button" class="btn btn-pinterest btn-sm" style="border-radius:0" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModelDelete">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thông báo</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Bạn có chắc muốn xoá ?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="confirmdelete" type="button" class="btn btn-danger">Xoá</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function () {
+            var datatable = $("#myTable").DataTable({
+                "ajax": {
+                    "type": "GET",
+                    "url": "@Url.Action("GetdataUser","Users")",
+                    "dataType": "JSON",
+                },
+                "columns": [
+                    {
+                        "data": null, "render": function (data, type, full) {
+                            if (full["Avatar"] != null) {
+                                return '<a href="#"><img src="/Images/' + full["Avatar"] + '" class="img-circle" width="30">' + full["FullName"] + '</a>'
+                            } else {
+                                return '<a class="p-l-30" href="#">' + full["FullName"] + '</a>'
+                            }
+                        }
+                    },
+                    {"data": "Email"},
+                    {"data": "Phone" },
+                    //display multi rows in one columns
+                    {
+                        "data": null, "render": function (data, type, full) {
+                            if (full["GroupId"] != 0) {
+                                return '<label class="label" style="background:' + full["Background"] + '">' + full["GroupName"] + '</label>'
+                            } else {
+                                return '<span class="label label-inverse">Chưa set role</span>';
+                            }
+                        }
+                    },
+                    {
+                        "data": "Status", "render": function (status) {
+                            if (status == 1) {
+                                return '<span class="label label-success">Kích hoạt</span>';
+                            } else if (status == 0) {
+                                return '<span class="label label-inverse">Tạm khoá</span>';
+                            }
+                        }
+                    },
+                    {
+                        "data": "UserId", "render": function (id) {
+                            return '<a class=" btn btn-sm btn-icon btn-pure btn-outline edit-row-btn" ><i data-toggle="tooltip" data-original-title="Chỉnh sửa" style="font-size:15px" class="ti-pencil-alt text-info tooltip-info" aria-hidden="true"></i></a>' +
+                                '<a data-userId="' + id + '" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn btn-edit-status-user" ><i data-toggle="tooltip" data-original-title="Sửa trạng thái" style="font-size:15px" class=" ti-unlock text-primary font-weight-bold tooltip-primary" aria-hidden="true"></i></a>' +
+                                '<button data-toggle="modal" data-target="#ModelDelete" data-uid="' + id +'" class="mr-0 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn btn-delete-user" ><i data-toggle="tooltip" data-original-title="Xoá nhân viên" style="font-size:15px" class="  ti-trash text-danger font-weight-bold tooltip-danger" aria-hidden="true"></i></button>'
+
+                        }
+                    },
+
+                ]
+            });
+
+            //allow tooltip active
+            datatable.on('draw', function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+            //change Status Users
+            $("#myTable").on("click", "a.btn-edit-status-user", function () {
+                var userId = $(this).data("userid");
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ChangeStatus","Users")/" + userId,
+                    dataType: "JSON",
+                    success: function (res) {
+                        $("#myModal").modal('show');
+                        $("#UserId").val(res.UserId);
+                        $("#GroupId").val(res.GroupId);
+                        $("#Status").val(res.Status);
+                        var _html = "";
+                        if (res.Status == 0) {
+                            _html += '<input id="forStatusDeActive" type="radio" checked name="Status" value="" /> ' +
+                                '<label class="p-r-10" for="forStatusDeActive" id ="forStatusDeActive"> Tạm khoá</label >';
+                            _html += '<input id="forStatusActive" type="radio" name="Status"  value="1" /> ' +
+                                '<label class="p-r-10" for="forStatusActive" id ="forStatusActive">Kích hoạt</label >';
+                            $(".moreHtml").html(_html)
+                        } else if (res.Status == 1) {
+                            _html += '<input id="forStatusActive" type="radio" checked name="Status" value="" /> ' +
+                                '<label class="p-r-10" for="forStatusActive"  id ="forStatusActive">Kích hoạt</label >';
+                            _html += '<input id="forStatusDeActive" type="radio" name="Status" value="0" /> ' +
+                                '<label class="p-r-10" for="forStatusDeActive" id ="forStatusDeActive">Tạm khoá</label >';
+                            $(".moreHtml").html(_html)
+                        }
+                    }
+                })
+            })
+
+            //change status success
+            $("#EditStatus").on("click", function () {
+                var data = $("#submitform").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ChaneStatusSuccess", "Users")",
+                    data: data,
+                    dataType: "JSON",
+                    success: function (res) {
+                        $("#myModal").modal('hide');
+                        console.log(res);
+                        $.notify(res.success, {
+                            globalPosition: "top center",
+                            className: "success",
+                        })
+                        datatable.ajax.reload();
+                    }
+                })
+            })
+
+            ///delete Users
+            //getId
+            var id;
+            $("#myTable").on("click", "button.btn-delete-user", function () {
+                id = $(this).data("uid");
+            })
+            $("#confirmdelete").on("click", function () {
+                if (id != undefined) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("DeleteUsers", "Users")",
+                        data: { id: id },
+                        success: function (res) {
+                            if (res.success) {
+                                $("#ModelDelete").modal('hide');
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                })
+                                datatable.ajax.reload();
+                            } else {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    $('.notifyjs-wrapper').remove();
+                    $.notify("Không tìm thấy", {
+                        globalPosition: "top center",
+                        className: "error",
+                    })
+                }
+            })
+        })
+    </script>
+}
+
+

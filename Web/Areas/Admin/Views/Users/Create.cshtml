@@ -1,0 +1,90 @@
+﻿@model Models.ViewModels.CreateUser
+
+@{
+    ViewBag.Title = "Thêm mới nhân viên";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="col-md-12">
+    <div class="white-box">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                @Html.AntiForgeryToken()
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationMessage("", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class=" col-md-6 col-xs-6">
+                            <div class="form-group">
+                                <label for="exampleInputuname">Họ và tên</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="ti-user"></i></div>
+                                    @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập họ tên..." } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="ti-email"></i></div>
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập email" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3">
+                            <div class="form-group">
+                                <label for="exampleInputphone">Phone</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="ti-mobile"></i></div>
+                                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập số điện thoại" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3">
+                            <div class="form-group">
+                                <label for="exampleInputpwd1">Mật khẩu</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập mật khẩu" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3">
+                            <div class="form-group">
+                                <label for="exampleInputpwd2">Nhập lại mật khẩu</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập lại mật khẩu" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class=" col-md-6 col-xs-6">
+                            <div class="form-group">
+                                <label for="exampleInputpwd2">Vai trò</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="ti-align-right"></i></div>
+                                    @Html.DropDownList("GroupId", (IEnumerable<SelectListItem>)ViewBag.Selected, new { @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <button style="border-radius:unset" type="submit" class="btn btn-info waves-effect waves-light m-r-10 boder-hiden">Thêm mới</button>
+                    <a style="border-radius:unset" href="@Url.Action("Usermanager","Users")" class="btn btn-inverse waves-effect waves-light">Cancel</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

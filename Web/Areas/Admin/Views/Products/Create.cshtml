@@ -1,0 +1,265 @@
+﻿@model Models.ViewModels.ProductViewModel
+@{
+    ViewBag.Title = "Thêm mới sản phẩm";
+    ViewBag.Link = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var categoryList = ViewBag.category as IEnumerable<Models.Models.DataModels.Category>;
+}
+@section StyleToast{
+    <!-- toast CSS -->
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+}
+@section ColorValue{
+    <link href="~/Areas/Admin/Assets/css/ColorValue.css" rel="stylesheet" />
+}
+<div class="col-md-12">
+    <div class="white-box">
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                @using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-body">
+                        <hr>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="form-group">
+                                <label class="control-label">Tên sản phẩm</label>
+                                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <!--/span-->
+                        <div class="col-sm-6 col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Danh mục</label>
+                                <select class="selectpicker bs-select-hidden" data-style="form-control" id="CategoryId" name="CategoryId">
+                                    @foreach (var item in categoryList.Where(x => x.ParentId == null))
+                                    {
+                                        var child = categoryList.Where(x => x.ParentId == item.CategoryId);
+                                        var categoryname = child.Count() > 0 ? @item.CategoryName : "";
+                                        <optgroup label="@categoryname">
+                                            @if (child.Count() > 0)
+                                            {
+                                                foreach (var c in child)
+                                                {
+                                                    <option value="@c.CategoryId">@c.CategoryName</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.CategoryId">@item.CategoryName</option>
+                                            }
+                                        </optgroup>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-6 col-md-6">
+                            <label class="control-label">Nhà sản xuất</label>
+                            @Html.DropDownList("ProviderId", null, htmlAttributes: new { @class = "form-control selectpicker m-b-20 m-r-10 bs-select-hidden", @data_style = "form-control" })
+                        </div>
+                        <!--Giá nhập vào-->
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="form-group">
+                                <label class="control-label">Giá nhập</label>
+                                <div class="input-group bootstrap-touchspin">
+                                    @Html.EditorFor(model => model.PriceIn, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.PriceIn, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <!--Giá bán-->
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="form-group">
+                                <label class="control-label">Giá bán</label>
+                                <div class="input-group bootstrap-touchspin">
+                                    @Html.EditorFor(model => model.PriceOut, new { htmlAttributes = new { @class = " form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.PriceOut, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <!--% giảm giá-->
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="form-group">
+                                <label class="control-label">Giảm giá</label>
+                                <div class="input-group bootstrap-touchspin">
+                                    <span class="input-group-btn-vertical">
+                                        <button class="btn btn-default btn-outline bootstrap-touchspin-up" type="button"><i class="ti-plus"></i></button>
+                                        <button class="btn btn-default btn-outline bootstrap-touchspin-down" type="button"><i class="ti-minus"></i></button>
+                                    </span>
+                                    <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control", @Value = "0", @min = "0", @Type = "text" } })
+                                </div>
+                            </div>
+                        </div>
+                        <!--Số lượng -->
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <style>
+                                .input-group-btn {
+                                    display: none;
+                                }
+                            </style>
+                            <div class="form-group">
+                                <label class="control-label">Số lượng</label>
+                                <div class="input-group bootstrap-touchspin">
+                                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "vertical-spin form-control", @Value = "1", @type = "text" } })
+                                    <span class="input-group-btn-vertical">
+                                        <button class="btn btn-default btn-outline bootstrap-touchspin-up" type="button"><i class="ti-plus"></i></button>
+                                        <button class="btn btn-default btn-outline bootstrap-touchspin-down" type="button"><i class="ti-minus"></i></button>
+                                    </span>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <!--Trạng thái-->
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Trạng thái</label>
+                                <div class="radio-list">
+                                    <label class="radio-inline p-0">
+                                        <div class="radio radio-success">
+                                            <input type="radio" name="Condition" checked id="radio1" value="1">
+                                            <label for="radio1">Còn hàng</label>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Condition, "", new { @class = "text-danger" })
+                                    </label>
+                                    <label class="radio-inline">
+                                        <div class="radio radio-danger">
+                                            <input type="radio" name="Condition" id="radio2" value="2">
+                                            <label for="radio2">Hết hàng</label>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Condition, "", new { @class = "text-danger" })
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--TypeAttr-->
+                        <div class="col-md-12">
+                            @foreach (var item in ViewBag.TypeAttr)
+                            {
+                                <div class="form-group">
+                                    <div style="padding-bottom:9px">
+                                        <label class="control-label">@item.TypeName</label>
+                                    </div>
+                                    @foreach (var attr in item.Attributes)
+                                    {
+                                        <label id="myDIV" class="_ColorValue btn btn-default" style="color:@attr.Value; border:@attr.Value 1px solid">
+                                            @attr.AttrName
+                                            <input data-toggle="buttons" type="checkbox" class="Product_Attr" id="@attr.AttrId" value="@attr.AttrId">
+                                            <svg class="shopee-svg-icon icon-tick-bold" enable-background="new 0 0 12 12" viewBox="0 0 12 12" x="0" y="0"><g><path d="m5.2 10.9c-.2 0-.5-.1-.7-.2l-4.2-3.7c-.4-.4-.5-1-.1-1.4s1-.5 1.4-.1l3.4 3 5.1-7c .3-.4 1-.5 1.4-.2s.5 1 .2 1.4l-5.7 7.9c-.2.2-.4.4-.7.4 0-.1 0-.1-.1-.1z"></path></g></svg>
+                                        </label>
+                                    }
+                                </div>
+                            }
+                            @Html.ValidationMessageFor(model => model.ProductAttrs, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12">
+                            <!--Ảnh sản phẩm-->
+                            <div class="form-group">
+                                <label class="">Ảnh sản phẩm</label>
+                                <div class="">
+                                    <div class="fileinput input-group" data-provides="fileinput">
+                                        <div class="form-control featureImage-new" data-trigger="fileinput">
+                                            <span class="icon-feature-url-input"></span>
+                                            <span class="fileinput-freature-filename"></span>
+                                        </div>
+                                        <span class="input-group-addon btn btn-default btn-file featureImage-new">
+                                            <span class="fileinput-feature-new">Chọn ảnh</span>
+                                            <input id="FeatureImage" type="hidden" name="FeatureImage">
+                                        </span>
+                                        <a href="#" class="input-group-addon remove-url-feature btn btn-default" style="display:none">Remove</a>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.FeatureImage, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="show-ckfilder-FeatureImage"></div>
+                            </div>
+                            <!--Nhiều ảnh-->
+                            <div class="form-group">
+                                <label class="">Thêm ảnh sản phẩm</label>
+                                <div class="">
+                                    <div class="fileinput input-group" data-provides="fileinput">
+                                        <div class="form-control Images-new" data-trigger="fileinput">
+                                            <span class="icon-images-url-input"></span>
+                                            <span class="fileinput-images-filename"></span>
+                                        </div>
+                                        <span class="input-group-addon btn btn-default btn-file Images-new">
+                                            <span class="fileinput-images-new">Chọn ảnh</span>
+                                            <input id="Images" type="hidden" name="Images">
+                                        </span>
+                                        <a href="#" class="input-group-addon remove-url-images btn btn-default" style="display:none">Remove</a>
+                                    </div>
+                                </div>
+                                <div class="show-ckfilder-Images"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group has-children">
+                                <label for="textarea" class="control-label">Mô tả ngắn</label>
+                                <textarea name="Description" style="height:110px" id="Description" class="form-control" ></textarea>
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group has-children">
+                                <label for="textarea" class="control-label">Thông số kỹ thuật</label>
+                                <textarea name="Specifications" style="height:110px" id="Specifications" class="form-control" required=""></textarea>
+                                @Html.ValidationMessageFor(model => model.Specifications, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group has-children">
+                                <label for="textarea" class="control-label">Thông tin chi tiết</label>
+                                <textarea name="ProductDetail" style="height:110px" id="ProductDetail" class="form-control" required=""></textarea>
+                                @Html.ValidationMessageFor(model => model.ProductDetail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/row-->
+                    <div class="form-actions">
+                        <button style="border-radius:unset" type="submit" class="btn btn-primary"> <i class="fa fa-check"></i> Thêm mới</button>
+                        <a href="@Url.Action("Index","Products")" style="border-radius:unset" type="button" class="btn btn-default">Cancel</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/js/jasny-bootstrap.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/switchery/dist/switchery.min.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/multiselect/js/jquery.multi-select.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/Assets/plugins/ckfinder/ckfinder.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/ckeditor/ckeditor.js"></script>
+    <script>CKFinder.setupCKEditor(CKEDITOR.replace('Specifications'), '../../Areas/Admin/Assets/plugins/ckfinder/')</script>
+    <script>CKFinder.setupCKEditor(CKEDITOR.replace('ProductDetail'), '../../Areas/Admin/Assets/plugins/ckfinder/')</script>
+    <script src="~/Areas/Admin/Assets/js/product/product.js" type="text/javascript"></script>
+    @if (@TempData["alertMessenger"] != null)
+    {
+        <script>
+        $(document).ready(function () {
+            "use strict";
+            // toat popup js
+            $.toast({
+                heading: '@TempData["notication"]',
+                text: '@TempData["alertMessenger"]',
+                loaderBg: '#fff',
+                allowToastClose: false,
+                position: '@TempData["position"]',
+                icon: '@TempData["TypeAlert"]',
+                hideAfter: @TempData["hideAfter"],
+                stack: 6
+            })
+
+        })
+        </script>
+    }
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+}

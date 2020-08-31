@@ -1,0 +1,170 @@
+﻿@model IEnumerable<Models.Models.DataModels.Category>
+@{
+    ViewBag.Title = "Danh sách danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+}
+@section StyleToast{
+    <!-- toast CSS -->
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+}
+<div class="col-sm-12">
+    <div class="white-box">
+        <div class="row">
+            <div class=" col-md-6 col-xs-6 right">
+                <a style="border-radius:unset" href="@Url.Action("Create","Categories")" class="btn btn-info btn-rounded btd_addCate">Thêm mới</a>
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <a data-toggle="tooltip" data-original-title="Đến trang danh mục con" style="border-radius:unset;float: right" href="@Url.Action("Parentcate","Categories")" class="btn btn-pinterest btn-rounded">Danh mục con</a>
+            </div>
+        </div>
+        <h3 class="box-title m-b-0"></h3>
+        <p class="text-muted m-b-30"></p>
+        <div class="table-responsive" id="reload">
+            <table id="myTable" class="display table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Tên danh mục</th>
+                        <th>Thứ tự sắp xếp</th>
+                        <th>Trạng thái</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="LoadCategories">
+                    @foreach (var item in Model)
+                    {
+                        <tr id="delete_@item.CategoryId">
+                            <td>@item.CategoryName</td>
+                            <td>@item.Orderby</td>
+                            <td>
+                                @if (@item.Status == 1)
+                                {<label class="label label-success">Kích hoạt</label> }
+                                else
+                                { <label class="label label-success">Tạm ẩn</label>}
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-icon btn-pure btn-outline edit-row-btn" href="@Url.Action("Edit","Categories", new { id = item.CategoryId})" data-toggle="tooltip" data-original-title="Chỉnh sửa"><i style="font-size:15px" class="fa fa-pencil text-inverse m-r-10" aria-hidden="true"></i></a>
+                                <a data-id="@item.CategoryId" data-toggle="modal" data-target="#myModal" data-cateId="' + data +'" class="btn btn-sm btn-icon btn-pure btn-outline edit-row-btn deleteCate"><i data-toggle="tooltip" data-original-title="Xoá" style="font-size:15px" class="fa fa-close text-danger tooltip-danger" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thông báo</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Bạn có chắc muốn xoá ?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="confirmdelete" type="button" class="btn btn-danger">Xoá</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function () {
+            var datatable = $('#myTable').DataTable({
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "Trang trước",
+                        "sNext": "Trang sau",
+                        "sLast": "Trang cuối",
+                        "sFirst": "Trang đầu",
+                    },
+                    //search
+                    "sSearch": "Tìm kiếm:",
+                    "sLengthMenu": "Hiện thị _MENU_ số hàng",
+                    "sInfo": "Trang _START_ tổng _TOTAL_ (_START_ to _END_)",
+                    "sInfoEmpty": 'Không có gì để hiển thị',
+                    "sEmptyTable": "Không có dữ liệu, click vào <span style='font-weight:700'>Thêm mới</span> để thêm dữ liệu",
+                },
+                "order": [[2, "asc"]]
+            });
+            //allow tooltip active
+            datatable.on('draw', function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+            //get id Provider
+            var id;
+            $("#myTable").on('click', '.deleteCate', function () {
+                id = $(this).data("id");
+            })
+            //Delete Provider
+            $("#confirmdelete").on('click', function () {
+                if (id != undefined) {
+                    $.ajax({
+                        type: "post",
+                        url: "@Url.Action("Delete", "Categories")",
+                        data: { id: id },
+                        success: function (res) {
+                            if (res.success) {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                })
+                                $("#myModal").modal("hide");
+                                $("#delete_" + id).remove();
+                            } else {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    $('.notifyjs-wrapper').remove();
+                    $.notify("Không thể tìm thấy danh mục này", {
+                        globalPosition: "top center",
+                        className: "error",
+                    })
+                }
+            })
+        })
+    </script>
+    @if (@TempData["alertMessenger"] != null)
+    {
+        <script>
+        $(document).ready(function () {
+            "use strict";
+            // toat popup js
+            $.toast({
+                heading: '@TempData["notication"]',
+                text: '@TempData["alertMessenger"]',
+                loaderBg: '#fff',
+                allowToastClose: false,
+                position: '@TempData["position"]',
+                icon: '@TempData["TypeAlert"]',
+                hideAfter: @TempData["hideAfter"],
+                stack: 6
+            })
+
+        })
+        </script>
+    }
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+}

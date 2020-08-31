@@ -1,0 +1,148 @@
+﻿@model IEnumerable<Models.Models.DataModels.Product>
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styleCss_1{
+    <link rel='stylesheet' id='grid-list-layout-css' href='~/Content/wp-content/plugins/woocommerce-grid-list-toggle/assets/css/style1845.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='grid-list-button-css' href='~/Content/wp-content/plugins/woocommerce-grid-list-toggle/assets/css/button1845.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='dashicons-css' href='~/Content/wp-includes/css/dashicons.min1845.css' type='text/css' media='all' />
+}
+@section Scripts_2{
+    <script type='text/javascript' src='~/Content/wp-content/plugins/woocommerce-grid-list-toggle/assets/js/jquery.cookie.min1845.js'></script>
+    <script type='text/javascript' src='~/Content/wp-content/plugins/woocommerce-grid-list-toggle/assets/js/jquery.gridlistview.min1845.js'></script>
+}
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr">
+                <div class="filter-title-product">
+                    <ul>
+                        <li class="title"><h1>Tất cả sản phẩm</h1></li>
+                        <li class="filter-select">
+                            <div class="item-product">
+                                <p class="woocommerce-result-count">
+                                    Hiển thị 1–10 của 12 kết quả
+                                </p>
+                                <form class="woocommerce-ordering" method="get">
+                                    <select name="orderby" class="orderby">
+                                        <option @ViewBag.defaults value="default">Thứ tự mặc định</option>
+                                        <option @ViewBag.popularity value="popularity">Thứ tự theo mức độ phổ biến</option>
+                                        <option @ViewBag.date value="date">Thứ tự theo sản phẩm mới</option>
+                                        <option @ViewBag.price_asc value="price_asc">Thứ tự theo giá: thấp đến cao</option>
+                                        <option @ViewBag.price_desc value="price_desc">Thứ tự theo giá: cao xuống thấp</option>
+                                    </select>
+                                </form>
+                            </div>
+                        </li>
+                        <li><nav class="gridlist-toggle"><a href="#" id="grid" title="Grid view" class="active"><span class="dashicons dashicons-grid-view"></span> <em>Grid view</em></a><a href="#" id="list" title="List view" class=""><span class="dashicons dashicons-exerpt-view"></span> <em>List view</em></a></nav></li>
+                    </ul>
+                </div>
+
+                <div id="css-archive-product">
+                    <div class="archive-product-fluid">
+                        <ul class="products grid" style="display: block;">
+                            @foreach (var item in Model)
+                            {
+                                <!-- add item -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 one-product">
+                                    <div class="item-product">
+                                        <div class="content-product-fluid">
+                                            <li class="post-699 product type-product status-publish has-post-thumbnail product_cat-noi-that-phong-bep product_cat-tat-ca-san-pham product_tag-canzy first instock shipping-taxable purchasable product-type-simple">
+                                                <a href="@Url.Action("Productsdetail", "Home", new { id = item.ProductId })" class="woocommerce-LoopProduct-link">
+                                                    <img width="285" height="360" src="@item.FeatureImage" class="attachment-shop_catalog size-shop_catalog wp-post-image" alt="h1" title="h1">
+                                                </a>
+                                                <div class="content-product-title">
+                                                    <a href="@Url.Action("Productsdetail", "Home", new { id = item.ProductId })" class="woocommerce-LoopProduct-link">
+                                                    </a>
+                                                    <a class="woo-title" href="@Url.Action("Productsdetail", "Home", new { id = item.ProductId })" title="@item.ProductName">
+                                                        @item.ProductName
+                                                    </a>
+                                                </div>
+                                                <div class="content-product-sku">
+                                                    <lable></lable>
+                                                </div>
+                                                <div class="post-price">
+                                                    <div class="salepercent"></div>
+                                                    <div class="price">
+                                                        @{
+                                                            var price = item.PriceOut - (item.PriceOut * item.Discount / 100);
+                                                            var discount = item.Discount > 0 ? price : item.PriceOut;
+                                                            var vie = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                                            <span class="woocommerce-Price-amount amount">@String.Format(vie,"{0:c00}", @discount)</span>
+                                                            if (item.Discount > 0)
+                                                            {
+                                                                <span style="font-weight:normal;color:#333;text-decoration: line-through;margin-left:6px">@String.Format("{0:c00}", item.PriceOut)₫</span>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="box add-to-cart-btn">
+                                                    <a href="@Url.Action("Productsdetail", "Home", new { id = item.ProductId })" title="@item.ProductName">
+                                                        <div class="overbox">
+                                                            <div class="title overtext"> XEM CHI TIẾT</div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="woocommerce_short_description">
+                                                    <p>
+                                                        <strong>@item.ProductName</strong><br>
+                                                        – Thân máy: Inox 201 + kính<br>
+                                                        – Số lượng mô tơ: 1<br>
+                                                        – Số tốc độ: 3<br>
+                                                        – Số đèn ( Hallogen ) 2 x 5W<br>
+                                                        – Màng lọc: Nhôm + than<br>
+                                                        – Chiều ngang máy: 70 cm<br>
+                                                        – Chiều ngang-dài thân máy: 292/495-990mm<br>
+                                                        – Công xuất hút: 1000 m3/h<br>
+                                                        – Độ ồn tối đa: 45 dB<br>
+                                                        – Công xuất động cơ: 1 x 200 W
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </ul>
+                        <nav class="woocommerce-pagination">
+                            <ul class="page-numbers">
+                                <li><span aria-current="page" class="page-numbers current">1</span></li>
+                                <li><a class="page-numbers" href="http://wp6.khogiaodien.net/danh-muc/tat-ca-san-pham/page/2/?orderby=rating">2</a></li>
+                                <li><a class="next page-numbers" href="http://wp6.khogiaodien.net/danh-muc/tat-ca-san-pham/page/2/?orderby=rating">→</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--START MAIN LEFT -->
+        @{Html.RenderAction("Mainleft", "Home");}
+        <!--END MAIN LEFT -->
+    </section>
+</div>
+@section scritps{
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 500)
+                    $("#totop").fadeIn();
+                else
+                    $("#totop").fadeOut();
+            });
+
+            $("#totop").click(function () {
+                $("body,html").animate({ scrollTop: 0 }, 800);
+                return false;
+            });
+        });
+    </script>
+    <script>
+        if (jQuery.cookie('gridcookie') == null) {
+            jQuery('ul.products').addClass('grid');
+            jQuery('.gridlist-toggle #grid').addClass('active');
+        }
+    </script>
+}

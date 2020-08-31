@@ -1,0 +1,216 @@
+#css-archive-product{}
+#css-archive-product .archive-product-fluid{
+    /* background: red; */
+    float: left;
+    width: 100% !important;
+    border-left: 1px solid #e1e1e1;
+    border-top: 1px solid #e1e1e1;
+}
+
+#css-archive-product .archive-product-fluid del{float:right;
+color:black !important;}
+#css-archive-product .archive-product-fluid del span{color:black !important;font-size: 12px !important;}
+#css-archive-product .archive-product-fluid ins{float:left;
+}
+#css-archive-product .archive-product-fluid ins span{font-size: 15px !important;}
+
+#css-archive-product .archive-product-fluid ins {float:left;text-decoration: none;font-size: 14px !important;}
+
+#css-archive-product .archive-product-fluid .price{
+    color: #EC5D5D;
+    font-weight: bold;
+    font-size: 12px;
+    position: absolute;
+}
+.list .price{position:relative !important;}
+
+
+#css-archive-product .one-product{
+    padding: 15px 10px;
+    border-right: #ebebeb thin solid;
+    border-bottom: #ebebeb thin solid;
+    height: 285px;
+}
+#css-archive-product .one-product .item-product{
+    /* padding: 15px 10px; */
+}
+#css-archive-product .one-product .item-product li{
+    list-style-type: none;
+    /* float: left; */
+    height: 100%;
+}
+#css-archive-product .one-product .item-product li a{
+    text-decoration: none;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #707070;
+    font-size: 14px;
+    line-height: 18px;
+    width: 100%;
+    display: block;
+}
+#css-archive-product .one-product .item-product li span{
+    color: #ec5d5d;
+    font-weight: bold;
+    font-size: 14px;
+}
+#css-archive-product .one-product .item-product li img{
+    width: 185px;
+    height: 185px;
+    background: white;
+    display: block;
+    /* image-rendering: auto; */
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    margin:  0 auto;
+}
+
+#css-archive-product .one-product .item-product li .icon img{
+    width: 62px;
+    height: auto;
+    position: absolute;
+    top: 0px;
+    left: 1px;
+    display: none;
+}
+
+
+#css-archive-product .content-product-sku{display:none;}
+.content-product-title{margin-bottom: 5px;height: 38px;font-size: 12px;overflow: hidden;text-overflow: ellipsis;}
+.filter-title-product{border-top: red 2px solid;border-left: #ebebeb thin solid;border-right: #ebebeb thin solid;/* border-bottom: #ebebeb thin solid; */padding: 0!important;/* margin-bottom: 20px; */background: #fff;height: 46px;}
+.filter-title-product a{
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 30px;
+    padding-left: 15px;
+    margin-top: 10px;
+    line-height: 44px;
+}
+.filter-title-product h1{
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 30px !important;
+    padding-left: 15px;
+    /* margin-top: 10px; */
+    line-height: 44px !important;
+    color: black;
+}
+.filter-title-product li{}
+.filter-title-product .title{
+    float: left;
+    width: 300px;
+}
+.filter-title-product .filter-select{
+    float: right;
+}
+
+.filter-title-product .woocommerce-result-count{display:none;}
+.filter-title-product .woocommerce-ordering{
+    border: none;
+}
+.filter-title-product .woocommerce-ordering select  {font-weight:bold;color: black !important;font-size: 12px;height: 43px;border: 1px;}
+
+#css-archive-product input.input-text, #css-archive-product  select, #css-archive-product  textarea{
+    border: #FFFFFF thin solid;
+    padding: 10px;
+    outline: none;
+    color: #aaa;
+    }
+#css-archive-product .list .one-product{width: 100%;height: auto;}
+#css-archive-product .list .one-product .box{display:none;}
+#css-archive-product .grid .one-product{}
+#css-archive-product .list .woo-title{font-weight:bold;/* color: #EC5D5D !important; */font-size: 16px !important;}
+#css-archive-product .list .woocommerce_short_description{
+    margin-top: 29px;
+    /* float: left; */
+    color: #918C8C;
+    font-size: 14px;
+    /* font-weight: 100 !important; */
+    /* text-align: -webkit-left; */
+    position: relative;
+    max-height: 100px;
+    overflow: hidden;
+    line-height: 17px;
+    padding-right: 10px;
+    /* text-align: left; */
+}
+#css-archive-product .list .woocommerce_short_description strong{font-weight:100;}
+
+#css-archive-product .grid  .woocommerce_short_description{display:none;}
+.content-product-fluid{height:180px;}
+
+.img-ads-widget{
+    background: whitesmoke;
+    /* height: 150px; */
+}
+
+.woocommerce-pagination{
+		margin: 30px 0 30px 0;
+		font-family: 'Open Sans', arial, sans-serif;
+		font-size: 12px;
+		display: inline-block;
+		width: 100%;
+		padding-left: 10px;
+		}
+ .woocommerce-pagination ul{
+			}
+.woocommerce-pagination ul li{
+		}
+ .woocommerce-pagination ul li span{
+		padding: 5px 11px;      border: 1px solid #e3e3e3;      display: inline-block;      margin: 0 8px 8px 0;      min-width: 33px;      text-align: center;      color: #666;      line-height: 21px;      float: left;
+}
+		
+ .woocommerce-pagination  .current{
+		}
+.woocommerce-pagination  .current:before{	
+		
+		}
+.woocommerce-pagination ul li a{
+		padding: 5px 11px;
+		border: 1px solid #e3e3e3;
+		display: inline-block;
+		margin: 0 8px 8px 0;
+		min-width: 33px;
+		text-align: center;
+		color: #666;
+		line-height: 21px;
+		float: left;
+		}
+		
+.woocommerce-pagination .page-numbers .current {
+    background-color: #EA4242;
+    color: #fff !important;
+    border-color: #CF3535;
+    }
+.woocommerce-pagination .pagination {
+clear:both;
+padding:20px 0;
+position:relative;
+font-size:11px;
+line-height:13px;
+}
+
+.woocommerce-pagination .pagination span, .woocommerce-pagination .pagination a {
+display:block;
+float:left;
+margin: 2px 2px 2px 0;
+padding:6px 9px 5px 9px;
+text-decoration:none;
+width:auto;
+color:#fff;
+background: #555;
+}
+
+.woocommerce-pagination .pagination a:hover{
+color:#fff;
+background: #3279BB;
+}
+
+.woocommerce-pagination .pagination .current{
+padding:6px 9px 5px 9px;
+background: #3279BB;
+color:#fff;
+}
+
+.archive-product-fluid .list .price{float:left !important;}

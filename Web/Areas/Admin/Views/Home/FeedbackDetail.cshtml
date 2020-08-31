@@ -1,0 +1,139 @@
+﻿@model Models.Models.DataModels.Feedback
+@{
+    ViewBag.Title = "Chi tiết phản hồi";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="col-md-12">
+    <div class="white-box">
+        <div class="panel">
+            <div style="font-size:20px" class="">@Model.Subject</div>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div class="row">
+                        <div class="col-md-3 col-xs-6 b-r">
+                            <strong>Họ Tên</strong>
+                            <br>
+                            <p class="text-muted">@Model.FullName</p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                            <strong>Email</strong>
+                            <br>
+                            <p class="text-muted">@Model.Email</p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                            <strong>Ngày phản hồi</strong>
+                            <br>
+                            <p class="text-muted">@Model.Created</p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                            <strong>Trạng thái</strong>
+                            <br>
+                            <p class="text-muted reload-status">
+                                @if (@Model.Status == 1)
+                                {
+                                    <label class="label label-success">Đã xử lý</label>
+                                }
+                                else if (@Model.Status == 0)
+                                {
+                                    <label class="label label-inverse">Chưa xử lý</label>
+                                }
+                                else
+                                {
+                                    <label class="label label-danger">Huỷ</label>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="m-t-30">@Model.Description</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-right re-load-btn">
+            @if (Model.Status == 0)
+            {
+                <button data-id="@Model.FeedBackId" class="btn btn-primary feeback-handle"> Xử lý phản hồi </button>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thông báo</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div><input id="processed" type="radio" name="Status" value="1"> <label class="p-r-10" for="processed" id="">Đã xử lý</label></div>
+                <div><input id="destruction" type="radio" name="Status" value="-1"> <label class="p-r-10" for="destruction" id="">Huỷ</label></div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="confirm-handle" type="button" class="btn btn-danger">Xoá</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            var id;
+            $(document).on('click', '.feeback-handle', function () {
+                id = $(this).data("id");
+                $("#myModal").modal('show');
+            });
+
+
+            $("#confirm-handle").on("click", function () {
+                if (id != undefined) {
+                    var feedback = {};
+                    if ($('#processed').is(":checked")) {
+                        // it is checked
+                        feedback.FeedBackId = id;
+                        feedback.Status = $("#processed").val();
+                    }
+                    if ($('#destruction').is(":checked")) {
+                        // it is checked
+                        feedback.FeedBackId = id;
+                        feedback.Status = $("#destruction").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("HandleFeedback","Home")",
+                        data: JSON.stringify(feedback),
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.success) {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                })
+                                $(".re-load-noti-od-fb").load('@Url.Action("FeedbackDetail", "Home") .re-load-noti-od-fb');
+                                $(".reload-status").load('@Url.Action("FeedbackDetail", "Home") .reload-status');
+                                $(".re-load-btn").load('@Url.Action("FeedbackDetail", "Home") .re-load-btn');
+                                $("#myModal").modal('hide');
+                            } else {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                })
+                            }
+
+                        },
+                    })
+                }
+            });
+        })
+    </script>
+}

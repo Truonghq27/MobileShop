@@ -1,0 +1,75 @@
+﻿@model Models.ViewModels.CustomerViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styleCss_1{
+    <!-- toast CSS -->
+    <link href="~/Content/toast-master/css/jquery.toast.css" rel="stylesheet">
+}
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr">
+                <div class="page-control-right">
+                    <div class="page-fluid">
+                        <div class="img-responsive">
+                            <div class="woocommerce">
+                                <div class="u-columns col2-set" id="customer_login">
+                                    <div class="u-column2 col-md-8" style=" margin-left: 20px;">
+                                        <h1 style="margin-top:27px;margin-bottom:20px;font-size:27px">Đăng ký tài khoản</h1>
+                                        @using (Html.BeginForm())
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+                                                <label for="reg_email">Họ Tên<span class="required">*</span></label><br>
+                                                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                                            </p>
+                                            <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+                                                <label for="reg_email">Địa chỉ email <span class="required">*</span></label><br>
+                                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                            </p>
+                                            <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+                                                <label for="reg_password">Mật khẩu <span class="required">*</span></label><br>
+                                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                            </p>
+                                            <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+                                                <label for="reg_repassword">Nhập lại mật khẩu <span class="required">*</span></label><br>
+                                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                            </p>
+                                            <p><!-- Spam Trap --></p>
+                                            <div style="left: -999em; position: absolute;"><label for="trap">Chống Spam</label><input type="text" name="email_2" id="trap" tabindex="-1" autocomplete="off"></div>
+                                            <p class="woocomerce-FormRow form-row">
+                                                <input type="hidden" id="woocommerce-register-nonce" name="woocommerce-register-nonce" value="2bb3cd5ac0">
+                                                <input type="hidden" name="_wp_http_referer" value="/tai-khoan/">
+                                                <button type="submit" class="woocommerce-Button button">Đăng ký</button>
+                                            </p>
+                                            <p></p>
+                                        }
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            @{Html.RenderAction("Mainleft", "Home");}
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+
+@section Scripts_2{
+    <script src="~/Content/toast-master/js/jquery.min.js"></script>
+    <script src="~/Content/toast-master/js/jquery.toast.js"></script>
+}

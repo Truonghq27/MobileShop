@@ -1,0 +1,82 @@
+﻿@model Models.ViewModels.LoginCustomer
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styleCss_1{
+    <!-- toast CSS -->
+    <link href="~/Content/toast-master/css/jquery.toast.css" rel="stylesheet">
+}
+<link href="~/Content/toastr.css" />
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr">
+                <div class="page-control-right">
+                    <div class="page-fluid">
+                        <div class="img-responsive">
+                            <div class="woocommerce">
+                                <div class="u-columns col2-set" id="customer_login">
+                                    <div class="u-column1 col-md-8" style="margin-left:20px">
+                                        <h1 style=" margin-top:20px;font-size:27px;padding-bottom:20px">Đăng Nhập</h1>
+                                        @using (Html.BeginForm("Login", "Users", new { next = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+                                                <label for="username">Tên tài khoản hoặc địa chỉ email <span class="required">*</span></label><br>
+                                                @if (Request.Cookies["Email"] != null)
+                                                {
+                                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text", @Value = Request.Cookies["Email"].Value } })
+                                                }
+                                                else
+                                                {
+                                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                }
+                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                            </p>
+                                            <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+                                                <label for="password">Mật khẩu <span class="required">*</span></label><br>
+                                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--text input-text" } })
+                                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                            </p>
+                                            <p class="form-row">
+                                                <input type="hidden" id="woocommerce-login-nonce" name="woocommerce-login-nonce" value="ff106ecf13"><input type="hidden" name="_wp_http_referer" value="/tai-khoan/">
+                                                <input type="submit" class="woocommerce-Button button" name="login" value="Đăng nhập" />
+                                                <a href="@Url.Action("LoginFacebook","Users")" style="background-color: #3b5998 !important; color:#fff" class="woocommerce-Button button btn btn-facebook waves-effect waves-light"><i class="fa fa-facebook"></i> Đăng nhập bằng facebook</a>
+                                                <label for="RememberMe" class="inline">
+                                                    <br>
+                                                    @Html.CheckBoxFor(model => model.RememberMe, new { htmlAttributes = new { @class = "woocommerce-Input woocommerce-Input--checkbox" } })
+                                                    Ghi nhớ tài khoản
+                                                </label>
+                                            </p>
+                                            <p class="woocommerce-LostPassword lost_password">
+                                                <a href="@Url.Action("Forgotpassword", "Users")">Quên mật khẩu?</a>
+                                            </p>
+                                            <p></p>
+                                        }
+
+                                        <p></p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            @{Html.RenderAction("Mainleft", "Home");}
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+@section Scripts_2{
+    <script src="~/Content/toast-master/js/jquery.min.js"></script>
+    <script src="~/Content/toast-master/js/jquery.toast.js"></script>
+
+}
+

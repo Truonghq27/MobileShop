@@ -1,0 +1,259 @@
+﻿@model Models.Models.DataModels.Order
+@{
+    ViewBag.Title = "Tất cả đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var vie = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@section Style{
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+}
+@section ColorValue{
+    <link href="~/Areas/Admin/Assets/css/activeorders/active-button-orders.css" rel="stylesheet" />
+}
+<div class="col-sm-12">
+    <div class="white-box">
+        <div data-id="pending" data-toggle="tooltip" data-original-title="Danh sách đơn hàng chưa duyệt" class="btn btn-inverse btn-rounded m-r-15 tooltip-inverse filter-datatable" style="border-radius: 50%"> <i style="top:3px;font-size:16px" data-icon="x" class="linea-icon linea-ecommerce"></i></div>
+        <div data-id="approved" data-toggle="tooltip" data-original-title="Danh sách đơn hàng đã duyệt" class="btn btn-info btn-rounded text-center m-r-15 tooltip-info filter-datatable" style="border-radius:50%"> <i style="top:3px;font-size:16px" data-icon="E" class="linea-icon linea-ecommerce"></i></div>
+        <div data-id="delivered" data-toggle="tooltip" data-original-title="Danh sách đơn hàng đã giao" class="btn btn-success btn-rounded text-center m-r-15 tooltip-success filter-datatable" style="border-radius:100%"> <i style="top:3px;font-size:16px" data-icon="y" class="linea-icon linea-ecommerce"></i></div>
+        <div data-id="canceled" data-toggle="tooltip" data-original-title="Danh sách đơn hàng đã huỷ" class="btn btn-danger btn-rounded text-center m-r-15 tooltip-danger filter-datatable" style="border-radius:100%"> <i style="top:3px;font-size:16px" data-icon="F" class="linea-icon linea-ecommerce"></i></div>
+        <h3 class="box-title m-b-0">
+        </h3>
+        <p class="text-muted m-b-30"></p>
+        <div class="table-responsive" id="reload">
+            <table id="myTable" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Tên người nhận</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thay đổi trạng thái đơn hàng</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                @using (Html.BeginForm("ChangeStatusOrder", "Cart", FormMethod.Post, new { id = "formsubmit" }))
+                {
+                    @Html.HiddenFor(model => model.OrderId, new { id = "getOrderId" })
+                    <div class="more-html"></div>
+                }
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="confirm-order" type="button" class="btn btn-danger">Xác nhận</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function () {
+            //datatable
+            var datatable = $("#myTable").DataTable({
+                ajax: {
+                    type: "GET",
+                    url: "@Url.Action("Getdata","Cart")",
+                    data: function () {
+                        return dataToSend;
+                    },
+                    dataSrc: '',
+                },
+                columns: [
+                    { data: "CodeOrder" },
+                    { data: "FullName" },
+                    { data: "Email" },
+                    { data: "Phone" },
+                    {
+                        data: "Created", render: function (data, type, row) {
+                            return moment(data).format('DD-MM-YYYY hh:mm A');
+                        }
+                    },
+                    {
+                        data: 'totalPrice', render: $.fn.dataTable.render.number('.', ',', 0, '', ' ₫')
+                    },
+                    {
+                        data: "Status", render: function (status) {
+                            switch (status) {
+                                case -2:
+                                    return '<label class="label label-danger">Đã bị huỷ</label>'
+                                    break;
+                                case -1:
+                                    return '<label class="label label-danger">Đã huỷ</label>'
+                                    break;
+                                case 1:
+                                    return '<label class="label label-info">Đã duyệt</label>'
+                                    break;
+                                case 2:
+                                    return '<label class="label label-success">Đã giao hàng</label>'
+                                    break;
+                                default:
+                                    return '<label class="label label-inverse">Chờ duyệt</label>'
+                                    break;
+                            }
+                        },
+
+                    },
+                    {
+                        data: null, render: function (full) {
+                            switch (full["Status"]) {
+                                case -1:
+                                    return '<a href="@Url.Action("Detail","Cart")/' + full["OrderId"]+'" data-id="' + full["OrderId"] + '" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn" ><i data-toggle="tooltip" data-original-title="Chi tiết đơn hàng" style="font-size:15px" class="ti-pencil-alt text-inverse tooltip-inverse" aria-hidden="true"></i></a>';
+                                    break;
+                                case -2:
+                                    return '<a href="@Url.Action("detail")/' + full["OrderId"]+'" data-id="' + full["OrderId"] + '" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn" ><i data-toggle="tooltip" data-original-title="Chi tiết đơn hàng" style="font-size:15px" class="ti-pencil-alt text-inverse tooltip-inverse" aria-hidden="true"></i></a>';
+                                case 1:
+                                    return '<a href="@Url.Action("detail")/' + full["OrderId"]+'" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn" ><i data-toggle="tooltip" data-original-title="Chi tiết đơn hàng" style="font-size:15px" data-icon="&#xe01b;" class="linea-icon linea-basic text-inverse tooltip-inverse" aria-hidden="true"></i></a>' +
+                                        '<button data-id="' + full["OrderId"] + '" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn change-status-order" ><i data-toggle="tooltip" data-original-title="Cập nhập trạng thái đơn hàng" style="font-size:15px" class="ti-pencil-alt text-inverse tooltip-inverse" aria-hidden="true"></i></button>';
+                                    break;
+                                case 2:
+                                    return '<a href="@Url.Action("Detail","Cart")/' + full["OrderId"]+'" data-id="' + full["OrderId"] + '" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn" ><i data-toggle="tooltip" data-original-title="Chi tiết đơn hàng" style="font-size:15px" data-icon="&#xe01b;" class="linea-icon linea-basic text-inverse tooltip-inverse" aria-hidden="true"></i></a>';
+                                    break;
+                                default:
+                                    return '<a href="@Url.Action("detail")/' + full["OrderId"]+'" data-id="' + full["OrderId"] + '" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn" ><i data-toggle="tooltip" data-original-title="Chi tiết đơn hàng" style="font-size:15px" data-icon="&#xe01b;" class="linea-icon linea-basic text-inverse tooltip-inverse" aria-hidden="true"></i></a>' +
+                                        '<button data-id="' + full["OrderId"] + '" class="mr-5 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn change-status-order" ><i data-toggle="tooltip" data-original-title="Cập nhập trạng thái đơn hàng" style="font-size:15px" class="ti-pencil-alt text-inverse tooltip-inverse" aria-hidden="true"></i></button>';
+                                    break;
+                            }
+                        }
+                    },
+                ],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "Trang trước",
+                        "sNext": "Trang sau",
+                        "sLast": "Trang cuối",
+                        "sFirst": "Trang đầu",
+                    },
+                    //search
+                    "sSearch": "Tìm kiếm:",
+                    "sLengthMenu": "Hiển thị _MENU_ số hàng",
+                    "sInfo": "Trang _START_ tổng _TOTAL_ (_START_ to _END_)",
+                    "sInfoEmpty": 'Không có gì để hiển thị',
+                    "sEmptyTable": "Không có đơn hàng nào",
+                },
+                "order": [[4, "asc"]]
+            });
+            //allow tooltip active
+            datatable.on('draw', function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+            //get id and value
+            $('#myTable').on('click','button.change-status-order', function (e) {
+                    e.preventDefault();
+                    var id = $(this).data("id");
+                    $.ajax({
+                        type: "POSt",
+                        url: "@Url.Action("GetId", "Cart")/" + id,
+                        success: function (res) {
+                            $("#getOrderId").val(res.OrderId);
+                            var _html = "";
+                            if (res.Status == 0) {
+                                _html += '<div><input id="pending" type="radio" name="Status" checked value="0" /> ' +
+                                    '<label class="p-r-10" for="pending" id ="pending">Chưa duyệt</label ></div>';
+
+                                _html += '<div><input id="order-approval" type="radio" name="Status" value="1" /> ' +
+                                    '<label class="p-r-10" for="order-approval" id ="order-approval"> Duyệt đơn hàng</label></div>';
+
+                                _html += '<div><input id="order-cancel" type="radio" name="Status" value="-1" /> ' +
+                                    '<label class="p-r-10" for="order-cancel" id ="order-cancel"> Huỷ đơn hàng</label></div>';
+                                $(".more-html").html(_html)
+                            } else if (res.Status == 1) {
+                                _html += '<div><input id="order-approval" type="radio" checked name="Status" value="1" /> ' +
+                                    '<label class="p-r-10" for="order-approval" id ="order-approval">Đã duyệt</label ></div>';
+
+                                _html += '<div><input id="delivered" type="radio" name="Status" value="2" /> ' +
+                                    '<label class="p-r-10" for="delivered" id ="delivered">Đã giao hàng</label ></div>';
+
+                                _html += '<div><input id="order-cancel" type="radio" name="Status" value="-1" /> ' +
+                                    '<label class="p-r-10" for="order-cancel" id ="order-cancel">Huỷ đơn hàng</label ></div>';
+                                $(".more-html").html(_html)
+                            }
+                            $("#myModal").modal("show");
+                        }
+                    })
+            })
+
+            //change status order
+            $("#confirm-order").on('click', function () {
+                    var data = $("#formsubmit").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ChangeStatusOrder","Cart")",
+                        data: data,
+                        success: function (res) {
+                            if (res.success) {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                })
+                                datatable.ajax.reload();
+                                $("#myModal").modal("hide");
+                            } else {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                })
+                            }
+                        }
+                    })
+            })
+
+            //Sent data to controller
+            var dataToSend = {};
+            $("div.filter-datatable").on('click', function () {
+                event.preventDefault();
+                $(this).addClass('actice_orders').siblings().removeClass('actice_orders');
+                var linkValue = $(this).data('id')
+                dataToSend = { "isvk": linkValue };
+                datatable.ajax.reload();
+            });
+
+            //way 2: send data to controller and edit datatable
+            @* $('.filter-datatable').on('click', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Getdata","Cart")",
+                    data: { isvk: id },
+                    success: function (data) {
+                        //if (history.pushState) {
+                        //    history.pushState(null, '', '?isvk=' + id);
+                        //} else {
+                        //    window.history.go()
+                        //}
+                        datatable.clear().draw();
+                        datatable.rows.add(data); // Add new data
+                        datatable.columns.adjust().draw();
+                    }
+                })
+            }) *@
+        });
+    </script>
+}

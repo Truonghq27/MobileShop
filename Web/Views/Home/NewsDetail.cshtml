@@ -1,0 +1,30 @@
+﻿@model Models.Models.DataModels.News
+@{
+    ViewBag.Title = "NewsDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr">
+                <div class="single-control-right">
+                    <div class="single-fluid">
+                        <h1>@Model.NewsTitle</h1>
+                        <div class="img-responsive">
+                            <img src="@Model.FeatureImage" />
+                            <p>@Html.Raw(Model.Description)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            @{ Html.RenderAction("Mainleft", "Home");}
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+

@@ -1,0 +1,165 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/morrisjs/morris.css" rel="stylesheet" />
+}
+@section StyleToast{
+    <!-- toast CSS -->
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+}
+<div class="row">
+    <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="white-box analytics-info">
+            <h3 style="font-family:Arial" class="box-title">Tổng đơn hàng đã bán</h3>
+            <ul class="list-inline two-part">
+                <li><i class="fa fa-shopping-bag  text-success"></i></li>
+                <li class="text-right "><span class="counter text-success">@ViewBag.invoice</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="white-box analytics-info">
+            <h3 style="font-family:Arial" class="box-title">Tổng sản phẩm</h3>
+            <ul class="list-inline two-part">
+                <li><i class="fa fa-database text-primary"></i></li>
+                <li class="text-right"><span class="counter text-purple">@ViewBag.product</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="white-box analytics-info">
+            <h3 style="font-family:Arial" class="box-title">Tổng nhân viên</h3>
+            <ul class="list-inline two-part">
+                <li><i class="fa  fa-group text-info"></i></li>
+                <li class="text-right"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">@ViewBag.users</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="white-box analytics-info">
+            <h3 style="font-family:Arial" class="box-title">Tổng khách hàng</h3>
+            <ul class="list-inline two-part">
+                <li><i class="fa fa-users text-danger"></i></li>
+                <li class="text-right"><i class="ti-arrow-down text-danger"></i> <span class="text-danger">@ViewBag.customers</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-9 col-sm-6 col-xs-12">
+        <div class="white-box">
+            <h3 style="font-family:Arial" class="box-title">Biểu đồ đơn hàng theo tháng</h3>
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
+    <div class=" col-lg-3 col-md-12 col-sm-12">
+        <div class="panel">
+            <div class="sk-chat-widgets">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Users Online
+                    </div>
+                    <div class="panel-body">
+                        <ul class="chatonline reload_chatonline">
+                            @if (HttpRuntime.Cache["LoggedInUsers"] != null)
+                            {
+                                List<Models.Models.DataModels.User> LoggedOnUsers = (List<Models.Models.DataModels.User>)HttpRuntime.Cache["LoggedInUsers"];
+                                if (LoggedOnUsers.Count > 0)
+                                {
+                                    foreach (var item in LoggedOnUsers)
+                                    {
+                                        <li>
+                                            <div class="call-chat">
+                                                <button class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-phone"></i></button>
+                                                <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-comments-o"></i></button>
+                                            </div>
+                                            <a href="javascript:void(0)"><img src="/Images/@item.Avatar" alt="user-img" class="img-circle"> <span>@item.FullName<small class="text-success">online</small></span></a>
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section chartjs{
+    <!--Morris JavaScript -->
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/Chart.js/Chart1.min.js"></script>
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/Chart.js/utils.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            jQuery.getJSON("@Url.Action("ChartData","Home")", function (res) {
+                var monthOfYear = [];
+                var total = [];
+                for (var i = 0; i < res.length; i++) {
+                    monthOfYear.push(res[i].MonthOfYear);
+                    total.push(res[i].Total);
+                }
+                //chartbar
+                var color = Chart.helpers.color;
+                var barChartData = {
+                    labels: monthOfYear,
+                    datasets: [{
+                        label: 'Đơn hàng đã bán',
+                        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                        borderColor: window.chartColors.red,
+                        borderWidth: 1,
+                        data: total,
+                    }]
+                };
+                window.onload = function () {
+                    var ctx = document.getElementById('canvas').getContext('2d');
+                    window.myBar = new Chart(ctx, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: {
+                            responsive: true,
+                            legend: {
+                                position: 'top',
+                            },
+                        }
+                    });
+                };
+            })
+        });
+    </script>
+}
+@section Scripts{
+    <script type="text/javascript">
+        function loadLogged() {
+            $(".reload_chatonline").load('/Admin .reload_chatonline');
+        }
+        setInterval(loadLogged, 3000);
+    </script>
+    @if (@TempData["alertMessenger"] != null)
+    {
+        <script>
+        $(document).ready(function () {
+            "use strict";
+            // toat popup js
+            $.toast({
+                heading: '@TempData["notication"]',
+                text: '@TempData["alertMessenger"]',
+                loaderBg: '#fff',
+                allowToastClose: false,
+                position: '@TempData["position"]',
+                icon: '@TempData["TypeAlert"]',
+                hideAfter: @TempData["hideAfter"],
+                stack: 6
+            })
+
+        })
+        </script>
+    }
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+}
+

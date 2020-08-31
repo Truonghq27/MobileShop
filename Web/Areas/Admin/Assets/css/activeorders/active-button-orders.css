@@ -1,0 +1,12 @@
+﻿.actice_orders {
+    background-color: #dfb4ff;
+    border-color: #dfb4ff;
+    outline: 0;
+    box-shadow: 0 0 0 0.5rem rgba(218, 194, 221, .55);
+}
+.actice_orders:focus {
+    background-color: #dfb4ff;
+    border-color: #dfb4ff;
+    outline: 0;
+    box-shadow: 0 0 0 0.5rem rgba(218, 194, 221, .55);
+}

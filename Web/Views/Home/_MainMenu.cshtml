@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Models.Models.DataModels.Category>
+
+@foreach (var item in Model.Where(x => x.ParentId == null))
+{
+    var child = Model.Where(x => x.ParentId == item.CategoryId);
+    var coutItem = child.Count() > 0 ? "menu-item-has-children" : "";
+    var url = Url.Action("Products", "Home", new { id = item.CategoryId });
+    var countUrl = child.Count() > 0 ? "" : "href="+@url;
+    <li id="menu-item-622" class="menu-item menu-item-type-post_type menu-item-object-page @coutItem  menu-item-622">
+        <a @countUrl >@item.CategoryName</a>
+        <ul class="sub-menu">
+            @if (child.Count() > 0)
+            {
+                foreach (var cate in child)
+                {
+                    var _url = Url.Action("Products", "Home", new { id = cate.CategoryId });
+                    <li id="menu-item-598" class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-598">
+                        <a href="@_url">@cate.CategoryName</a>
+                    </li>
+                }
+            }
+
+        </ul>
+    </li>
+}
+

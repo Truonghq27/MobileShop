@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Banner";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+}
+<div class="col-sm-12">
+    <div class="white-box">
+        <div class="row">
+            <div class=" col-md-6 col-xs-6 right">
+                <a href="@Url.Action("CreateBanner","Products")" class="btn btn-info btn-rounded btn-create-Parent" style="border-radius:unset">Thêm mới</a>
+            </div>
+        </div>
+        <h3 class="box-title m-b-0">
+        </h3>
+        <p class="text-muted m-b-30"></p>
+        <div class="table-responsive" id="reload">
+            <table id="myTable" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Mô tả Banner</th>
+                        <th>Ảnh</th>
+                        <th>Vị trí sắp xếp</th>
+                        <th>Trạng thái</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-body">
+                <h4 class="modal-title text-danger bold">Thông báo</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Bạn có chắc muốn xoá ?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="confirmdelete" type="button" class="btn btn-danger">Xoá</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var datatable = $("#myTable").DataTable({
+                ajax: {
+                    type: "GET",
+                    url: "@Url.Action("GetAllBanner","Products")",
+                    dataType: "JSON",
+                },
+                columns: [
+                    { data: "DescriptionBanner" },
+                    {
+                        data: "BannerImage", render: function (BannerImage) {
+                            return '<img src="' + BannerImage + '" width="60" />';
+                        }
+                    },
+                    { data: "Orderby" },
+                    {
+                        data: "Status", render: function (Status) {
+                            if (Status == 1) {
+                                return '<label class="label label-success">Hiển thị</label>'
+                            } else if (Status == 0) {
+                                return '<label class="label label-inverse">Tạm ẩn</label>'
+                            }
+                        },
+                    },
+                    {
+                        data: "BannerId", render: function (data) {
+                            return '<a href="@Url.Action("EditBanner","Products")/' + data + '" class="btn btn-sm btn-icon btn-pure btn-outline edit-row-btn" ><i data-toggle="tooltip" data-original-title="Chỉnh sửa" style="font-size:15px" class="ti-pencil-alt text-primary tooltip-primary" aria-hidden="true"></i></a>' +
+                                '<button data-id="' + data +'" class="mr-0 btn btn-sm btn-icon btn-pure btn-outline edit-row-btn btn-delete-banner" ><i data-toggle="tooltip" data-original-title="Xoá" style="font-size:15px" class="ti-trash text-danger font-weight-bold tooltip-danger" aria-hidden="true"></i></button>'
+                        },
+                    },
+                ],
+                "order": [[2, "asc"]],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "Trang trước",
+                        "sNext": "Trang sau",
+                        "sLast": "Trang cuối",
+                        "sFirst": "Trang đầu",
+                    },
+                    //search
+                    "sSearch": "Tìm kiếm:",
+                    "sLengthMenu": "Hiện thị _MENU_ số hàng",
+                    "sInfo": "Trang _START_ tổng _TOTAL_ (_START_ to _END_)",
+                    "sInfoEmpty": 'Không có gì để hiển thị',
+                    "sEmptyTable": "Không có dữ liệu, click vào <span style='font-weight:700'>Thêm mới</span> để thêm dữ liệu",
+                },
+            });
+            //allow tooltip active
+            datatable.on('draw', function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+            //get id
+            var id;
+            $(document).on('click', '.btn-delete-banner', function (e) {
+                e.preventDefault();
+                id = $(this).data('id');
+                $("#myModal").modal('show');
+            });
+
+            $("#confirmdelete").on('click', function () {
+                if (id != undefined) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Deletebanner","Products")",
+                        data: { id: id },
+                        success: function (res) {
+                            $('.notifyjs-wrapper').remove();
+                            $.notify(res.success, {
+                                globalPosition: "top center",
+                                className: "success",
+                            })
+                            $("#myModal").modal("hide");
+                            datatable.ajax.reload();
+                        },
+                        error: function (res) {
+                            $('.notifyjs-wrapper').remove();
+                            $.notify(res.error, {
+                                globalPosition: "top center",
+                                className: "error",
+                            })
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+}
+

@@ -1,0 +1,222 @@
+﻿@model Models.Models.DataModels.Customer
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    HttpCookie cookie = Request.Cookies["InfoCustomer"];
+}
+@section styleCss_1{
+    <!-- toast CSS -->
+    <link href="~/Content/toast-master/css/jquery.toast.css" rel="stylesheet">
+    <link href="~/Content/users/userRight.css" rel="stylesheet" />
+}
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr col-auto" style="width: 910px;box-shadow: 0 1px 2px 0 rgba(0,0,0,.13);;padding-bottom:10px;margin-bottom:50px">
+                <div class="page-control-right col-md-auto">
+                    <div class="my-account-section">
+                        <div class="my-account-section__header">
+                            <div class="my-account-section__header-left">
+                                <div class="my-account-section__header-title">
+                                    Hồ sơ của tôi
+                                </div>
+                                <div class="my-account-section__header-subtitle">
+                                    Quản lý thông tin hồ sơ để bảo mật tài khoản
+                                </div>
+                            </div>
+                        </div>
+                        @using (Html.BeginForm("Index", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="my-account-profile">
+                                <div class="my-account-profile__left">
+                                    <div class="input-with-label">
+                                        <div class="input-with-label__wrapper">
+                                            <div class="input-with-label__label">
+                                                <label>Tên đăng nhập</label>
+                                            </div><div class="input-with-label__content">
+                                                <div class="my-account__inline-container">
+                                                    <div class="my-account__input-text">
+                                                        <div class="input-with-validator">
+                                                            <input name="FullName" placeholder="@Model.FullName" style="box-shadow: none;width:1000px; max-width:358px" type="text" value="@Model.FullName">
+                                                        </div>
+                                                        <br />
+                                                        @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-with-label">
+                                        <div class="input-with-label__wrapper">
+                                            <div class="input-with-label__label">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="input-with-label__content">
+                                                <div class="my-account__input-text">
+                                                    @cookie["Email"]
+                                                    <button class="my-account__no-background-button my-account-profile__change-button">Thay đổi</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><div class="input-with-label">
+                                        <div class="input-with-label__wrapper">
+                                            <div class="input-with-label__label">
+                                                <label>Số điện thoại</label>
+                                            </div>
+                                            <div class="input-with-label__content">
+                                                <div class="my-account__inline-container">
+                                                    @if (Model.Phone == null)
+                                                    {
+                                                        <div class="my-account__input-text">
+                                                        </div>
+                                                        <button class="my-account__no-background-button my-account-profile__change-button">Thêm mới</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="my-account__input-text">
+                                                            @Model.Phone
+                                                            <button class="my-account__no-background-button my-account-profile__change-button">Thay đổi</button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-with-label">
+                                        <div class="input-with-label__wrapper">
+                                            <div class="input-with-label__label">
+                                                <label>Ngày tạo</label>
+                                            </div>
+                                            <div class="input-with-label__content">
+                                                <div class="input-with-validator-wrapper">
+                                                    <div class="my-account__input-text">
+                                                        @cookie["CreateDate"]
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Gender-->
+                                    <div class="input-with-label">
+                                        <div class="input-with-label__wrapper">
+                                            <div class="input-with-label__label">
+                                                <label>Giới tính</label>
+                                            </div>
+                                            @{var a1 = Model.Gender == 1 ? "checked" : ""; var a2 = Model.Gender == 0 ? "checked" : ""; var a3 = Model.Gender == 2 ? "checked" : ""; }
+                                            <div class="input-with-label__content">
+                                                <div class="my-account-profile__gender">
+                                                    <div class="stardust-radio-group">
+                                                        <div class="stardust-radio stardust-radio--checked">
+                                                            <div class="stardust-radio-button stardust-radio-button--checked">
+                                                                <div class="stardust-radio-button__outer-circle">
+                                                                    <div class="stardust-radio-button__inner-circle"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="stardust-radio__content">
+                                                                <input type="radio" id="male" @a1 name="Gender" value="1">
+                                                                <label for="male">Nam</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="stardust-radio">
+                                                            <div class="stardust-radio-button">
+                                                                <div class="stardust-radio-button__outer-circle">
+                                                                    <div class="stardust-radio-button__inner-circle">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="stardust-radio__content">
+                                                                <input type="radio" id="female" @a2 name="Gender" value="0">
+                                                                <label for="female">Nữ</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="stardust-radio">
+                                                            <div class="stardust-radio-button">
+                                                                <div class="stardust-radio-button__outer-circle">
+                                                                    <div class="stardust-radio-button__inner-circle"></div>
+                                                                </div>
+                                                            </div><div class="stardust-radio__content">
+                                                                <input type="radio" id="other" @a3 name="Gender" value="2">
+                                                                <label for="other">Khác</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-with-label">
+                                        <div class="input-with-label__wrapper">
+                                            <div class="input-with-label__label">
+                                                <label>Ngày sinh</label>
+                                            </div>
+                                            <div class="input-with-label__content">
+                                                <div class="input-with-validator-wrapper">
+                                                    <div class="input-with-validator">
+                                                        <input type="date" name="DateofBirth" value="@Model.DateofBirth.ToString("yyyy-MM-dd")">
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.DateofBirth, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="my-account-profile__right">
+                                    <div class="avatar-upload">
+                                        <div class="avatar-edit">
+                                            <input type="file" name="imageUpload" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                            <label for="imageUpload"></label>
+                                        </div>
+                                        <div class="avatar-preview">
+                                            @if (!String.IsNullOrEmpty(Model.Avatar))
+                                            {
+                                                <div id="clock" style="background-image: url(/Images/@Model.Avatar);">
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div id="clock" style="background-image: url(https://4.bp.blogspot.com/-H232JumEqSc/WFKY-6H-zdI/AAAAAAAAAEw/DcQaHyrxHi863t8YK4UWjYTBZ72lI0cNACLcB/s1600/profile%2Bpicture.png);">
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-account-page__submit">
+                                <button type="submit" class="btn btn-solid-primary btn--m btn--inline">Lưu</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+
+            @{Html.RenderAction("MainleftUser", "Users");}
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+
+<script type="text/javascript">
+    document.getElementById('imageUpload').addEventListener('change', readURL, true);
+    function readURL() {
+        const file = document.getElementById("imageUpload").files[0];
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            document.getElementById('clock').style.backgroundImage = "url(" + reader.result + ")";
+        }
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+        }
+    }
+
+</script>
+@section Scripts_2{
+    <script src="~/Content/toast-master/js/jquery.min.js"></script>
+    <script src="~/Content/toast-master/js/jquery.toast.js"></script>
+}

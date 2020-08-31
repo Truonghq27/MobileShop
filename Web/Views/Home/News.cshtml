@@ -1,0 +1,64 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Models.Models.DataModels.News>
+@{
+    ViewBag.Title = "News";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr">
+                <div class="category-control-right">
+                    <div class="category-fluid">
+                        <h1>Tin tức	</h1>
+                        @foreach (var item in Model)
+                        {
+                            <div class="style-category" id="post-737">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 style-category-box">
+                                    <article class="category-list">
+                                        <div class="category-left-style">
+                                            <a href="@Url.Action("NewsDetail","Home", new { id = item.NewsId })" title="@item.NewsTitle">
+                                                <img class="img-responsive" src="@item.FeatureImage" alt="@item.NewsTitle" width="250" height="180">
+                                            </a>
+                                        </div>
+                                        <span class="cateogry-right-style">
+                                            <a href="@Url.Action("NewsDetail","Home", new { id = item.NewsId })">
+                                                <h2>@item.NewsTitle</h2>
+                                            </a>
+                                            <div class="cateogry-right-description">
+                                                @if (@item.ShortDescription.Length >= 180)
+                                                {
+                                                    @item.ShortDescription.Substring(0, 180)<span>...</span>
+                                                }
+                                                else
+                                                {
+                                                    @item.ShortDescription
+                                                }
+                                            </div>
+                                        </span>
+                                        <span class="cateogry-right-style">
+                                            <div class="cateogry-right-description"></div>
+                                        </span>
+                                    </article>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 style-category-box">
+                        @Html.PagedListPager(Model, page => Url.Action("News", "Home", new { page = page }))
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            @{Html.RenderAction("Mainleft", "Home");}
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+

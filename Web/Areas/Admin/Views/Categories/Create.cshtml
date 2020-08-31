@@ -1,0 +1,74 @@
+﻿@model Models.ViewModels.CreateCategories
+@{
+    ViewBag.Title = "Thêm mới danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="white-box">
+        <div class="panel-wrapper collapse in">
+            <div class="panel-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tên danh mục</label>
+                                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control text-box  single-line" } })
+                                    @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Chọn danh mục chính</label>
+                                    @Html.DropDownList("ParentId", null,"Đặt làm danh mục chính", htmlAttributes: new { @class = "form-control selectpicker m-b-20 m-r-10 bs-select-hidden", @data_style = "btn-primary btn-outline" })
+                                    @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <div class="radio-list">
+                                        <div class="radio-inline p-0">
+                                            <div class="radio radio-success">
+                                                <input type="radio" name="Status" checked="" id="radio1" value="1">
+                                                <label for="radio1">Còn hàng</label>
+                                            </div>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <div class="radio radio-danger">
+                                                <input type="radio" name="Status" id="radio2" value="0">
+                                                <label for="radio2">Hết hàng</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button style="border-radius:unset" type="submit" class="btn btn-info"> <i class="fa fa-check"></i> Thêm mới</button>
+                        <a href="#"  style="border-radius:unset" type="button" class="btn btn-default" onClick="history.go(-1); return false;">Cancel</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Areas/Admin/Assets/js/notify.min.js"></script>
+@if (TempData["notify"] != null)
+{
+    <script>
+            $.notify(@TempData["notify"], {
+                globalPosition: "top center",
+                className: @TempData["typeAlert"],
+            });
+    </script>
+}
+

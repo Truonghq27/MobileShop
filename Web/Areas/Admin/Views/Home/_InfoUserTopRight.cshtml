@@ -1,0 +1,42 @@
+﻿@using Models.Models.DataModels;
+@{
+    if (HttpContext.Current.Session["User"] != null)
+    {
+        var getInfoUser = (User)HttpContext.Current.Session["User"];
+        <ul class="nav navbar-top-links navbar-right pull-right reload-info-users_mr">
+            <li>
+                <form role="search" class="app-search hidden-sm hidden-xs m-r-10">
+                    <input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a>
+                </form>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#">
+                    <img src="/Images/@getInfoUser.Avatar" alt="user-img" width="36" class="img-circle">
+                    <b class="hidden-xs">@getInfoUser.UserName</b>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-user animated flipInY">
+                    <li>
+                        <div class="dw-user-box">
+                            <div class="u-img"><img src="/Images/@getInfoUser.Avatar" alt="user" /></div>
+                            <div class="u-text">
+                                <p style="font-size:15px;" class="font-bold text-danger">@getInfoUser.FullName</p>
+                                <p class="text-muted">@getInfoUser.Email</p><a href="/admin/trang-chu" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="@Url.Action("Index", "Users")"><i class="ti-user"></i> My Profile</a></li>
+                    <li><a href="@Url.Action("Products","Index")"><i class="ti-wallet"></i> My Balance</a></li>
+                    <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="@Url.Action("Logout","Users")"><i class="fa fa-power-off"></i> Logout</a></li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+    }
+}

@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Models.Models.DataModels.Order>
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts_2{
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+}
+<link href="~/Content/users/left-users.css" rel="stylesheet" />
+<div class="main-css-fluid">
+    <section class="main-css padding-config">
+        <div class="main-container">
+            <!--START MAIN RIGHT -->
+            <div class="main-right woo-control-right fr" style="width: 910px;box-shadow: 0 1px 2px 0 rgba(0,0,0,.13);;padding-bottom:10px;margin-bottom:50px">
+                <div class="page-control-right">
+                    <div class="page-fluid">
+                        <h1>Đơn hàng của tôi</h1>
+                        <div class="img-responsive padding-orders">
+                            <div class="woocommerce">
+                                @if (Model != null)
+                                {
+                                    <nav class="woocommerce-MyAccount-navigation">
+                                        <div class="orders-table">
+                                            <style>
+                                            </style>
+                                            <table id="myTable" class="table table-striped table-bordered table-hover css-table-orders">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã đơn hàng</th>
+                                                        <th>Ngày mua</th>
+                                                        <th>Sản phẩm</th>
+                                                        <th style="text-align:right">Tổng tiền</th>
+                                                        <th>Trạng thái</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.OrderByDescending(x=> x.Created))
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <a style="color:rgb(0, 127, 240);" href="@Url.Action("orderdetail","Users", new {id = item.CodeOrder })">#@item.CodeOrder</a>
+                                                            </td>
+                                                            <td>@item.Created.ToString("dd/MM/yyyy")</td>
+                                                            <td>
+                                                                @foreach (var pro in item.OrderDetails.Take(1))
+                                                                {
+                                                                    if (item.OrderDetails.Count() == 1)
+                                                                    {
+                                                                        if (pro.ProductName.Length >= 20)
+                                                                        {<span>@pro.ProductName.Substring(0, 20)...</span>}
+                                                                    else
+                                                                    {
+                                                                        <span>@pro.ProductName</span>
+                                                                    }
+
+                                                                }
+                                                                else if (item.OrderDetails.Count() > 1)
+                                                                {
+                                                                    int count = item.OrderDetails.Count() - 1;
+                                                                    if (pro.ProductName.Length >= 20)
+                                                                    {
+                                                                        <span>@pro.ProductName.Substring(0, 20)... và @count sản phẩm khác</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span>@pro.ProductName và @count sản phẩm khác</span>
+                                                                    }
+
+                                                                }
+                                                            }
+                                                            </td>
+                                                            <td style="text-align:right">@String.Format("{0:#,##}", item.totalPrice) ₫</td>
+                                                            @{
+                                                                switch (item.Status)
+                                                                {
+                                                                    case -2:
+                                                                        <td>Bạn đã huỷ</td>
+                                                                        break;
+                                                                    case -1:
+                                                                        <td>Đã bị huỷ</td>
+                                                                        break;
+                                                                    case 1:
+                                                                        <td>Đã duyệt đơn hàng</td>
+                                                                        break;
+                                                                    case 2:
+                                                                        <td>Đã giao hàng</td>
+                                                                        break;
+                                                                    default:
+                                                                        <td>Đang xử lý</td>
+                                                                        break;
+                                                                }
+                                                            }
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </nav>
+                                }
+                                else
+                                {
+                                    <div class="woocommerce-MyAccount-content">
+                                        <div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+                                            <a class="woocommerce-Button button" href="@Url.Action("Index", "Home")">
+                                                <br>
+                                                Đi đến cửa hàng
+                                            </a><br>
+                                            Chưa có đơn hàng nào.
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MAIN RIGHT -->
+            <!--START MAIN LEFT -->
+            @{Html.RenderAction("MainleftUser", "Users");}
+            <!--END MAIN LEFT -->
+        </div>
+        <!--END MAIN CONTAINER -->
+    </section>
+</div>
+@section datatable{
+    <script src="~/Areas/Admin/Assets/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/notify.min.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}
