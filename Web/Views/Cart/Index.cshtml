@@ -17,7 +17,8 @@
                         <h1>Giỏ hàng</h1>
                         <div class="img-responsive">
                             <div class="woocommerce rel_table_cart">
-                                <form action="" method="post">
+                                @using (Html.BeginForm("UpdateQuantity", "Cart", FormMethod.Post, new { @id = "formsubmit" }))
+                                {
                                     <table id="reload_table_cart" class="shop_table shop_table_responsive cart l_current_tb_cart" cellspacing="0">
                                         @if (String.IsNullOrEmpty(ViewBag.cartnull))
                                         {
@@ -29,6 +30,7 @@
                                                     <th class="product-price">Giá</th>
                                                     <th class="product-quantity">Số lượng</th>
                                                     <th class="product-subtotal">Tổng cộng</th>
+                                                    <th class="product-subtotal">Tổng cộng</th>
                                                 </tr>
                                             </thead>
                                         }
@@ -39,13 +41,13 @@
                                                     @ViewBag.cartnull
                                                 </td>
                                                 <td class="actions">
-                                                    <a href="@Url.Action("Index","Home")">Trang chủ</a>
+                                                    <a href="@Url.Action("Index", "Home")">Trang chủ</a>
                                                 </td>
                                             </tr>
                                         }
                                         <tbody id="cartView"></tbody>
                                     </table>
-                                </form>
+                                }
                             </div>
                         </div>
                     </div>
@@ -102,16 +104,45 @@
             GetAll();
             function validateForm() {
 
-                var z = document.getElementById("qty").value
+                var z = document.getElementById("Quantity").value
 
                 if (!/^[0-9]+$/.test(z)) {
-                    alert("Please only enter numeric characters only for your Age! (Allowed input:0-9)")
+                    alert("Vui lòng chọn số hợp lệ")
+                    GetAll();
                 }
 
             }
             //test update
-            $(document).on('click', ".btn-submit", function () {
+            $(document).on('click','._update_cart', function (e) {
+                e.preventDefault();
                 validateForm();
+                var carId = $(this).data("id");
+                var qty = $("#Quantity").val();
+                if (qty >= 0 || id != undefined) {
+                    $.ajax({
+                        type: "post",
+                        url: "@Url.Action("UpdateQuantity","Cart")",
+                        data: { id: carId, quantity: qty },
+                        dataType: "JSON",
+
+                        success: function (res) {
+                            if (res.success) {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                })
+                                GetAll();
+                            } else {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                })
+                            }
+                        }
+                    })
+                }
             })
             //Showmodel delete
             var id;

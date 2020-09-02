@@ -4546,8 +4546,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\uploads\product\" />
-    <Folder Include="Views\Default\" />
-    <Folder Include="Views\TestGit\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

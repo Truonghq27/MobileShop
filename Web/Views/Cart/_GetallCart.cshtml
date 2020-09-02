@@ -3,6 +3,7 @@
     var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
     double totalPrice = 0;
 }
+
 @foreach (var item in Model)
 {
     <tr class="cart_item" id="cart_product_@item.CartId">
@@ -15,22 +16,10 @@
         <td class="product-name" data-title="Sản phẩm">
             <a href="">@item.product.ProductName</a><p></p>
             <dl class="variation">
-                @{
-                    foreach (var a in item.product.ProductAttrs)
-                    {
-                        var attrId = item.AttrId.Split(';');
-                        foreach (var id in attrId)
-                        {
-                            if (int.Parse(id) == a.AttrId)
-                            {
-                                <dt class="variation-Chtliu">@a.Attributes.AttrName</dt>
-                                <dd class="variation-Chtliu">
-                                    <p></p>
-                                </dd>
-                            }
-                        }
-                    }
-                }
+                <dt class="variation-Chtliu">@item.AttrName</dt>
+                <dd class="variation-Chtliu">
+                    <p></p>
+                </dd>
             </dl>
         </td>
         @{
@@ -42,27 +31,21 @@
         </td>
         <td class="product-quantity" data-title="Số lượng">
             <div class="quantity">
-                <input style="display:inline" type="text" name="qty" value="@item.Quantity"id="qty" class="input-text qty text">
+                <input style="display:inline" type="" min="" name="Quantity" value="@item.Quantity" id="Quantity" class="input-text qty text">
             </div>
         </td>
         <td class="product-subtotal" data-title="Tổng cộng">
-
             <span class="woocommerce-Price-amount amount">@String.Format(info, "{0:c00}", price)</span>
+        </td>
+        <td colspan="6" class="actions">
+            <input data-id="@item.CartId" type='submit' class='button btn-submit _update_cart' name='update_cart' value='Cập nhật'>
         </td>
     </tr>
 }
-<tr>
-    @{var disable = Model.Count() > 0 ? "submit" : "hidden"; }
-    <td colspan="6" class="actions">
-        <p>
-            <input  type='@disable' class='button btn-submit' name='update_cart' value='Cập nhật Giỏ hàng'>
-        </p>
-    </td>
-</tr>
 @if (Model.Count() > 0)
 {
     <tr>
-        <td colspan="6" class="actions">
+        <td colspan="7" class="actions">
             <div class="cart-collaterals">
                 <div class="cart_totals ">
                     <h2>Tổng giỏ hàng</h2>
