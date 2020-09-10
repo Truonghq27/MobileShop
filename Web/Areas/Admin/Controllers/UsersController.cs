@@ -232,6 +232,34 @@ namespace Web.Areas.Admin.Controllers
             return View(m);
         }
 
+        [HttpPost]
+        [CustomAuth]
+        public ActionResult ChangePassword(ChangePassword changepwd)
+        {
+            var curentUser = (User)HttpContext.Session["User"]; // sesin current user
+            if (curentUser == null)
+            {
+                return Json(new { error = "Vui lòng đăng nhập lại" }, JsonRequestBehavior.AllowGet);
+            }
+            var user = db.Users.FirstOrDefault(x => x.UserId == curentUser.UserId);
+            if (user != null)
+            {
+                var encodingPwd = BCrypt.Net.BCrypt.Verify(changepwd.Password,user.Password);
+                if (!encodingPwd)
+                {
+                    return Json(new { error = "Mật khẩu cũ không đúng" }, JsonRequestBehavior.AllowGet);
+                }
+                if (changepwd.NewPassword != changepwd.ConfirmPassword)
+                {
+                    return Json(new { error = "Mật khẩu mới không khớp" }, JsonRequestBehavior.AllowGet);
+                }
+                user.Password = BCrypt.Net.BCrypt.HashPassword(changepwd.NewPassword);
+                db.SaveChanges();
+                return Json(new { success = "Thay đổi mật khẩu thành công !!" }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { error = "Vui lòng đăng nhập lại" }, JsonRequestBehavior.AllowGet);
+        }
+
         // POST: Admin/Users/ Information current user
         [CustomAuth]
         public ActionResult Index(string userName)

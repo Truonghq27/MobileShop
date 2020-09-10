@@ -34,7 +34,8 @@
                             }
                         </div>
                     </div>
-                    <p style="font-size:16px" class="text-white font-weight-bold">@Model.FullName @if(Model.IsAdmin == true){<label style="position:absolute;padding: 2px 8px 2px 9px;font-size: 9px;" class="label label-danger">Owner</label>}</p>
+                    <p style="font-size:16px" class="text-white font-weight-bold">@Model.FullName @if (Model.IsAdmin == true)
+                    {<label style="position:absolute;padding: 2px 8px 2px 9px;font-size: 9px;" class="label label-danger">Owner</label>}</p>
                     <h5 class="text-white">@Model.Email</h5>
                 </div>
             </div>
@@ -62,7 +63,7 @@
                 <a href="#settings" data-toggle="tab" aria-expanded="true"> <span class="visible-xs"><i class="fa fa-cog"></i></span> <span class="hidden-xs">Thông tin</span> </a>
             </li>
             <li class="tab">
-                <a href="#profile" data-toggle="tab" aria-expanded="false"> <span class="visible-xs"><i class="fa fa-user"></i></span> <span class="hidden-xs">Đổi mật khẩu</span> </a>
+                <a href="#changepwd" data-toggle="tab" aria-expanded="false"> <span class="visible-xs"><i class="fa fa-user"></i></span> <span class="hidden-xs">Đổi mật khẩu</span> </a>
             </li>
         </ul>
         <div class="tab-content">
@@ -105,28 +106,32 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="profile">
-                @*<div class="form-horizontal form-material">
-                        <div class="form-group">
-                            <label class="col-md-12">Nick name</label>
-                            <div class="col-md-12">
-                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control form-control-line", @placeholder = @Model.FullName } })
-                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                            </div>
+            <div class="tab-pane" id="changepwd">
+                <div class="form-horizontal form-material">
+                    <div class="form-group">
+                        <label class="col-md-12">Mật khẩu cũ</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line" placeholder="Nhập mật khẩu cũ" type="password" name="Password" id="oldPassword"/>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-12">Họ và Tên</label>
-                            <div class="col-md-12">
-                                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control form-control-line", @placeholder = @Model.FullName } })
-                                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Mật khẩu mới</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line" placeholder="Nhập mật khẩu mới" type="password" name="NewPassword" id="newPassword" />
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <input id="foo" type="submit" class="btn btn-success btn-click" value="Update Profile">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Nhập lại mật khẩu mới</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line" placeholder="Nhập lại mật khẩu mới" type="password" name="ConfirmPassword" id="confirmPassword" />
                         </div>
-                    </div>*@
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input id="foo-changepwd" type="submit" class="btn btn-success btn-click" value="Đổi mật khẩu">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -144,7 +149,7 @@
                 //    console.log(file.name);
                 //}
                 //get value
-                
+
                 var formData = new FormData();
                 var userName = document.getElementById("UserName").value
                 var fullName = document.getElementById("FullName").value
@@ -206,8 +211,44 @@
                 readURL(this);
             });
 
+
+            //change pwd
+            $(document).on('click', '#foo-changepwd', function () {
+                var formData = new FormData();
+                var passWord = document.getElementById("oldPassword").value
+                var newPassWord = document.getElementById("newPassword").value
+                var confirmPassword = document.getElementById("confirmPassword").value
+                //set data
+                formData.append("Password", passWord);
+                formData.append("NewPassword", newPassWord);
+                formData.append("ConfirmPassword", confirmPassword);
+                if (formData != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ChangePassword","Users")",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.success) {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.success, {
+                                    globalPosition: "top center",
+                                    className: "success",
+                                });
+                            } else {
+                                $('.notifyjs-wrapper').remove();
+                                $.notify(res.error, {
+                                    globalPosition: "top center",
+                                    className: "error",
+                                });
+                            }
+                        }
+                    })
+                }
+            })
         })
     </script>
-
     <script src="~/Areas/Admin/Assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
 }

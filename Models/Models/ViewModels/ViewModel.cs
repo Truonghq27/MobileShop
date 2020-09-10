@@ -181,6 +181,15 @@ namespace Models.ViewModels
         [Required(ErrorMessage = "Vui lòng chọn vai trò cho nhân viên")]
         public string GroupId { get; set; }
     }
+    public class ChangePassword
+    {
+        
+        public string Password { get; set; }
+        
+        public string NewPassword { get; set; }
+        
+        public string ConfirmPassword { get; set; }
+    }
     public class CreateCategories
     {
         public string CategoryName { get; set; }
