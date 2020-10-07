@@ -1696,7 +1696,6 @@
     <Content Include="Areas\Admin\Assets\plugins\bower_components\jquery-steps-master\.travis.yml" />
     <Content Include="Areas\Admin\Assets\plugins\bower_components\jquery-steps-master\bower.json" />
     <Content Include="Areas\Admin\Assets\plugins\bower_components\jquery-steps-master\build\jquery.steps-1.1.0.zip" />
-    <Content Include="Areas\Admin\Assets\plugins\bower_components\jquery-steps-master\build\jQuery.Steps.1.1.0.nupkg" />
     <Content Include="Areas\Admin\Assets\plugins\bower_components\jquery-steps-master\build\jquery.steps.js" />
     <Content Include="Areas\Admin\Assets\plugins\bower_components\jquery-steps-master\build\jquery.steps.min.js" />
     <Content Include="Areas\Admin\Assets\plugins\bower_components\jquery-steps-master\CHANGELOG.md" />
