@@ -1,8 +1,11 @@
 *.c# linguist-detectable=true
-*.css3 linguist-detectable=false
+*.* linguist-language=c#
 *.less linguist-detectable=false
 *.js linguist-detectable=false
 *.css linguist-detectable=false
 *.SCSS linguist-detectable=false
 *.HTML linguist-detectable=false
+*.html linguist-detectable=false
+*.HTML5 linguist-detectable=false
+*.HTML4 linguist-detectable=false
 *.xml linguist-detectable=false
