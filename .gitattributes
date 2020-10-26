@@ -1,5 +1,4 @@
-*.csharp,ASP.NET linguist-detectable=true
-
+*.* linguist-language=ASP.NET, csharp
 *.less linguist-detectable=false
 *.js linguist-detectable=false
 *.css linguist-detectable=false
