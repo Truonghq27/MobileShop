@@ -1,7 +1,4 @@
-require 'rugged'
-require 'linguist'
-
-repo = Rugged::Repository.new('.')
-project = Linguist::Repository.new(repo, repo.head.target_id)
-project.language       #=> "Ruby"
-project.languages      #=> { "Ruby" => 119387 }
+*.java linguist-detectable=true
+*.js linguist-detectable=false
+*.html linguist-detectable=false
+*.xml linguist-detectable=false
