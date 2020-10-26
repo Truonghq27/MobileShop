@@ -2,7 +2,3 @@ Views/* linguist-vendored
 Assets/* linguist-vendored
 Scripts/* linguist-vendored
 Content/* linguist-vendored
-*.css -linguist-vendored
-css/* -linguist-vendored
-jquery.js linguist-vendored
-*.less linguist-vendored
