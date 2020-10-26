@@ -1,7 +1,5 @@
-MobileShop/Web/Areas/Admin/Views/* linguist-vendored
-MobileShop/Web/Views/* linguist-vendored
-*.csharp linguist-detectable=true
-*.js linguist-detectable=false
-*.html linguist-detectable=false
 *.css linguist-detectable=false
-*.xml linguist-detectable=false
+*.csharp linguist-detectable=true 
+*.js linguist-detectable=false
+*.html linguist-detectable=false  
+*.xml linguist-detectable=false 
