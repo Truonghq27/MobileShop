@@ -1,5 +1,7 @@
-# Example of a `.gitattributes` file which reclassifies `.rb` files as Java:
-*.rb linguist-language=c#
+require 'rugged'
+require 'linguist'
 
-# Replace any whitespace in the language name with hyphens:
-*.glyphs linguist-language=OpenStep-Property-List
+repo = Rugged::Repository.new('.')
+project = Linguist::Repository.new(repo, repo.head.target_id)
+project.language       #=> "Ruby"
+project.languages      #=> { "Ruby" => 119387 }
