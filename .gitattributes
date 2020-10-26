@@ -1,4 +1,6 @@
 *.c# linguist-detectable=true
+*.css3 linguist-detectable=false
+*.less linguist-detectable=false
 *.js linguist-detectable=false
 *.css linguist-detectable=false
 *.html linguist-detectable=false
