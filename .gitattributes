@@ -1,4 +1,5 @@
 *.cshtml linguist-vendored
 *.css linguist-vendored
 css/* linguist-vendored
+js/* linguist-vendored
 *.less linguist-vendored
