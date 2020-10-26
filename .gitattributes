@@ -4,6 +4,5 @@ Scripts/* linguist-vendored
 Content/* linguist-vendored
 *.css -linguist-vendored
 css/* -linguist-vendored
-*.js linguist-vendored
 jquery.js -linguist-vendored
 *.less linguist-vendored
