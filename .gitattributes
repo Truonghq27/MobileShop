@@ -1,4 +1,1 @@
-vim: syntax=csharp
-vim: set syntax=csharp:
-vim: set filetype=prolog:
-vim: set ft=cpp:
+*.cshtml linguist-vendored
