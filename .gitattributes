@@ -6,4 +6,4 @@
 *.cshtml linguist-detectable=false
 *.xhtml linguist-detectable=false
 *.xphp linguist-detectable=false
-*.xjs linguist-detectable=false
+*.js linguist-detectable=false
