@@ -344,6 +344,7 @@ healthchecksdb
 *.less linguist-detectable=false
 *.csharp linguist-detectable=true
 *.js linguist-detectable=false
+*.jquery.js linguist-detectable=false
 *.html linguist-detectable=false  
 *.xml linguist-detectable=false 
 *.json linguist-detectable=false
