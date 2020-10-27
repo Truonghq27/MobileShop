@@ -3,3 +3,5 @@
 *.scss linguist-detectable=false
 *.less linguist-detectable=false
 *.js linguist-detectable=false
+*.html linguist-detectable=false
+*.cshtml linguist-detectable=false
