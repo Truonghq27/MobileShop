@@ -6,4 +6,3 @@
 *.cshtml linguist-detectable=false
 *.xhtml linguist-detectable=false
 *.xphp linguist-detectable=false
-jquery.js linguist-vendored
