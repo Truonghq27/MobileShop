@@ -5,3 +5,4 @@
 *.js linguist-detectable=false
 *.html linguist-detectable=false
 *.cshtml linguist-detectable=false
+*.xhtml linguist-detectable=false
