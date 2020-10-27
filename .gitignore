@@ -340,7 +340,9 @@ ASALocalRun/
 healthchecksdb
 
 *.css linguist-detectable=false
-*.java linguist-detectable=false
+*.scss linguist-detectable=false
+*.less linguist-detectable=false
+*.csharp linguist-detectable=true
 *.python linguist-detectable=true 
 *.js linguist-detectable=false
 *.html linguist-detectable=false  
