@@ -1,4 +1,4 @@
-MobileShop/Web/Areas/Admin/Assets/* linguist-vendored
-MobileShop/Web/Areas/Admin/Views/* linguist-vendored
-*.html linguist-vendored
-*.cshtml linguist-vendored
+*.css3 linguist-detectable=false
+*.scss linguist-detectable=false
+*.less linguist-detectable=false
+*.js linguist-detectable=false
