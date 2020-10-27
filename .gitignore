@@ -339,11 +339,10 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-*.css linguist-detectable=false
+*.css3 linguist-detectable=false
 *.scss linguist-detectable=false
 *.less linguist-detectable=false
 *.csharp linguist-detectable=true
-*.python linguist-detectable=true 
 *.js linguist-detectable=false
 *.html linguist-detectable=false  
 *.xml linguist-detectable=false 
