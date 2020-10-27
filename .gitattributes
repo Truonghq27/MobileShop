@@ -1,2 +1,4 @@
 MobileShop/Web/Areas/Admin/Assets/* linguist-vendored
 MobileShop/Web/Areas/Admin/Views/* linguist-vendored
+*.html linguist-vendored
+*.cshtml linguist-vendored
